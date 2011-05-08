@@ -34,28 +34,28 @@ How to uee
 Set the environment variable `LD_PRELOAD` to point to libocitrace.so and
 run a Oracle client application.
 
-   LD_PRELOAD=/foo/bar/libocitrace.so
-   export LD_PRELOAD
-   sqlplus scott/tiger
+    LD_PRELOAD=/foo/bar/libocitrace.so
+    export LD_PRELOAD
+    sqlplus scott/tiger
 
 OCI function calls are dumped to the standard error by default.
 Set `OCITRACE_LOGFILE` to log them to a file.
 
-   OCITRACER_LOGFILE=/tmp/ocitracer.log
-   export OCITRACER_LOGFILE
+    OCITRACER_LOGFILE=/tmp/ocitracer.log
+    export OCITRACER_LOGFILE
 
 All supported OCI functions are dumped by default. The output may be
 verbose because it needs several function calls to issue a single SQL
 statement. Set `OCITRACRER_CONFIG` to point to a file which contains
 functions to be monitored.
 
-   $ cat ocitrace.cfg
-   # monitor only the following two functions.
-   OCIStmtPrepare
-   OCIStmtPrepare2
-   
-   $ OCITRACRER_CONFIG=ocitrace.cfg
-   $ export OCITRACRER_CONFIG
+    $ cat ocitrace.cfg
+    # monitor only the following two functions.
+    OCIStmtPrepare
+    OCIStmtPrepare2
+    
+    $ OCITRACRER_CONFIG=ocitrace.cfg
+    $ export OCITRACRER_CONFIG
 
 If you are an application user who is requested to send a trace log by
 application developers, set OCITRACER_HIDE_STRING=1 to hide sensitive
