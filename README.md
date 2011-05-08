@@ -49,18 +49,21 @@ verbose because it needs several function calls to issue a single SQL
 statement. Set `OCITRACRER_CONFIG` to point to a file which contains
 functions to be monitored.
 
-    $ cat ocitrace.cfg
+    $ cat ocitracer.cfg
     # monitor only the following two functions.
     OCIStmtPrepare
     OCIStmtPrepare2
     
-    $ OCITRACRER_CONFIG=ocitrace.cfg
+    $ OCITRACRER_CONFIG=ocitracer.cfg
     $ export OCITRACRER_CONFIG
 
 If you are an application user who is requested to send a trace log by
-application developers, set OCITRACER_HIDE_STRING=1 to hide sensitive
+application developers, set `OCITRACER_HIDE_STRING` to hide sensitive
 data. It hides all string data such as username, password, SQL
 statements and so on.
+
+    OCITRACER_HIDE_STRING=1
+    export OCITRACER_HIDE_STRING
 
 [1]: http://sourceforge.net/projects/ocitrace/
 [2]: http://www.reocities.com/ocispy/

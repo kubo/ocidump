@@ -317,37 +317,6 @@ OCIServerVersion:
             - [ub4 bufsz,             %u, bufsz]
             - [ub1 hndltype,          %s, "ocitracer_htype2name(hndltype, @NAME_BUF@)"]
 
-OCIStmtGetPieceInfo:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
-  :args:    - [OCIStmt *stmtp,        %p, stmtp]
-            - [OCIError *errhp,       %p, errhp]
-            - [dvoid **hndlpp,        "[%p]", "*hndlpp"]
-            - [ub4 *typep,            "[%s]", "ocitracer_htype2name(*typep, @NAME_BUF@)"]
-            - [ub1 *in_outp,          "[%u]", "*in_outp"]
-            - [ub4 *iterp,            "[%u]", "*iterp"]
-            - [ub4 *idxp,             "[%u]", "*idxp"]
-            - [ub1 *piecep,           "[%u]", "*piecep"]
-
-OCIStmtSetPieceInfo:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
-  :args:    - [dvoid *hndlp,          %p, hndlp]
-            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
-            - [OCIError *errhp,       %p, errhp]
-            - [CONST dvoid *bufp,     %p, bufp]
-            - [ub4 *alenp,            %p, alenp]
-            - [ub1 piece,             %u, piece]
-            - [CONST dvoid *indp,     %p, indp]
-            - [ub2 *rcodep,           %p, rcodep]
-
-OCIStmtPrepare:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
-  :args:    - [OCIStmt *stmtp,        %p, stmtp]
-            - [OCIError *errhp,       %p, errhp]
-            - [const OraText *stmt,   "\\\"%.*s\\\"", "stmt_len, stmt"]
-            - [ub4 stmt_len,          %u, stmt_len]
-            - [ub4 language,          %u, language]
-            - [ub4 mode,              0x%x, mode]
-
 OCIStmtExecute:
   :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
@@ -365,6 +334,26 @@ OCIStmtFetch:
             - [OCIError *errhp,       %p, errhp]
             - [ub4 nrows,             %u, nrows]
             - [ub2 orientation,       0x%x, orientation]
+            - [ub4 mode,              0x%x, mode]
+
+OCIStmtGetPieceInfo:
+  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :args:    - [OCIStmt *stmtp,        %p, stmtp]
+            - [OCIError *errhp,       %p, errhp]
+            - [dvoid **hndlpp,        "[%p]", "*hndlpp"]
+            - [ub4 *typep,            "[%s]", "ocitracer_htype2name(*typep, @NAME_BUF@)"]
+            - [ub1 *in_outp,          "[%u]", "*in_outp"]
+            - [ub4 *iterp,            "[%u]", "*iterp"]
+            - [ub4 *idxp,             "[%u]", "*idxp"]
+            - [ub1 *piecep,           "[%u]", "*piecep"]
+
+OCIStmtPrepare:
+  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :args:    - [OCIStmt *stmtp,        %p, stmtp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OraText *stmt,   "\\\"%.*s\\\"", "stmt_len, stmt"]
+            - [ub4 stmt_len,          %u, stmt_len]
+            - [ub4 language,          %u, language]
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtPrepare2:
@@ -386,6 +375,17 @@ OCIStmtRelease:
             - [const OraText *key,    "\\\"%.*s\\\"", "key_len, key"]
             - [ub4 key_len,           %u, key_len]
             - [ub4 mode,              0x%x, mode]
+
+OCIStmtSetPieceInfo:
+  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :args:    - [dvoid *hndlp,          %p, hndlp]
+            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
+            - [OCIError *errhp,       %p, errhp]
+            - [CONST dvoid *bufp,     %p, bufp]
+            - [ub4 *alenp,            %p, alenp]
+            - [ub1 piece,             %u, piece]
+            - [CONST dvoid *indp,     %p, indp]
+            - [ub2 *rcodep,           %p, rcodep]
 
 OCITransCommit:
   :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
