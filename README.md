@@ -7,7 +7,7 @@ What's is this.
 Tracing utility to monitor Oracle OCI function calls.
 This is useful for OCI developers to debug your programs.
 
-What is this different with other utilities?
+What is this different from other utilities?
 --------------------------------------------
 
 There have been similar utilities such as [ocitrace][1] and
