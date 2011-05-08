@@ -1,0 +1,80 @@
+/* -*- c-file-style: "ruby"; indent-tabs-mode: nil -*- */
+<%= header_comment %>
+#include <dlfcn.h>
+#include <pthread.h>
+#include "ocitracer.h"
+
+static int is_initialized;
+static void initialize(void);
+
+<%
+funcs.each do |f|
+  fmt_args = f.args.collect {|arg| arg.fmt_arg}.compact
+  fmt_args << f.ret.fmt_arg if f.ret.type != 'void'
+
+  local_vars = []
+  fmt_args.collect! do |fmt_arg|
+    fmt_arg.gsub(/@(\w+)_BUF@/) do |match|
+      var_name = "buf" + (local_vars.length + 1).to_s
+      local_vars << "char #{var_name}[OCITRACER_#{$1}_BUF_SIZE]"
+      var_name
+    end
+  end
+  local_vars.unshift(f.ret.type + " ret") if f.ret.type != 'void'
+
+  hide_vars = []
+  f.args.each do |arg|
+    if arg.fmt == '\"%.*s\"'
+       len, str = arg.fmt_arg.split(/\s*,\s*/)
+       hide_vars << len + ' = 6'
+       hide_vars << str + ' = (OraText*)"hidden"'
+    end
+  end
+%>
+typedef <%=f.ret.type%> (*<%=f.name%>_func_t)(<%=f.args.collect {|arg| arg.type}.join(', ')%>);
+static <%=f.name%>_func_t <%=f.name%>_func;
+static int trace_<%=f.name%> = 1;
+
+<%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.join(', ')%>)
+{
+<%  local_vars.each do |var|
+%>    <%=var%>;
+<%  end
+%>    if (!is_initialized) {
+        initialize();
+    }
+    <%=f.ret.type != 'void' ? "ret = " : ""%><%=f.name%>_func(<%=f.args.collect {|arg| arg.name}.join(', ')%>);
+    if (trace_<%=f.name%>) {
+<%  if hide_vars.length != 0
+%>        if (ocitracer_hide_string) {
+<%    hide_vars.each do |hide_var|
+%>            <%=hide_var%>;
+<%    end
+%>        }
+<%  end
+%>        ocitracer_log("%0*lX: <%=f.name%>(<%=f.args.collect {|arg| /_FMT$/ =~ arg.fmt ? '%" ' + arg.fmt+ ' "' : arg.fmt}.join(', ')%>)<%=
+f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
+                     (int)sizeof(pthread_t), pthread_self(),
+                     <%=fmt_args.join(",\n                     ")%>);
+    }
+<%  if f.ret.type != 'void'
+%>    return ret;
+<%  end
+%>}
+<%
+end # funcs.each
+%>
+ocitracer_target_t ocitracer_targets[] = {
+<% funcs.each do |f|
+%>    {"<%=f.name%>", &trace_<%=f.name%>},
+<% end %>    {NULL, NULL},
+};
+
+static void initialize(void)
+{
+<% funcs.each do |f|
+%>    <%=f.name%>_func = (<%=f.name%>_func_t)dlsym(RTLD_NEXT, "<%=f.name%>");
+<% end
+%>    is_initialized = 1;
+    ocitracer_init();
+}
