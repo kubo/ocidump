@@ -2,7 +2,7 @@
 <%= header_comment %>
 #include <dlfcn.h>
 #include <pthread.h>
-#include "ocitracer.h"
+#include "ocidump.h"
 
 static int is_initialized;
 static void initialize(void);
@@ -16,7 +16,7 @@ funcs.each do |f|
   fmt_args.collect! do |fmt_arg|
     fmt_arg.gsub(/@(\w+)_BUF@/) do |match|
       var_name = "buf" + (local_vars.length + 1).to_s
-      local_vars << "char #{var_name}[OCITRACER_#{$1}_BUF_SIZE]"
+      local_vars << "char #{var_name}[OCIDUMP_#{$1}_BUF_SIZE]"
       var_name
     end
   end
@@ -46,13 +46,13 @@ static int trace_<%=f.name%> = 1;
     <%=f.ret.type != 'void' ? "ret = " : ""%><%=f.name%>_func(<%=f.args.collect {|arg| arg.name}.join(', ')%>);
     if (trace_<%=f.name%>) {
 <%  if hide_vars.length != 0
-%>        if (ocitracer_hide_string) {
+%>        if (ocidump_hide_string) {
 <%    hide_vars.each do |hide_var|
 %>            <%=hide_var%>;
 <%    end
 %>        }
 <%  end
-%>        ocitracer_log("%0*lX: <%=f.name%>(<%=f.args.collect {|arg| /_FMT$/ =~ arg.fmt ? '%" ' + arg.fmt+ ' "' : arg.fmt}.join(', ')%>)<%=
+%>        ocidump_log("%0*lX: <%=f.name%>(<%=f.args.collect {|arg| /_FMT$/ =~ arg.fmt ? '%" ' + arg.fmt+ ' "' : arg.fmt}.join(', ')%>)<%=
 f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      <%=fmt_args.join(",\n                     ")%>);
@@ -64,7 +64,7 @@ f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
 <%
 end # funcs.each
 %>
-ocitracer_target_t ocitracer_targets[] = {
+ocidump_target_t ocidump_targets[] = {
 <% funcs.each do |f|
 %>    {"<%=f.name%>", &trace_<%=f.name%>},
 <% end %>    {NULL, NULL},
@@ -76,5 +76,5 @@ static void initialize(void)
 %>    <%=f.name%>_func = (<%=f.name%>_func_t)dlsym(RTLD_NEXT, "<%=f.name%>");
 <% end
 %>    is_initialized = 1;
-    ocitracer_init();
+    ocidump_init();
 }

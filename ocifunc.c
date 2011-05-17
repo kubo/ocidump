@@ -5,7 +5,7 @@
  */
 #include <dlfcn.h>
 #include <pthread.h>
-#include "ocitracer.h"
+#include "ocidump.h"
 
 static int is_initialized;
 static void initialize(void);
@@ -18,24 +18,24 @@ static int trace_OCIAttrGet = 1;
 sword OCIAttrGet(const dvoid *trgthndlp, ub4 trghndltyp, dvoid *attributep, ub4 *sizep, ub4 attrtype, OCIError *errhp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
-    char buf3[OCITRACER_NAME_BUF_SIZE];
-    char buf4[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
+    char buf3[OCIDUMP_NAME_BUF_SIZE];
+    char buf4[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIAttrGet_func(trgthndlp, trghndltyp, attributep, sizep, attrtype, errhp);
     if (trace_OCIAttrGet) {
-        ocitracer_log("%0*lX: OCIAttrGet(%p, %s, %p, %s, %s, %p) => %s\n",
+        ocidump_log("%0*lX: OCIAttrGet(%p, %s, %p, %s, %s, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      trgthndlp,
-                     ocitracer_htype2name(trghndltyp, buf1),
+                     ocidump_htype2name(trghndltyp, buf1),
                      attributep,
-                     sizep ? ocitracer_sprintf(buf2, "[%u]", *sizep) : "(nil)",
-                     ocitracer_attrtype2name(trghndltyp, attrtype, buf3),
+                     sizep ? ocidump_sprintf(buf2, "[%u]", *sizep) : "(nil)",
+                     ocidump_attrtype2name(trghndltyp, attrtype, buf3),
                      errhp,
-                     ocitracer_status2name(ret, buf4));
+                     ocidump_status2name(ret, buf4));
     }
     return ret;
 }
@@ -47,23 +47,23 @@ static int trace_OCIAttrSet = 1;
 sword OCIAttrSet(dvoid *trgthndlp, ub4 trghndltyp, dvoid *attributep, ub4 size, ub4 attrtype, OCIError *errhp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
-    char buf3[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
+    char buf3[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIAttrSet_func(trgthndlp, trghndltyp, attributep, size, attrtype, errhp);
     if (trace_OCIAttrSet) {
-        ocitracer_log("%0*lX: OCIAttrSet(%p, %s, %p, %u, %s, %p) => %s\n",
+        ocidump_log("%0*lX: OCIAttrSet(%p, %s, %p, %u, %s, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      trgthndlp,
-                     ocitracer_htype2name(trghndltyp, buf1),
+                     ocidump_htype2name(trghndltyp, buf1),
                      attributep,
                      size,
-                     ocitracer_attrtype2name(trghndltyp, attrtype, buf2),
+                     ocidump_attrtype2name(trghndltyp, attrtype, buf2),
                      errhp,
-                     ocitracer_status2name(ret, buf3));
+                     ocidump_status2name(ret, buf3));
     }
     return ret;
 }
@@ -75,17 +75,17 @@ static int trace_OCIBindByName = 1;
 sword OCIBindByName(OCIStmt *stmtp, OCIBind **bindp, OCIError *errhp, const text *placeholder, sb4 placeh_len, dvoid *valuep, sb4 value_sz, ub2 dty, dvoid *indp, ub2 *alenp, ub2 *rcodep, ub4 maxarr_len, ub4 *curelep, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIBindByName_func(stmtp, bindp, errhp, placeholder, placeh_len, valuep, value_sz, dty, indp, alenp, rcodep, maxarr_len, curelep, mode);
     if (trace_OCIBindByName) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             placeh_len = 6;
             placeholder = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIBindByName(%p, [%p], %p, \"%.*s\", %d, %p, %d, %u, %p, %p, %p, %u, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIBindByName(%p, [%p], %p, \"%.*s\", %d, %p, %d, %u, %p, %p, %p, %u, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      stmtp,
                      *bindp,
@@ -101,7 +101,7 @@ sword OCIBindByName(OCIStmt *stmtp, OCIBind **bindp, OCIError *errhp, const text
                      maxarr_len,
                      curelep,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -113,13 +113,13 @@ static int trace_OCIBindByPos = 1;
 sword OCIBindByPos(OCIStmt *stmtp, OCIBind **bindp, OCIError *errhp, ub4 position, dvoid *valuep, sb4 value_sz, ub2 dty, dvoid *indp, ub2 *alenp, ub2 *rcodep, ub4 maxarr_len, ub4 *curelep, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIBindByPos_func(stmtp, bindp, errhp, position, valuep, value_sz, dty, indp, alenp, rcodep, maxarr_len, curelep, mode);
     if (trace_OCIBindByPos) {
-        ocitracer_log("%0*lX: OCIBindByPos(%p, [%p], %p, %u, %p, %d, %d, %p, %p, %p, %u, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIBindByPos(%p, [%p], %p, %u, %p, %d, %d, %p, %p, %p, %u, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      stmtp,
                      *bindp,
@@ -134,7 +134,7 @@ sword OCIBindByPos(OCIStmt *stmtp, OCIBind **bindp, OCIError *errhp, ub4 positio
                      maxarr_len,
                      curelep,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -146,13 +146,13 @@ static int trace_OCIBindObject = 1;
 sword OCIBindObject(OCIBind *bindp, OCIError *errhp, const OCIType *type, dvoid **pgvpp, ub4 *pvszsp, dvoid **indpp, ub4 *indszp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIBindObject_func(bindp, errhp, type, pgvpp, pvszsp, indpp, indszp);
     if (trace_OCIBindObject) {
-        ocitracer_log("%0*lX: OCIBindObject(%p, %p, %p, %p, %p, %p, %p) => %s\n",
+        ocidump_log("%0*lX: OCIBindObject(%p, %p, %p, %p, %p, %p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      bindp,
                      errhp,
@@ -161,7 +161,7 @@ sword OCIBindObject(OCIBind *bindp, OCIError *errhp, const OCIType *type, dvoid 
                      pvszsp,
                      indpp,
                      indszp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -173,17 +173,17 @@ static int trace_OCIBreak = 1;
 sword OCIBreak(dvoid *hndlp, OCIError *errhp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIBreak_func(hndlp, errhp);
     if (trace_OCIBreak) {
-        ocitracer_log("%0*lX: OCIBreak(%p, %p) => %s\n",
+        ocidump_log("%0*lX: OCIBreak(%p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
                      errhp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -199,7 +199,7 @@ void OCIClientVersion(sword *major_version, sword *minor_version, sword *update_
     }
     OCIClientVersion_func(major_version, minor_version, update_num, patch_num, port_update_num);
     if (trace_OCIClientVersion) {
-        ocitracer_log("%0*lX: OCIClientVersion([%d], [%d], [%d], [%d], [%d])\n",
+        ocidump_log("%0*lX: OCIClientVersion([%d], [%d], [%d], [%d], [%d])\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      *major_version,
                      *minor_version,
@@ -216,13 +216,13 @@ static int trace_OCIDefineArrayOfStruct = 1;
 sword OCIDefineArrayOfStruct(OCIDefine *defnp, OCIError *errhp, ub4 pvskip, ub4 indskip, ub4 rlskip, ub4 rcskip)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIDefineArrayOfStruct_func(defnp, errhp, pvskip, indskip, rlskip, rcskip);
     if (trace_OCIDefineArrayOfStruct) {
-        ocitracer_log("%0*lX: OCIDefineArrayOfStruct(%p, %p, %u, %u, %u, %u) => %s\n",
+        ocidump_log("%0*lX: OCIDefineArrayOfStruct(%p, %p, %u, %u, %u, %u) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      defnp,
                      errhp,
@@ -230,7 +230,7 @@ sword OCIDefineArrayOfStruct(OCIDefine *defnp, OCIError *errhp, ub4 pvskip, ub4 
                      indskip,
                      rlskip,
                      rcskip,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -242,13 +242,13 @@ static int trace_OCIDefineByPos = 1;
 sword OCIDefineByPos(OCIStmt *stmtp, OCIDefine **defnp, OCIError *errhp, ub4 position, dvoid *valuep, sb4 value_sz, ub2 dty, dvoid *indp, ub2 *rlenp, ub2 *rcodep, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIDefineByPos_func(stmtp, defnp, errhp, position, valuep, value_sz, dty, indp, rlenp, rcodep, mode);
     if (trace_OCIDefineByPos) {
-        ocitracer_log("%0*lX: OCIDefineByPos(%p, [%p], %p, %u, %p, %d, %u, %p, %p, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIDefineByPos(%p, [%p], %p, %u, %p, %d, %u, %p, %p, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      stmtp,
                      *defnp,
@@ -261,7 +261,7 @@ sword OCIDefineByPos(OCIStmt *stmtp, OCIDefine **defnp, OCIError *errhp, ub4 pos
                      rlenp,
                      rcodep,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -273,13 +273,13 @@ static int trace_OCIDefineObject = 1;
 sword OCIDefineObject(OCIDefine *defnp, OCIError *errhp, const OCIType *type, dvoid **pgvpp, ub4 *pvszsp, dvoid **indpp, ub4 *indszp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIDefineObject_func(defnp, errhp, type, pgvpp, pvszsp, indpp, indszp);
     if (trace_OCIDefineObject) {
-        ocitracer_log("%0*lX: OCIDefineObject(%p, %p, %p, %p, %p, %p, %p) => %s\n",
+        ocidump_log("%0*lX: OCIDefineObject(%p, %p, %p, %p, %p, %p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      defnp,
                      errhp,
@@ -288,7 +288,7 @@ sword OCIDefineObject(OCIDefine *defnp, OCIError *errhp, const OCIType *type, dv
                      pvszsp,
                      indpp,
                      indszp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -300,13 +300,13 @@ static int trace_OCIDescribeAny = 1;
 sword OCIDescribeAny(OCISvcCtx *svchp, OCIError *errhp, dvoid *objptr, ub4 objnm_len, ub1 objptr_typ, ub1 info_level, ub1 objtyp, OCIDescribe *dschp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIDescribeAny_func(svchp, errhp, objptr, objnm_len, objptr_typ, info_level, objtyp, dschp);
     if (trace_OCIDescribeAny) {
-        ocitracer_log("%0*lX: OCIDescribeAny(%p, %p, %p, %u, %u, %u, %u, %p) => %s\n",
+        ocidump_log("%0*lX: OCIDescribeAny(%p, %p, %p, %u, %u, %u, %u, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      errhp,
@@ -316,7 +316,7 @@ sword OCIDescribeAny(OCISvcCtx *svchp, OCIError *errhp, dvoid *objptr, ub4 objnm
                      info_level,
                      objtyp,
                      dschp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -328,21 +328,21 @@ static int trace_OCIDescriptorAlloc = 1;
 sword OCIDescriptorAlloc(const dvoid *parenth, dvoid **descpp, ub4 type, size_t xtramem_sz, dvoid **usrmempp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIDescriptorAlloc_func(parenth, descpp, type, xtramem_sz, usrmempp);
     if (trace_OCIDescriptorAlloc) {
-        ocitracer_log("%0*lX: OCIDescriptorAlloc(%p, [%p], %s, %" OCITRACER_SIZET_FMT ", %p) => %s\n",
+        ocidump_log("%0*lX: OCIDescriptorAlloc(%p, [%p], %s, %" OCIDUMP_SIZET_FMT ", %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      parenth,
                      *descpp,
-                     ocitracer_htype2name(type, buf1),
+                     ocidump_htype2name(type, buf1),
                      xtramem_sz,
                      usrmempp,
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -354,18 +354,18 @@ static int trace_OCIDescriptorFree = 1;
 sword OCIDescriptorFree(dvoid *descp, ub4 type)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIDescriptorFree_func(descp, type);
     if (trace_OCIDescriptorFree) {
-        ocitracer_log("%0*lX: OCIDescriptorFree(%p, %s) => %s\n",
+        ocidump_log("%0*lX: OCIDescriptorFree(%p, %s) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      descp,
-                     ocitracer_htype2name(type, buf1),
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_htype2name(type, buf1),
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -377,13 +377,13 @@ static int trace_OCIEnvCreate = 1;
 sword OCIEnvCreate(OCIEnv **envp, ub4 mode, dvoid *ctxp, dvoid *(*malocfp)(dvoid *ctxp, size_t size), dvoid *(*ralocfp)(dvoid *ctxp, dvoid *memptr, size_t newsize), void   (*mfreefp)(dvoid *ctxp, dvoid *memptr), size_t xtramem_sz, dvoid **usrmempp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIEnvCreate_func(envp, mode, ctxp, malocfp, ralocfp, mfreefp, xtramem_sz, usrmempp);
     if (trace_OCIEnvCreate) {
-        ocitracer_log("%0*lX: OCIEnvCreate([%p], 0x%x, %p, %p, %p, %p, %" OCITRACER_SIZET_FMT ", %p) => %s\n",
+        ocidump_log("%0*lX: OCIEnvCreate([%p], 0x%x, %p, %p, %p, %p, %" OCIDUMP_SIZET_FMT ", %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      *envp,
                      mode,
@@ -393,7 +393,7 @@ sword OCIEnvCreate(OCIEnv **envp, ub4 mode, dvoid *ctxp, dvoid *(*malocfp)(dvoid
                      mfreefp,
                      xtramem_sz,
                      usrmempp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -405,19 +405,19 @@ static int trace_OCIEnvInit = 1;
 sword OCIEnvInit(OCIEnv **envp, ub4 mode, size_t xtramem_sz, dvoid **usrmempp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIEnvInit_func(envp, mode, xtramem_sz, usrmempp);
     if (trace_OCIEnvInit) {
-        ocitracer_log("%0*lX: OCIEnvInit([%p], 0x%x, %" OCITRACER_SIZET_FMT ", %p) => %s\n",
+        ocidump_log("%0*lX: OCIEnvInit([%p], 0x%x, %" OCIDUMP_SIZET_FMT ", %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      *envp,
                      mode,
                      xtramem_sz,
                      usrmempp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -429,13 +429,13 @@ static int trace_OCIEnvNlsCreate = 1;
 sword OCIEnvNlsCreate(OCIEnv **envhpp, ub4 mode, void *ctxp, void *(*malocfp)(void *ctxp, size_t size), void *(*ralocfp)(void *ctxp, void *memptr, size_t newsize), void (*mfreefp)(void *ctxp, void *memptr), size_t xtramemsz, void **usrmempp, ub2 charset, ub2 ncharset)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIEnvNlsCreate_func(envhpp, mode, ctxp, malocfp, ralocfp, mfreefp, xtramemsz, usrmempp, charset, ncharset);
     if (trace_OCIEnvNlsCreate) {
-        ocitracer_log("%0*lX: OCIEnvNlsCreate([%p], 0x%x, %p, %p, %p, %p, %" OCITRACER_SIZET_FMT ", %p, %u, %u) => %s\n",
+        ocidump_log("%0*lX: OCIEnvNlsCreate([%p], 0x%x, %p, %p, %p, %p, %" OCIDUMP_SIZET_FMT ", %p, %u, %u) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      *envhpp,
                      mode,
@@ -447,7 +447,7 @@ sword OCIEnvNlsCreate(OCIEnv **envhpp, ub4 mode, void *ctxp, void *(*malocfp)(vo
                      usrmempp,
                      charset,
                      ncharset,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -459,18 +459,18 @@ static int trace_OCIErrorGet = 1;
 sword OCIErrorGet(dvoid *hndlp, ub4 recordno, text *sqlstate, sb4 *errcodep, text *bufp, ub4 bufsiz, ub4 type)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIErrorGet_func(hndlp, recordno, sqlstate, errcodep, bufp, bufsiz, type);
     if (trace_OCIErrorGet) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             bufsiz = 6;
             bufp = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIErrorGet(%p, %u, %p, [%d], \"%.*s\", %u, %s) => %s\n",
+        ocidump_log("%0*lX: OCIErrorGet(%p, %u, %p, [%d], \"%.*s\", %u, %s) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
                      recordno,
@@ -478,8 +478,8 @@ sword OCIErrorGet(dvoid *hndlp, ub4 recordno, text *sqlstate, sb4 *errcodep, tex
                      *errcodep,
                      bufsiz, bufp,
                      bufsiz,
-                     ocitracer_htype2name(type, buf1),
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_htype2name(type, buf1),
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -491,21 +491,21 @@ static int trace_OCIHandleAlloc = 1;
 sword OCIHandleAlloc(const dvoid *parenth, dvoid **hndlpp, ub4 type, size_t xtramem_sz, dvoid **usrmempp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIHandleAlloc_func(parenth, hndlpp, type, xtramem_sz, usrmempp);
     if (trace_OCIHandleAlloc) {
-        ocitracer_log("%0*lX: OCIHandleAlloc(%p, [%p], %s, %" OCITRACER_SIZET_FMT ", %p) => %s\n",
+        ocidump_log("%0*lX: OCIHandleAlloc(%p, [%p], %s, %" OCIDUMP_SIZET_FMT ", %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      parenth,
                      *hndlpp,
-                     ocitracer_htype2name(type, buf1),
+                     ocidump_htype2name(type, buf1),
                      xtramem_sz,
                      usrmempp,
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -517,18 +517,18 @@ static int trace_OCIHandleFree = 1;
 sword OCIHandleFree(dvoid *hndlp, ub4 type)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIHandleFree_func(hndlp, type);
     if (trace_OCIHandleFree) {
-        ocitracer_log("%0*lX: OCIHandleFree(%p, %s) => %s\n",
+        ocidump_log("%0*lX: OCIHandleFree(%p, %s) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
-                     ocitracer_htype2name(type, buf1),
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_htype2name(type, buf1),
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -540,20 +540,20 @@ static int trace_OCIInitialize = 1;
 sword OCIInitialize(ub4 mode, dvoid *ctxp, dvoid *(*malocfp)(dvoid *ctxp, size_t size), dvoid *(*ralocfp)(dvoid *ctxp, dvoid *memptr, size_t newsize), void   (*mfreefp)(dvoid *ctxp, dvoid *memptr))
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIInitialize_func(mode, ctxp, malocfp, ralocfp, mfreefp);
     if (trace_OCIInitialize) {
-        ocitracer_log("%0*lX: OCIInitialize(0x%x, %p, %p, %p, %p) => %s\n",
+        ocidump_log("%0*lX: OCIInitialize(0x%x, %p, %p, %p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      mode,
                      ctxp,
                      malocfp,
                      ralocfp,
                      mfreefp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -565,17 +565,17 @@ static int trace_OCILogoff = 1;
 sword OCILogoff(OCISvcCtx *svchp, OCIError *errhp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCILogoff_func(svchp, errhp);
     if (trace_OCILogoff) {
-        ocitracer_log("%0*lX: OCILogoff(%p, %p) => %s\n",
+        ocidump_log("%0*lX: OCILogoff(%p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      errhp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -587,13 +587,13 @@ static int trace_OCILogon = 1;
 sword OCILogon(OCIEnv *envhp, OCIError *errhp, OCISvcCtx **svchp, const text *username, ub4 uname_len, const text *password, ub4 passwd_len, const text *dbname, ub4 dbname_len)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCILogon_func(envhp, errhp, svchp, username, uname_len, password, passwd_len, dbname, dbname_len);
     if (trace_OCILogon) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             uname_len = 6;
             username = (OraText*)"hidden";
             passwd_len = 6;
@@ -601,7 +601,7 @@ sword OCILogon(OCIEnv *envhp, OCIError *errhp, OCISvcCtx **svchp, const text *us
             dbname_len = 6;
             dbname = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCILogon(%p, %p, [%p], \"%.*s\", %u, \"%.*s\", %u, \"%.*s\", %u) => %s\n",
+        ocidump_log("%0*lX: OCILogon(%p, %p, [%p], \"%.*s\", %u, \"%.*s\", %u, \"%.*s\", %u) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      envhp,
                      errhp,
@@ -612,7 +612,7 @@ sword OCILogon(OCIEnv *envhp, OCIError *errhp, OCISvcCtx **svchp, const text *us
                      passwd_len,
                      dbname_len, dbname,
                      dbname_len,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -624,19 +624,19 @@ static int trace_OCIObjectFree = 1;
 sword OCIObjectFree(OCIEnv *env, OCIError *err, dvoid *instance, ub2 flags)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIObjectFree_func(env, err, instance, flags);
     if (trace_OCIObjectFree) {
-        ocitracer_log("%0*lX: OCIObjectFree(%p, %p, %p, %u) => %s\n",
+        ocidump_log("%0*lX: OCIObjectFree(%p, %p, %p, %u) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      env,
                      err,
                      instance,
                      flags,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -648,19 +648,19 @@ static int trace_OCIObjectGetInd = 1;
 sword OCIObjectGetInd(OCIEnv *env, OCIError *err, dvoid *instance, dvoid **null_struct)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIObjectGetInd_func(env, err, instance, null_struct);
     if (trace_OCIObjectGetInd) {
-        ocitracer_log("%0*lX: OCIObjectGetInd(%p, %p, %p, [%p]) => %s\n",
+        ocidump_log("%0*lX: OCIObjectGetInd(%p, %p, %p, [%p]) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      env,
                      err,
                      instance,
                      *null_struct,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -672,13 +672,13 @@ static int trace_OCIObjectNew = 1;
 sword OCIObjectNew(OCIEnv *env, OCIError *err, const OCISvcCtx *svc, OCITypeCode typecode, OCIType *tdo, dvoid *table, OCIDuration duration, boolean value, dvoid **instance)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIObjectNew_func(env, err, svc, typecode, tdo, table, duration, value, instance);
     if (trace_OCIObjectNew) {
-        ocitracer_log("%0*lX: OCIObjectNew(%p, %p, %p, %u, %p, %p, %u, %d, [%p]) => %s\n",
+        ocidump_log("%0*lX: OCIObjectNew(%p, %p, %p, %u, %p, %p, %u, %d, [%p]) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      env,
                      err,
@@ -689,7 +689,7 @@ sword OCIObjectNew(OCIEnv *env, OCIError *err, const OCISvcCtx *svc, OCITypeCode
                      duration,
                      value,
                      *instance,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -701,13 +701,13 @@ static int trace_OCIObjectPin = 1;
 sword OCIObjectPin(OCIEnv *env, OCIError *err, OCIRef *object_ref, OCIComplexObject *corhdl, OCIPinOpt pin_option, OCIDuration pin_duration, OCILockOpt lock_option, dvoid **object)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIObjectPin_func(env, err, object_ref, corhdl, pin_option, pin_duration, lock_option, object);
     if (trace_OCIObjectPin) {
-        ocitracer_log("%0*lX: OCIObjectPin(%p, %p, %p, %p, %u, %u, %u, [%p]) => %s\n",
+        ocidump_log("%0*lX: OCIObjectPin(%p, %p, %p, %p, %u, %u, %u, [%p]) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      env,
                      err,
@@ -717,7 +717,7 @@ sword OCIObjectPin(OCIEnv *env, OCIError *err, OCIRef *object_ref, OCIComplexObj
                      pin_duration,
                      lock_option,
                      *object,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -729,18 +729,18 @@ static int trace_OCIObjectUnpin = 1;
 sword OCIObjectUnpin(OCIEnv *env, OCIError *err, dvoid *object)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIObjectUnpin_func(env, err, object);
     if (trace_OCIObjectUnpin) {
-        ocitracer_log("%0*lX: OCIObjectUnpin(%p, %p, %p) => %s\n",
+        ocidump_log("%0*lX: OCIObjectUnpin(%p, %p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      env,
                      err,
                      object,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -752,21 +752,21 @@ static int trace_OCIParamGet = 1;
 sword OCIParamGet(const dvoid *hndlp, ub4 htype, OCIError *errhp, dvoid **parmdpp, ub4 pos)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIParamGet_func(hndlp, htype, errhp, parmdpp, pos);
     if (trace_OCIParamGet) {
-        ocitracer_log("%0*lX: OCIParamGet(%p, %s, %p, [%p], %u) => %s\n",
+        ocidump_log("%0*lX: OCIParamGet(%p, %s, %p, [%p], %u) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
-                     ocitracer_htype2name(htype, buf1),
+                     ocidump_htype2name(htype, buf1),
                      errhp,
                      *parmdpp,
                      pos,
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -778,18 +778,18 @@ static int trace_OCIPing = 1;
 sword OCIPing(OCISvcCtx *svchp, OCIError *errhp, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIPing_func(svchp, errhp, mode);
     if (trace_OCIPing) {
-        ocitracer_log("%0*lX: OCIPing(%p, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIPing(%p, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      errhp,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -801,17 +801,17 @@ static int trace_OCIReset = 1;
 sword OCIReset(dvoid *hndlp, OCIError *errhp)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIReset_func(hndlp, errhp);
     if (trace_OCIReset) {
-        ocitracer_log("%0*lX: OCIReset(%p, %p) => %s\n",
+        ocidump_log("%0*lX: OCIReset(%p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
                      errhp,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -823,24 +823,24 @@ static int trace_OCIServerAttach = 1;
 sword OCIServerAttach(OCIServer *srvhp, OCIError *errhp, CONST text *dblink, sb4 dblink_len, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIServerAttach_func(srvhp, errhp, dblink, dblink_len, mode);
     if (trace_OCIServerAttach) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             dblink_len = 6;
             dblink = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIServerAttach(%p, %p, \"%.*s\", %d, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIServerAttach(%p, %p, \"%.*s\", %d, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      srvhp,
                      errhp,
                      dblink_len, dblink,
                      dblink_len,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -852,18 +852,18 @@ static int trace_OCIServerDetach = 1;
 sword OCIServerDetach(OCIServer *srvhp, OCIError *errhp, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIServerDetach_func(srvhp, errhp, mode);
     if (trace_OCIServerDetach) {
-        ocitracer_log("%0*lX: OCIServerDetach(%p, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIServerDetach(%p, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      srvhp,
                      errhp,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -875,26 +875,26 @@ static int trace_OCIServerRelease = 1;
 sword OCIServerRelease(dvoid *hndlp, OCIError *errhp, OraText *bufp, ub4 bufsz, ub1 hndltype, ub4 *version)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIServerRelease_func(hndlp, errhp, bufp, bufsz, hndltype, version);
     if (trace_OCIServerRelease) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             bufsz = 6;
             bufp = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIServerRelease(%p, %p, \"%.*s\", %u, %s, [0x%08x]) => %s\n",
+        ocidump_log("%0*lX: OCIServerRelease(%p, %p, \"%.*s\", %u, %s, [0x%08x]) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
                      errhp,
                      bufsz, bufp,
                      bufsz,
-                     ocitracer_htype2name(hndltype, buf1),
+                     ocidump_htype2name(hndltype, buf1),
                      version ? *version : 0,
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -906,25 +906,25 @@ static int trace_OCIServerVersion = 1;
 sword OCIServerVersion(dvoid *hndlp, OCIError *errhp, OraText *bufp, ub4 bufsz, ub1 hndltype)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIServerVersion_func(hndlp, errhp, bufp, bufsz, hndltype);
     if (trace_OCIServerVersion) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             bufsz = 6;
             bufp = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIServerVersion(%p, %p, \"%.*s\", %u, %s) => %s\n",
+        ocidump_log("%0*lX: OCIServerVersion(%p, %p, \"%.*s\", %u, %s) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
                      errhp,
                      bufsz, bufp,
                      bufsz,
-                     ocitracer_htype2name(hndltype, buf1),
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_htype2name(hndltype, buf1),
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -936,20 +936,20 @@ static int trace_OCISessionBegin = 1;
 sword OCISessionBegin(OCISvcCtx *svchp, OCIError *errhp, OCISession *usrhp, ub4 credt, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCISessionBegin_func(svchp, errhp, usrhp, credt, mode);
     if (trace_OCISessionBegin) {
-        ocitracer_log("%0*lX: OCISessionBegin(%p, %p, %p, %u, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCISessionBegin(%p, %p, %p, %u, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      errhp,
                      usrhp,
                      credt,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -961,19 +961,19 @@ static int trace_OCISessionEnd = 1;
 sword OCISessionEnd(OCISvcCtx *svchp, OCIError *errhp, OCISession *usrhp, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCISessionEnd_func(svchp, errhp, usrhp, mode);
     if (trace_OCISessionEnd) {
-        ocitracer_log("%0*lX: OCISessionEnd(%p, %p, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCISessionEnd(%p, %p, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      errhp,
                      usrhp,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -985,13 +985,13 @@ static int trace_OCIStmtExecute = 1;
 sword OCIStmtExecute(OCISvcCtx *svchp, OCIStmt *stmtp, OCIError *errhp, ub4 iters, ub4 rowoff, const OCISnapshot *snap_in, OCISnapshot *snap_out, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIStmtExecute_func(svchp, stmtp, errhp, iters, rowoff, snap_in, snap_out, mode);
     if (trace_OCIStmtExecute) {
-        ocitracer_log("%0*lX: OCIStmtExecute(%p, %p, %p, %u, %u, %p, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIStmtExecute(%p, %p, %p, %u, %u, %p, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      stmtp,
@@ -1001,7 +1001,7 @@ sword OCIStmtExecute(OCISvcCtx *svchp, OCIStmt *stmtp, OCIError *errhp, ub4 iter
                      snap_in,
                      snap_out,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -1013,20 +1013,20 @@ static int trace_OCIStmtFetch = 1;
 sword OCIStmtFetch(OCIStmt *stmtp, OCIError *errhp, ub4 nrows, ub2 orientation, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIStmtFetch_func(stmtp, errhp, nrows, orientation, mode);
     if (trace_OCIStmtFetch) {
-        ocitracer_log("%0*lX: OCIStmtFetch(%p, %p, %u, 0x%x, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIStmtFetch(%p, %p, %u, 0x%x, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      stmtp,
                      errhp,
                      nrows,
                      orientation,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -1038,24 +1038,24 @@ static int trace_OCIStmtGetPieceInfo = 1;
 sword OCIStmtGetPieceInfo(OCIStmt *stmtp, OCIError *errhp, dvoid **hndlpp, ub4 *typep, ub1 *in_outp, ub4 *iterp, ub4 *idxp, ub1 *piecep)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIStmtGetPieceInfo_func(stmtp, errhp, hndlpp, typep, in_outp, iterp, idxp, piecep);
     if (trace_OCIStmtGetPieceInfo) {
-        ocitracer_log("%0*lX: OCIStmtGetPieceInfo(%p, %p, [%p], [%s], [%u], [%u], [%u], [%u]) => %s\n",
+        ocidump_log("%0*lX: OCIStmtGetPieceInfo(%p, %p, [%p], [%s], [%u], [%u], [%u], [%u]) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      stmtp,
                      errhp,
                      *hndlpp,
-                     ocitracer_htype2name(*typep, buf1),
+                     ocidump_htype2name(*typep, buf1),
                      *in_outp,
                      *iterp,
                      *idxp,
                      *piecep,
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -1067,17 +1067,17 @@ static int trace_OCIStmtPrepare = 1;
 sword OCIStmtPrepare(OCIStmt *stmtp, OCIError *errhp, const OraText *stmt, ub4 stmt_len, ub4 language, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIStmtPrepare_func(stmtp, errhp, stmt, stmt_len, language, mode);
     if (trace_OCIStmtPrepare) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             stmt_len = 6;
             stmt = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIStmtPrepare(%p, %p, \"%.*s\", %u, %u, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIStmtPrepare(%p, %p, \"%.*s\", %u, %u, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      stmtp,
                      errhp,
@@ -1085,7 +1085,7 @@ sword OCIStmtPrepare(OCIStmt *stmtp, OCIError *errhp, const OraText *stmt, ub4 s
                      stmt_len,
                      language,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -1097,19 +1097,19 @@ static int trace_OCIStmtPrepare2 = 1;
 sword OCIStmtPrepare2(OCISvcCtx *svchp, OCIStmt **stmtp, OCIError *errhp, const OraText *stmt, ub4 stmt_len, const OraText *key, ub4 key_len, ub4 language, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIStmtPrepare2_func(svchp, stmtp, errhp, stmt, stmt_len, key, key_len, language, mode);
     if (trace_OCIStmtPrepare2) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             stmt_len = 6;
             stmt = (OraText*)"hidden";
             key_len = 6;
             key = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIStmtPrepare2(%p, [%p], %p, \"%.*s\", %u, \"%.*s\", %u, %u, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIStmtPrepare2(%p, [%p], %p, \"%.*s\", %u, \"%.*s\", %u, %u, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      *stmtp,
@@ -1120,7 +1120,7 @@ sword OCIStmtPrepare2(OCISvcCtx *svchp, OCIStmt **stmtp, OCIError *errhp, const 
                      key_len,
                      language,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -1132,24 +1132,24 @@ static int trace_OCIStmtRelease = 1;
 sword OCIStmtRelease(OCIStmt *stmtp, OCIError *errhp, const OraText *key, ub4 key_len, ub4 mode)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIStmtRelease_func(stmtp, errhp, key, key_len, mode);
     if (trace_OCIStmtRelease) {
-        if (ocitracer_hide_string) {
+        if (ocidump_hide_string) {
             key_len = 6;
             key = (OraText*)"hidden";
         }
-        ocitracer_log("%0*lX: OCIStmtRelease(%p, %p, \"%.*s\", %u, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCIStmtRelease(%p, %p, \"%.*s\", %u, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      stmtp,
                      errhp,
                      key_len, key,
                      key_len,
                      mode,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -1161,24 +1161,24 @@ static int trace_OCIStmtSetPieceInfo = 1;
 sword OCIStmtSetPieceInfo(dvoid *hndlp, ub4 type, OCIError *errhp, CONST dvoid *bufp, ub4 *alenp, ub1 piece, CONST dvoid *indp, ub2 *rcodep)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
-    char buf2[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
+    char buf2[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCIStmtSetPieceInfo_func(hndlp, type, errhp, bufp, alenp, piece, indp, rcodep);
     if (trace_OCIStmtSetPieceInfo) {
-        ocitracer_log("%0*lX: OCIStmtSetPieceInfo(%p, %s, %p, %p, %p, %u, %p, %p) => %s\n",
+        ocidump_log("%0*lX: OCIStmtSetPieceInfo(%p, %s, %p, %p, %p, %u, %p, %p) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      hndlp,
-                     ocitracer_htype2name(type, buf1),
+                     ocidump_htype2name(type, buf1),
                      errhp,
                      bufp,
                      alenp,
                      piece,
                      indp,
                      rcodep,
-                     ocitracer_status2name(ret, buf2));
+                     ocidump_status2name(ret, buf2));
     }
     return ret;
 }
@@ -1190,18 +1190,18 @@ static int trace_OCITransCommit = 1;
 sword OCITransCommit(OCISvcCtx *svchp, OCIError *errhp, ub4 flags)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCITransCommit_func(svchp, errhp, flags);
     if (trace_OCITransCommit) {
-        ocitracer_log("%0*lX: OCITransCommit(%p, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCITransCommit(%p, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      errhp,
                      flags,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
@@ -1213,23 +1213,23 @@ static int trace_OCITransRollback = 1;
 sword OCITransRollback(OCISvcCtx *svchp, OCIError *errhp, ub4 flags)
 {
     sword ret;
-    char buf1[OCITRACER_NAME_BUF_SIZE];
+    char buf1[OCIDUMP_NAME_BUF_SIZE];
     if (!is_initialized) {
         initialize();
     }
     ret = OCITransRollback_func(svchp, errhp, flags);
     if (trace_OCITransRollback) {
-        ocitracer_log("%0*lX: OCITransRollback(%p, %p, 0x%x) => %s\n",
+        ocidump_log("%0*lX: OCITransRollback(%p, %p, 0x%x) => %s\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      svchp,
                      errhp,
                      flags,
-                     ocitracer_status2name(ret, buf1));
+                     ocidump_status2name(ret, buf1));
     }
     return ret;
 }
 
-ocitracer_target_t ocitracer_targets[] = {
+ocidump_target_t ocidump_targets[] = {
     {"OCIAttrGet", &trace_OCIAttrGet},
     {"OCIAttrSet", &trace_OCIAttrSet},
     {"OCIBindByName", &trace_OCIBindByName},
@@ -1326,5 +1326,5 @@ static void initialize(void)
     OCITransCommit_func = (OCITransCommit_func_t)dlsym(RTLD_NEXT, "OCITransCommit");
     OCITransRollback_func = (OCITransRollback_func_t)dlsym(RTLD_NEXT, "OCITransRollback");
     is_initialized = 1;
-    ocitracer_init();
+    ocidump_init();
 }

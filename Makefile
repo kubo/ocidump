@@ -11,17 +11,17 @@ LDFLAGS = -pthread
 
 .PHONY : clean all
 
-libocitracer.so: ocitracer.o ocifunc.o
-	$(LD_SHARED) $(LDFLAGS) -o libocitracer.so ocitracer.o ocifunc.o
+libocidump.so: ocidump.o ocifunc.o
+	$(LD_SHARED) $(LDFLAGS) -o libocidump.so ocidump.o ocifunc.o
 
-all: .ocifunc.c.timestamp libocitracer.so
+all: .ocifunc.c.timestamp libocidump.so
 
-ocitracer.o: ocitracer.c ocitracer.h
-ocifunc.o: ocifunc.c ocitracer.h
+ocidump.o: ocidump.c ocidump.h
+ocifunc.o: ocifunc.c ocidump.h
 
 .ocifunc.c.timestamp: ocifunc.c.tmpl ocifunc.yml
 	ruby mkocifunc.rb
 	touch .ocifunc.c.timestamp
 
 clean:
-	$(RM) libocitracer.so ocitracer.o ocifunc.o
+	$(RM) libocidump.so ocidump.o ocifunc.o

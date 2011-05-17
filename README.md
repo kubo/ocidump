@@ -1,4 +1,4 @@
-Oracle OCI Tracer
+Oracle OCI Dumper
 =================
 
 What's is this.
@@ -7,7 +7,7 @@ What's is this.
 Tracing utility to monitor Oracle OCI function calls.
 This is useful for OCI developers to debug your programs.
 
-What is this different from other utilities?
+What is different from others.
 --------------------------------------------
 
 There have been similar utilities such as [ocitrace][1] and
@@ -41,29 +41,29 @@ run a Oracle client application.
 OCI function calls are dumped to the standard error by default.
 Set `OCITRACE_LOGFILE` to log them to a file.
 
-    OCITRACER_LOGFILE=/tmp/ocitracer.log
-    export OCITRACER_LOGFILE
+    OCIDUMP_LOGFILE=/tmp/ocidump.log
+    export OCIDUMP_LOGFILE
 
 All supported OCI functions are dumped by default. The output may be
 verbose because it needs several function calls to issue a single SQL
 statement. Set `OCITRACRER_CONFIG` to point to a file which contains
 functions to be monitored.
 
-    $ cat ocitracer.cfg
+    $ cat ocidump.cfg
     # monitor only the following two functions.
     OCIStmtPrepare
     OCIStmtPrepare2
     
-    $ OCITRACRER_CONFIG=ocitracer.cfg
+    $ OCITRACRER_CONFIG=ocidump.cfg
     $ export OCITRACRER_CONFIG
 
 If you are an application user who is requested to send a trace log by
-application developers, set `OCITRACER_HIDE_STRING` to hide sensitive
+application developers, set `OCIDUMP_HIDE_STRING` to hide sensitive
 data. It hides all string data such as username, password, SQL
 statements and so on.
 
-    OCITRACER_HIDE_STRING=1
-    export OCITRACER_HIDE_STRING
+    OCIDUMP_HIDE_STRING=1
+    export OCIDUMP_HIDE_STRING
 
 [1]: http://sourceforge.net/projects/ocitrace/
 [2]: http://www.reocities.com/ocispy/

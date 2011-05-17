@@ -2,26 +2,26 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include "ocitracer.h"
+#include "ocidump.h"
 
-int ocitracer_hide_string = 0;
+int ocidump_hide_string = 0;
 
 static FILE *logfp;
 
-void ocitracer_init(void)
+void ocidump_init(void)
 {
-    char *val = getenv("OCITRACER_HIDE_STRING");
+    char *val = getenv("OCIDUMP_HIDE_STRING");
     if (val != NULL) {
-        ocitracer_hide_string = atoi(val);
+        ocidump_hide_string = atoi(val);
     }
-    val = getenv("OCITRACER_LOGFILE");
+    val = getenv("OCIDUMP_LOGFILE");
     if (val != NULL) {
         logfp = fopen(val, "a");
     }
     if (logfp == NULL) {
         logfp = stderr;
     }
-    val = getenv("OCITRACER_CONFIG");
+    val = getenv("OCIDUMP_CONFIG");
     if (val != NULL) {
         FILE *fp = fopen(val, "r");
         if (fp != NULL) {
@@ -29,8 +29,8 @@ void ocitracer_init(void)
             int i;
 
             /* clear all targets */
-            for (i = 0; ocitracer_targets[i].name != NULL; i++) {
-                *ocitracer_targets[i].target = 0;
+            for (i = 0; ocidump_targets[i].name != NULL; i++) {
+                *ocidump_targets[i].target = 0;
             }
 
             while (fgets(buf, sizeof(buf), fp) != NULL) {
@@ -38,9 +38,9 @@ void ocitracer_init(void)
                 while (len > 0 && (buf[len - 1] == '\n' || buf[len - 1] == '\r')) {
                     buf[len - 1] = '\0';
                 }
-                for (i = 0; ocitracer_targets[i].name != NULL; i++) {
-                    if (strcmp(ocitracer_targets[i].name, buf) == 0) {
-                        *ocitracer_targets[i].target = 1;
+                for (i = 0; ocidump_targets[i].name != NULL; i++) {
+                    if (strcmp(ocidump_targets[i].name, buf) == 0) {
+                        *ocidump_targets[i].target = 1;
                         break;
                     }
                 }
@@ -50,7 +50,7 @@ void ocitracer_init(void)
     }
 }
 
-const char *ocitracer_status2name(sword status, char *buf)
+const char *ocidump_status2name(sword status, char *buf)
 {
     switch (status) {
     case OCI_SUCCESS: return "OCI_SUCCESS";
@@ -65,7 +65,7 @@ const char *ocitracer_status2name(sword status, char *buf)
     return buf;
 }
 
-const char *ocitracer_htype2name(ub4 htype, char *buf)
+const char *ocidump_htype2name(ub4 htype, char *buf)
 {
     switch (htype) {
     case OCI_HTYPE_ENV: return "OCI_HTYPE_ENV";
@@ -143,7 +143,7 @@ const char *ocitracer_htype2name(ub4 htype, char *buf)
     return buf;
 }
 
-const char *ocitracer_attrtype2name(ub4 htype, ub4 attrtype, char *buf)
+const char *ocidump_attrtype2name(ub4 htype, ub4 attrtype, char *buf)
 {
     if (htype >= OCI_DTYPE_FIRST) {
         switch (attrtype) {
@@ -644,7 +644,7 @@ const char *ocitracer_attrtype2name(ub4 htype, ub4 attrtype, char *buf)
     return buf;
 }
 
-const char *ocitracer_sprintf(char *buf, const char *fmt, ...)
+const char *ocidump_sprintf(char *buf, const char *fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);
@@ -653,7 +653,7 @@ const char *ocitracer_sprintf(char *buf, const char *fmt, ...)
     return buf;
 }
 
-void ocitracer_log(const char *fmt, ...)
+void ocidump_log(const char *fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);

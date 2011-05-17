@@ -1,23 +1,23 @@
 OCIAttrGet:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [const dvoid *trgthndlp, %p, trgthndlp]
-            - [ub4 trghndltyp,        %s, "ocitracer_htype2name(trghndltyp, @NAME_BUF@)"]
+            - [ub4 trghndltyp,        %s, "ocidump_htype2name(trghndltyp, @NAME_BUF@)"]
             - [dvoid *attributep,     %p, attributep]
-            - [ub4 *sizep,            %s, "sizep ? ocitracer_sprintf(@NAME_BUF@, \"[%u]\", *sizep) : \"(nil)\""]
-            - [ub4 attrtype,          %s, "ocitracer_attrtype2name(trghndltyp, attrtype, @NAME_BUF@)"]
+            - [ub4 *sizep,            %s, "sizep ? ocidump_sprintf(@NAME_BUF@, \"[%u]\", *sizep) : \"(nil)\""]
+            - [ub4 attrtype,          %s, "ocidump_attrtype2name(trghndltyp, attrtype, @NAME_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
 
 OCIAttrSet:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *trgthndlp,      %p, trgthndlp]
-            - [ub4 trghndltyp,        %s, "ocitracer_htype2name(trghndltyp, @NAME_BUF@)"]
+            - [ub4 trghndltyp,        %s, "ocidump_htype2name(trghndltyp, @NAME_BUF@)"]
             - [dvoid *attributep,     %p, attributep]
             - [ub4 size,              %u, size]
-            - [ub4 attrtype,          %s, "ocitracer_attrtype2name(trghndltyp, attrtype, @NAME_BUF@)"]
+            - [ub4 attrtype,          %s, "ocidump_attrtype2name(trghndltyp, attrtype, @NAME_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
 
 OCIBindByName:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIBind **bindp,       "[%p]", "*bindp"]
             - [OCIError *errhp,       %p, errhp]
@@ -34,7 +34,7 @@ OCIBindByName:
             - [ub4 mode,              0x%x, mode]
 
 OCIBindByPos:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIBind **bindp,       "[%p]", "*bindp"]
             - [OCIError *errhp,       %p, errhp]
@@ -50,7 +50,7 @@ OCIBindByPos:
             - [ub4 mode,              0x%x, mode]
 
 OCIBindObject:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIBind *bindp,        %p, bindp]
             - [OCIError *errhp,       %p, errhp]
             - [const OCIType *type,   %p, type]
@@ -60,7 +60,7 @@ OCIBindObject:
             - [ub4 *indszp,           %p, indszp]
 
 OCIBreak:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [OCIError *errhp,       %p, errhp]
 
@@ -73,7 +73,7 @@ OCIClientVersion:
             - [sword *port_update_num, "[%d]", "*port_update_num"]
 
 OCIDefineArrayOfStruct:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIDefine *defnp,      %p, defnp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 pvskip,            %u, pvskip]
@@ -82,7 +82,7 @@ OCIDefineArrayOfStruct:
             - [ub4 rcskip,            %u, rcskip]
 
 OCIDefineByPos:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIDefine **defnp,     "[%p]", "*defnp"]
             - [OCIError *errhp,       %p, errhp]
@@ -96,7 +96,7 @@ OCIDefineByPos:
             - [ub4 mode,              0x%x, mode]
 
 OCIDefineObject:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIDefine *defnp,      %p, defnp]
             - [OCIError *errhp,       %p, errhp]
             - [const OCIType *type,   %p, type]
@@ -106,7 +106,7 @@ OCIDefineObject:
             - [ub4 *indszp,           %p, indszp]
 
 OCIDescribeAny:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [dvoid *objptr,         %p, objptr]
@@ -117,74 +117,74 @@ OCIDescribeAny:
             - [OCIDescribe *dschp,    %p, dschp]
 
 OCIEnvCreate:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv **envp,         "[%p]", "*envp"]
             - [ub4 mode,              0x%x, mode]
             - [dvoid *ctxp,           %p, ctxp]
             - ["dvoid *(*malocfp)(dvoid *ctxp, size_t size)", %p, malocfp]
             - ["dvoid *(*ralocfp)(dvoid *ctxp, dvoid *memptr, size_t newsize)", %p, ralocfp]
             - ["void   (*mfreefp)(dvoid *ctxp, dvoid *memptr)", %p, mfreefp]
-            - [size_t xtramem_sz,     OCITRACER_SIZET_FMT, xtramem_sz]
+            - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIEnvInit:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv **envp,         "[%p]", "*envp"]
             - [ub4 mode,              0x%x, mode]
-            - [size_t xtramem_sz,     OCITRACER_SIZET_FMT, xtramem_sz]
+            - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIEnvNlsCreate:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv **envhpp,       "[%p]", "*envhpp"]
             - [ub4 mode,              0x%x, mode]
             - [void *ctxp,            %p, ctxp]
             - ["void *(*malocfp)(void *ctxp, size_t size)", %p, malocfp]
             - ["void *(*ralocfp)(void *ctxp, void *memptr, size_t newsize)", %p, ralocfp]
             - ["void (*mfreefp)(void *ctxp, void *memptr)", %p, mfreefp]
-            - [size_t xtramemsz,      OCITRACER_SIZET_FMT, xtramemsz]
+            - [size_t xtramemsz,      OCIDUMP_SIZET_FMT, xtramemsz]
             - [void **usrmempp,       %p, usrmempp]
             - [ub2 charset,           %u, charset]
             - [ub2 ncharset,          %u, ncharset]
 
 OCIErrorGet:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [ub4 recordno,          %u, recordno]
             - [text *sqlstate,        %p, sqlstate]
             - [sb4 *errcodep,         "[%d]", "*errcodep"]
             - [text *bufp,            "\\\"%.*s\\\"", "bufsiz, bufp"]
             - [ub4 bufsiz,            %u, bufsiz]
-            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
 
 OCIDescriptorAlloc:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [const dvoid *parenth,  %p, parenth]
             - [dvoid **descpp,        "[%p]", "*descpp"]
-            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
-            - [size_t xtramem_sz,     OCITRACER_SIZET_FMT, xtramem_sz]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+            - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIDescriptorFree:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *descp,          %p, descp]
-            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
 
 OCIHandleAlloc:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [const dvoid *parenth,  %p, parenth]
             - [dvoid **hndlpp,        "[%p]", "*hndlpp"]
-            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
-            - [size_t xtramem_sz,     OCITRACER_SIZET_FMT, xtramem_sz]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+            - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIHandleFree:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
-            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
 
 OCIInitialize:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [ub4 mode,              0x%x, mode]
             - [dvoid *ctxp,           %p, ctxp]
             - ["dvoid *(*malocfp)(dvoid *ctxp, size_t size)", %p, malocfp]
@@ -192,12 +192,12 @@ OCIInitialize:
             - ["void   (*mfreefp)(dvoid *ctxp, dvoid *memptr)", %p, mfreefp]
 
 OCILogoff:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
 
 OCILogon:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv *envhp,         %p, envhp]
             - [OCIError *errhp,       %p, errhp]
             - [OCISvcCtx **svchp,     "[%p]", "*svchp"]
@@ -210,21 +210,21 @@ OCILogon:
   :secret:    placeholder = "secret"; placeh_len = strlen(placeholder);
 
 OCIObjectFree:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [dvoid *instance,       %p, instance]
             - [ub2 flags,             %u, flags]
 
 OCIObjectGetInd:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [dvoid *instance,       %p, instance]
             - [dvoid **null_struct,   "[%p]", "*null_struct"]
 
 OCIObjectNew:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [const OCISvcCtx *svc,  %p, svc]
@@ -236,7 +236,7 @@ OCIObjectNew:
             - [dvoid **instance,      "[%p]", "*instance"]
 
 OCIObjectPin:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [OCIRef *object_ref,    %p, object_ref]
@@ -247,32 +247,32 @@ OCIObjectPin:
             - [dvoid **object,        "[%p]", "*object"]
 
 OCIObjectUnpin:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [dvoid *object,         %p, object]
 
 OCIParamGet:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [const dvoid *hndlp,    %p, hndlp]
-            - [ub4 htype,             %s, "ocitracer_htype2name(htype, @NAME_BUF@)"]
+            - [ub4 htype,             %s, "ocidump_htype2name(htype, @NAME_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
             - [dvoid **parmdpp,       "[%p]", "*parmdpp"]
             - [ub4 pos,               %u, pos]
 
 OCIPing:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 mode,              0x%x, mode]
 
 OCIReset:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [OCIError *errhp,       %p, errhp]
 
 OCISessionBegin:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [OCISession *usrhp,     %p, usrhp]
@@ -280,14 +280,14 @@ OCISessionBegin:
             - [ub4 mode,              0x%x, mode]
 
 OCISessionEnd:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [OCISession *usrhp,     %p, usrhp]
             - [ub4 mode,              0x%x, mode]
 
 OCIServerAttach:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIServer *srvhp,      %p, srvhp]
             - [OCIError *errhp,       %p, errhp]
             - [CONST text *dblink,    "\\\"%.*s\\\"", "dblink_len, dblink"]
@@ -295,30 +295,30 @@ OCIServerAttach:
             - [ub4 mode,              0x%x, mode]
 
 OCIServerDetach:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIServer *srvhp,      %p, srvhp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 mode,              0x%x, mode]
 
 OCIServerRelease:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [OCIError *errhp,       %p, errhp]
             - [OraText *bufp,         "\\\"%.*s\\\"", "bufsz, bufp"]
             - [ub4 bufsz,             %u, bufsz]
-            - [ub1 hndltype,          %s, "ocitracer_htype2name(hndltype, @NAME_BUF@)"]
+            - [ub1 hndltype,          %s, "ocidump_htype2name(hndltype, @NAME_BUF@)"]
             - [ub4 *version,          "[0x%08x]", "version ? *version : 0"]
 
 OCIServerVersion:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [OCIError *errhp,       %p, errhp]
             - [OraText *bufp,         "\\\"%.*s\\\"", "bufsz, bufp"]
             - [ub4 bufsz,             %u, bufsz]
-            - [ub1 hndltype,          %s, "ocitracer_htype2name(hndltype, @NAME_BUF@)"]
+            - [ub1 hndltype,          %s, "ocidump_htype2name(hndltype, @NAME_BUF@)"]
 
 OCIStmtExecute:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
@@ -329,7 +329,7 @@ OCIStmtExecute:
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtFetch:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 nrows,             %u, nrows]
@@ -337,18 +337,18 @@ OCIStmtFetch:
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtGetPieceInfo:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
             - [dvoid **hndlpp,        "[%p]", "*hndlpp"]
-            - [ub4 *typep,            "[%s]", "ocitracer_htype2name(*typep, @NAME_BUF@)"]
+            - [ub4 *typep,            "[%s]", "ocidump_htype2name(*typep, @NAME_BUF@)"]
             - [ub1 *in_outp,          "[%u]", "*in_outp"]
             - [ub4 *iterp,            "[%u]", "*iterp"]
             - [ub4 *idxp,             "[%u]", "*idxp"]
             - [ub1 *piecep,           "[%u]", "*piecep"]
 
 OCIStmtPrepare:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
             - [const OraText *stmt,   "\\\"%.*s\\\"", "stmt_len, stmt"]
@@ -357,7 +357,7 @@ OCIStmtPrepare:
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtPrepare2:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIStmt **stmtp,       "[%p]", "*stmtp"]
             - [OCIError *errhp,       %p, errhp]
@@ -369,7 +369,7 @@ OCIStmtPrepare2:
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtRelease:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
             - [const OraText *key,    "\\\"%.*s\\\"", "key_len, key"]
@@ -377,9 +377,9 @@ OCIStmtRelease:
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtSetPieceInfo:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
-            - [ub4 type,              %s, "ocitracer_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
             - [CONST dvoid *bufp,     %p, bufp]
             - [ub4 *alenp,            %p, alenp]
@@ -388,13 +388,13 @@ OCIStmtSetPieceInfo:
             - [ub2 *rcodep,           %p, rcodep]
 
 OCITransCommit:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 flags,             0x%x, flags]
 
 OCITransRollback:
-  :ret:       [sword,                 %s, "ocitracer_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 flags,             0x%x, flags]
