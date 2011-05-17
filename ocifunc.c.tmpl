@@ -1,5 +1,6 @@
 /* -*- c-file-style: "ruby"; indent-tabs-mode: nil -*- */
 <%= header_comment %>
+#include <stdlib.h>
 #include <dlfcn.h>
 #include <pthread.h>
 #include "ocidump.h"
@@ -13,11 +14,17 @@ funcs.each do |f|
   fmt_args << f.ret.fmt_arg if f.ret.type != 'void'
 
   local_vars = []
+  cleanups = []
   fmt_args.collect! do |fmt_arg|
     fmt_arg.gsub(/@(\w+)_BUF@/) do |match|
       var_name = "buf" + (local_vars.length + 1).to_s
       local_vars << "char #{var_name}[OCIDUMP_#{$1}_BUF_SIZE]"
       var_name
+    end.gsub(/@BUF_PTR@/) do |match|
+      var_name = "buf" + (local_vars.length + 1).to_s
+      local_vars << "char *#{var_name} = NULL"
+      cleanups << "free(#{var_name})"
+      '&' + var_name
     end
   end
   local_vars.unshift(f.ret.type + " ret") if f.ret.type != 'void'
@@ -25,7 +32,7 @@ funcs.each do |f|
   hide_vars = []
   f.args.each do |arg|
     if arg.fmt == '\"%.*s\"'
-       len, str = arg.fmt_arg.split(/\s*,\s*/)
+       len, str = arg.fmt_arg.gsub(/\(.*?\)/, '').split(/\s*,\s*/)
        hide_vars << len + ' = 6'
        hide_vars << str + ' = (OraText*)"hidden"'
     end
@@ -40,24 +47,33 @@ static int trace_<%=f.name%> = 1;
 <%  local_vars.each do |var|
 %>    <%=var%>;
 <%  end
+    if f.before_call
+%>    <%=f.before_call.gsub("\n", "\n    ").gsub(/ +$/, '')%>
+<%  end
 %>    if (!is_initialized) {
         initialize();
     }
     <%=f.ret.type != 'void' ? "ret = " : ""%><%=f.name%>_func(<%=f.args.collect {|arg| arg.name}.join(', ')%>);
     if (trace_<%=f.name%>) {
-<%  if hide_vars.length != 0
+<%  if f.after_call
+%>        <%=f.after_call.gsub("\n", "\n        ").gsub(/ +$/, '')%>
+<%  end
+    if hide_vars.length != 0
 %>        if (ocidump_hide_string) {
 <%    hide_vars.each do |hide_var|
 %>            <%=hide_var%>;
 <%    end
 %>        }
 <%  end
-%>        ocidump_log("%0*lX: <%=f.name%>(<%=f.args.collect {|arg| /_FMT$/ =~ arg.fmt ? '%" ' + arg.fmt+ ' "' : arg.fmt}.join(', ')%>)<%=
+%>        ocidump_log("%0*lX: <%=f.name%>(<%=f.args.collect {|arg| arg.fmt.gsub(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'}}.join(', ')%>)<%=
 f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
                      (int)sizeof(pthread_t), pthread_self(),
                      <%=fmt_args.join(",\n                     ")%>);
     }
-<%  if f.ret.type != 'void'
+<%  cleanups.each do |cleanup|
+%>    <%=cleanup%>;
+<%  end
+    if f.ret.type != 'void'
 %>    return ret;
 <%  end
 %>}

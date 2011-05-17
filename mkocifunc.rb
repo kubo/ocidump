@@ -9,8 +9,9 @@ class ArgDef
 
   def initialize(arg)
     @type, @fmt, @fmt_arg = arg
-    /(\w+)\s*$/ =~ @type
-    /\(\*(\w+)\)/ =~ @type if $1.nil?
+    @name = @type.gsub(/\[\]/, '')
+    /(\w+)\s*$/ =~ @name
+    /\(\*(\w+)\)/ =~ @name if $1.nil?
     @name = $1
   end
 end
@@ -19,6 +20,8 @@ class FuncDef
   attr_reader :name
   attr_reader :args
   attr_reader :ret
+  attr_reader :before_call
+  attr_reader :after_call
 
   def initialize(key, val)
     @name = key
@@ -26,6 +29,8 @@ class FuncDef
     @args = val[:args].collect do |arg|
       ArgDef.new(arg)
     end
+    @before_call = val[:before_call]
+    @after_call = val[:after_call]
   end
 end
 

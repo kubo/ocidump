@@ -1,23 +1,237 @@
+OCIAnyDataAccess:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIType *type,         %p, type]
+            - [void *ind,             %p, ind]  # TODO: dump *ind
+            - [void *attr_val,        %p, attr_val]  # TODO: dump *attr_val
+            - [ub4 *length,           %s, "length ? ocidump_sprintf(@SHORT_BUF@, \"[%u]\", *length) : \"(nil)\""]
+
+OCIAnyDataAttrGet:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIType *type,         %p, type]
+            - [void *ind,             %p, ind]  # TODO: dump *ind
+            - [void *attr_val,        %p, attr_val]  # TODO: dump *attr_val
+            - [ub4 *length,           %s, "length ? ocidump_sprintf(@SHORT_BUF@, \"[%u]\", *length) : \"(nil)\""]
+            - [boolean is_any,        %d, is_any]
+
+OCIAnyDataAttrSet:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIType *type,         %p, type]
+            - [void *ind,             %p, ind]  # TODO: dump *ind
+            - [void *attr_val,        %p, attr_val]  # TODO: dump *attr_val
+            - [ub4 length,            %u, length]
+            - [boolean is_any,        %d, is_any]
+
+OCIAnyDataBeginCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIType *type,         %p, type]
+            - [OCIDuration dur,       %u, dur]
+            - [OCIAnyData **sdata,    "[%p]", "*sdata"]
+
+OCIAnyDataCollAddElem:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIType *type,         %p, type]
+            - [void *ind,             %p, ind]  # TODO: dump *ind
+            - [void *attr_val,        %p, attr_val]  # TODO: dump *attr_val
+            - [ub4 length,            %u, length]
+            - [boolean is_any,        %d, is_any]
+            - [boolean last_elem,     %d, last_elem]
+
+OCIAnyDataCollGetElem:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIType *type,         %p, type]
+            - [void *ind,             %p, ind]  # TODO: dump *ind
+            - [void *celem_val,       %p, celem_val]  # TODO: dump *celem_val
+            - [ub4 *length,           %s, "length ? ocidump_sprintf(@SHORT_BUF@, \"[%u]\", *length) : \"(nil)\""]
+            - [boolean is_any,        %d, is_any]
+
+OCIAnyDataConvert:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIType *type,         %p, type]
+            - [OCIDuration dur,       %u, dur]
+            - [void *ind,             %p, ind]  # TODO: dump *ind
+            - [void *data_val,        %p, data_val] # TODO: dump *data_val
+            - [ub4 len,               %u, len]
+            - [OCIAnyData **sdata,    "[%p -> %p]", "old_sdata, *sdata"]
+  :before_call: |
+     OCIAnyData *old_sdata = *sdata;
+
+OCIAnyDataDestroy:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+
+OCIAnyDataEndCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+
+OCIAnyDataGetCurrAttrNum:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [ub4 *attrnum,          "[%u]", "*attrnum"]
+
+OCIAnyDataGetType:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [OCITypeCode *tc,       "[%u]", "*tc"]
+            - [OCIType **type,        "[%p]", "*type"]
+
+OCIAnyDataIsNull:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyData *sdata,     %p, sdata]
+            - [boolean *isnull,       "[%d]", "*isnull"]
+
+OCIAnyDataSetAddInstance:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyDataSet *data_set, %p, data_set]
+            - [OCIAnyData **data,     "[%p -> %p]", "old_data, *data"]
+  :before_call: |
+     OCIAnyData *old_data = *data;
+
+OCIAnyDataSetBeginCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCITypeCode typecode,  %u, typecode]
+            - [const OCIType *type,   %p, type]
+            - [OCIDuration dur,       %u, dur]
+            - [OCIAnyDataSet ** data_set, "[%p]", "*data_set"]
+
+OCIAnyDataSetDestroy:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyDataSet *data_set, %p, data_set]
+
+OCIAnyDataSetEndCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyDataSet *data_set, %p, data_set]
+
+OCIAnyDataSetGetCount:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyDataSet *data_set, %p, data_set]
+            - [ub4 *count,            "[%u]", "*count"]
+
+OCIAnyDataSetGetInstance:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyDataSet *data_set, %p, data_set]
+            - [OCIAnyData **data,     "[%p -> %p]", "old_data, *data"]
+  :before_call: |
+     OCIAnyData *old_data = *data;
+
+OCIAnyDataSetGetType:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAnyDataSet *data_set, %p, data_set]
+            - [OCITypeCode *tc,       "[%u]", "*tc"]
+            - [OCIType **type,        "[%p]", "*type"]
+
+OCIAppCtxClearAll:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *sesshndl,        %p, sesshndl]
+            - [void *nsptr,           %s, "ocidump_quotestring(@BUF_PTR@, nsptr, nsptrlen)"]
+            - [ub4 nsptrlen,          %u, nsptrlen]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 mode,              0x%x, mode]
+
+OCIAppCtxSet:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *sesshndl,        %p, sesshndl]
+            - [void *nsptr,           %s, "ocidump_quotestring(@BUF_PTR@, nsptr, nsptrlen)"]
+            - [ub4 nsptrlen,          %u, nsptrlen]
+            - [void *attrptr,         %s, "ocidump_quotestring(@BUF_PTR@, attrptr, attrptrlen)"]
+            - [ub4 attrptrlen,        %u, attrptrlen]
+            - [void *valueptr,        %s, "ocidump_quotestring(@BUF_PTR@, valueptr, valueptrlen)"]
+            - [ub4 valueptrlen,       %u, valueptrlen]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 mode,              0x%x, mode]
+
+OCIArrayDescriptorAlloc:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [const void *parenth,   %p, parenth]
+            - [void **descpp,         "%p([%p, ...])", "descpp, *descpp"] # TODO: print up to array_size
+            - [const ub4 type,        %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+            - [ub4 array_size,        %u, array_size]
+            - [const size_t xtramem_sz, OCIDUMP_SIZET_FMT, xtramem_sz]
+            - [void **usrmempp,       %p, usrmempp]
+
+OCIArrayDescriptorFree:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void **descp,          "%p([%p, ...])", "descp, *descp"]
+            - [const ub4 type,        %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+
 OCIAttrGet:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [const dvoid *trgthndlp, %p, trgthndlp]
-            - [ub4 trghndltyp,        %s, "ocidump_htype2name(trghndltyp, @NAME_BUF@)"]
+            - [ub4 trghndltyp,        %s, "ocidump_htype2name(trghndltyp, @SHORT_BUF@)"]
             - [dvoid *attributep,     %p, attributep]
-            - [ub4 *sizep,            %s, "sizep ? ocidump_sprintf(@NAME_BUF@, \"[%u]\", *sizep) : \"(nil)\""]
-            - [ub4 attrtype,          %s, "ocidump_attrtype2name(trghndltyp, attrtype, @NAME_BUF@)"]
+            - [ub4 *sizep,            %s, "sizep ? ocidump_sprintf(@SHORT_BUF@, \"[%u]\", *sizep) : \"(nil)\""]
+            - [ub4 attrtype,          %s, "ocidump_attrtype2name(trghndltyp, attrtype, @SHORT_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
 
 OCIAttrSet:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *trgthndlp,      %p, trgthndlp]
-            - [ub4 trghndltyp,        %s, "ocidump_htype2name(trghndltyp, @NAME_BUF@)"]
+            - [ub4 trghndltyp,        %s, "ocidump_htype2name(trghndltyp, @SHORT_BUF@)"]
             - [dvoid *attributep,     %p, attributep]
             - [ub4 size,              %u, size]
-            - [ub4 attrtype,          %s, "ocidump_attrtype2name(trghndltyp, attrtype, @NAME_BUF@)"]
+            - [ub4 attrtype,          %s, "ocidump_attrtype2name(trghndltyp, attrtype, @SHORT_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
 
+OCIBindArrayOfStruct:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIBind *bindp,        %p, bindp]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 pvskip,            %u, pvskip]
+            - [ub4 indskip,           %u, indskip]
+            - [ub4 alskip,            %u, alskip]
+            - [ub4 rcskip,            %u, rcskip]
+
 OCIBindByName:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIBind **bindp,       "[%p]", "*bindp"]
             - [OCIError *errhp,       %p, errhp]
@@ -34,7 +248,7 @@ OCIBindByName:
             - [ub4 mode,              0x%x, mode]
 
 OCIBindByPos:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIBind **bindp,       "[%p]", "*bindp"]
             - [OCIError *errhp,       %p, errhp]
@@ -49,8 +263,17 @@ OCIBindByPos:
             - [ub4 *curelep,          %p, curelep]
             - [ub4 mode,              0x%x, mode]
 
+OCIBindDynamic:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIBind *bindp,        %p, bindp]
+            - [OCIError *errhp,       %p, errhp]
+            - [void *ictxp,           %p, ictxp]
+            - [OCICallbackInBind icbfp, %p, icbfp]
+            - [void *octxp,           %p, octxp]
+            - [OCICallbackOutBind ocbfp, %p, ocbfp]
+
 OCIBindObject:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIBind *bindp,        %p, bindp]
             - [OCIError *errhp,       %p, errhp]
             - [const OCIType *type,   %p, type]
@@ -60,9 +283,76 @@ OCIBindObject:
             - [ub4 *indszp,           %p, indszp]
 
 OCIBreak:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [OCIError *errhp,       %p, errhp]
+
+OCICacheFlush:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [void *context,         %p, context]
+            - ["OCIRef *(*get)(void *context, ub1 *last)", %p, get]
+            - [OCIRef **ref,          %s, "ret ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *ref) : \"(nil)\""]
+
+OCICacheFlushRefresh:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [void *context,         %p, context]
+            - ["OCIRef *(*get)(void *context, ub1 *last)", %p, get]
+            - [OCIRef **ref,          %s, "ret ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *ref) : \"(nil)\""]
+
+OCICacheFree:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+
+OCICacheGetObjects:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [OCIObjectProperty property, %d, property]
+            - [void *client_context,  %p, client_context]
+            - ["void (*client_callback)(void *client_context, void *object)", %p, client_callback]
+
+OCICacheRefresh:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [OCIRefreshOpt option,  %d, option]
+            - [void *context,         %p, context]
+            - ["OCIRef *(*get)(void *context)", %p, get]
+            - [OCIRef **ref,          %s, "ret ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *ref) : \"(nil)\""]
+
+OCICacheRegister:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIObjectEvent event,  %d, event]
+            - [void *client_context,  %p, client_context]
+            - ["void (*client_callback)(void *client_context, OCIObjectEvent event, void *object)", %p, client_callback]
+
+OCICacheUnmark:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+
+OCICacheUnpin:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+
+OCICharSetConversionIsReplacementUsed:
+  :ret:       [boolean,               %d, ret]
+  :args:    - [void *envhp,           %p, envhp]
 
 OCIClientVersion:
   :ret:       [void]
@@ -72,8 +362,378 @@ OCIClientVersion:
             - [sword *patch_num,      "[%d]", "*patch_num"]
             - [sword *port_update_num, "[%d]", "*port_update_num"]
 
+OCICollAppend:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const dvoid *elem,     %p, elem]
+            - [const dvoid *elemind,  %p, elemind]
+            - [OCIColl *coll,         %p, coll]
+
+OCICollAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIColl *rhs,    %p, rhs]
+            - [OCIColl *lhs,          %p, lhs]
+
+OCICollAssignElem:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [sb4 index,             %d, index]
+            - [const dvoid *elem,     %p, elem]
+            - [const dvoid *elemind,  %p, elemind]
+            - [OCIColl *coll,         %p, coll]
+
+OCICollGetElem:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIColl *coll,   %p, coll]
+            - [sb4 index,             %d, index]
+            - [boolean *exists,       "[%d]", "*exists"]
+            - [dvoid **elem,          "[%p]", "*elem"]
+            - [dvoid **elemind,       %s, "elemind ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *elemind) : \"(nil)\""]
+
+OCICollGetElemArray:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIColl *coll,   %p, coll]
+            - [sb4 index,             %d, index]
+            - [boolean *exists,       "[%d]", "*exists"]
+            - [void  **elem,          "[%p, ...]", "*elem"] # TODO: print up to *nelems
+            - [void  **elemind,       %s, "elemind ? ocidump_sprintf(@SHORT_BUF@, \"[%p, ...]\", *elemind) : \"(nil)\""]
+            - [uword *nelems,         "[%u -> %u]", "old_nelems, *nelems"]
+  :before_call: |
+     uword old_nelems = *nelems;
+
+OCICollIsLocator:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIColl *coll,   %p, coll]
+            - [boolean *result,       "[%d]", "*result"]
+
+OCICollMax:
+  :ret:       [sb4,                   %d, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIColl *coll,   %p, coll]
+
+OCICollSize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIColl *coll,   %p, coll]
+            - [sb4 *size,             "[%d]", "*size"]
+
+OCICollTrim:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [sb4 trim_num,          %d, trim_num]
+            - [OCIColl *coll,         %p, coll]
+
+OCIConnectionPoolCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCICPool *poolhp,      %p, poolhp]
+            - [OraText **poolName,    "[\\\"%.*s\\\"]", "ret ? 0 : *poolNameLen, *poolName"]
+            - [sb4 *poolNameLen,      "[%d]", "*poolNameLen"]
+            - [const OraText *dblink, %s, "ocidump_quotestring(@BUF_PTR@, dblink, dblinkLen)"]
+            - [sb4 dblinkLen,         %d, dblinkLen]
+            - [ub4 connMin,           %u, connMin]
+            - [ub4 connMax,           %u, connMax]
+            - [ub4 connIncr,          %u, connIncr]
+            - [const OraText *poolUserName, %s, "ocidump_quotestring(@BUF_PTR@, poolUserName, poolUserLen)"]
+            - [sb4 poolUserLen,       %d, poolUserLen]
+            - [const OraText *poolPassword, %s, "ocidump_quotestring(@BUF_PTR@, poolPassword, poolPassLen)"]
+            - [sb4 poolPassLen,       %d, poolPassLen]
+            - [ub4 mode,              0x%x, mode]
+
+OCIConnectionPoolDestroy:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCICPool *poolhp,      %p, poolhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 mode,              0x%x, mode]
+
+OCIDBShutdown:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAdmin *admhp,       %p, admhp]
+            - [ub4 mode,              %u, mode]
+
+OCIDBStartup:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIAdmin *admhp,       %p, admhp]
+            - [ub4 mode,              %u, mode]
+            - [ub4 flags,             0x%x, flags]
+
+OCIDateAddDays:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date,   "{%04d-%02u-%02u %02u:%02u:%02u}", "date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS"]
+            - [sb4 num_days,          %d, num_days]
+            - [OCIDate *result,       "{%04d-%02u-%02u %02u:%02u:%02u}", "result->OCIDateYYYY, result->OCIDateMM, result->OCIDateDD, result->OCIDateTime.OCITimeHH, result->OCIDateTime.OCITimeMI, result->OCIDateTime.OCITimeSS"]
+
+OCIDateAddMonths:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date,   "{%04d-%02u-%02u %02u:%02u:%02u}", "date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS"]
+            - [sb4 num_months,        %d, num_months]
+            - [OCIDate *result,       "{%04d-%02u-%02u %02u:%02u:%02u}", "result->OCIDateYYYY, result->OCIDateMM, result->OCIDateDD, result->OCIDateTime.OCITimeHH, result->OCIDateTime.OCITimeMI, result->OCIDateTime.OCITimeSS"]
+
+OCIDateAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *from,   "{%04d-%02u-%02u %02u:%02u:%02u}", "from->OCIDateYYYY, from->OCIDateMM, from->OCIDateDD, from->OCIDateTime.OCITimeHH, from->OCIDateTime.OCITimeMI, from->OCIDateTime.OCITimeSS"]
+            - [OCIDate *to,           "{%04d-%02u-%02u %02u:%02u:%02u}", "to->OCIDateYYYY, to->OCIDateMM, to->OCIDateDD, to->OCIDateTime.OCITimeHH, to->OCIDateTime.OCITimeMI, to->OCIDateTime.OCITimeSS"]
+
+OCIDateCheck:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date,   "{%04d-%02u-%02u %02u:%02u:%02u}", "date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS"]
+            - [uword *valid,          "[0x%x]", "*valid"]
+
+OCIDateCompare:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date1,  "{%04d-%02u-%02u %02u:%02u:%02u}", "date1->OCIDateYYYY, date1->OCIDateMM, date1->OCIDateDD, date1->OCIDateTime.OCITimeHH, date1->OCIDateTime.OCITimeMI, date1->OCIDateTime.OCITimeSS"]
+            - [const OCIDate *date2,  "{%04d-%02u-%02u %02u:%02u:%02u}", "date2->OCIDateYYYY, date2->OCIDateMM, date2->OCIDateDD, date2->OCIDateTime.OCITimeHH, date2->OCIDateTime.OCITimeMI, date2->OCIDateTime.OCITimeSS"]
+            - [sword *result,         "[%d]", "*result"]
+
+OCIDateDaysBetween:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date1,  "{%04d-%02u-%02u %02u:%02u:%02u}", "date1->OCIDateYYYY, date1->OCIDateMM, date1->OCIDateDD, date1->OCIDateTime.OCITimeHH, date1->OCIDateTime.OCITimeMI, date1->OCIDateTime.OCITimeSS"]
+            - [const OCIDate *date2,  "{%04d-%02u-%02u %02u:%02u:%02u}", "date2->OCIDateYYYY, date2->OCIDateMM, date2->OCIDateDD, date2->OCIDateTime.OCITimeHH, date2->OCIDateTime.OCITimeMI, date2->OCIDateTime.OCITimeSS"]
+            - [sb4 *num_days,         "[%d]", "*num_days"]
+
+OCIDateFromText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const oratext *date_str, "\\\"%.*s\\\"", "d_str_length, date_str"]
+            - [ub4 d_str_length,      %u, d_str_length]
+            - [const oratext *fmt,    "\\\"%.*s\\\"", "fmt_length, fmt"]
+            - [ub1 fmt_length,        %u, fmt_length]
+            - [const oratext *lang_name, "\\\"%.*s\\\"", "lang_length, lang_name"]
+            - [ub4 lang_length,       %u, lang_length]
+            - [OCIDate *date,         "{%04d-%02u-%02u %02u:%02u:%02u}", "date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS"]
+
+OCIDateLastDay:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date,   "{%04d-%02u-%02u %02u:%02u:%02u}", "date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS"]
+            - [OCIDate *last_day,     "{%04d-%02u-%02u %02u:%02u:%02u}", "last_day->OCIDateYYYY, last_day->OCIDateMM, last_day->OCIDateDD, last_day->OCIDateTime.OCITimeHH, last_day->OCIDateTime.OCITimeMI, last_day->OCIDateTime.OCITimeSS"]
+
+OCIDateNextDay:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date,   "{%04d-%02u-%02u %02u:%02u:%02u}", "date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS"]
+            - [const oratext *day_p,  "\\\"%.*s\\\"", "day_length, day_p"]
+            - [ub4 day_length,        %u, day_length]
+            - [OCIDate *next_day,     "{%04d-%02u-%02u %02u:%02u:%02u}", "next_day->OCIDateYYYY, next_day->OCIDateMM, next_day->OCIDateDD, next_day->OCIDateTime.OCITimeHH, next_day->OCIDateTime.OCITimeMI, next_day->OCIDateTime.OCITimeSS"]
+
+OCIDateSysDate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [OCIDate *sys_date,     "{%04d-%02u-%02u %02u:%02u:%02u}", "sys_date->OCIDateYYYY, sys_date->OCIDateMM, sys_date->OCIDateDD, sys_date->OCIDateTime.OCITimeHH, sys_date->OCIDateTime.OCITimeMI, sys_date->OCIDateTime.OCITimeSS"]
+
+OCIDateTimeAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *from, %p, from]
+            - [OCIDateTime *to,       %p, to]
+
+OCIDateTimeCheck:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *date, %p, date]
+            - [ub4 *valid,            "[0x%x]", "*valid"]
+
+OCIDateTimeCompare:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *date1, %p, date1]
+            - [const OCIDateTime *date2, %p, date2]
+            - [sword *result,         "[%d]", "*result"]
+
+OCIDateTimeConstruct:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIDateTime *datetime, %p, datetime]
+            - [sb2 yr,                %d, yr]
+            - [ub1 mnth,              %u, mnth]
+            - [ub1 dy,                %u, dy]
+            - [ub1 hr,                %u, hr]
+            - [ub1 mm,                %u, mm]
+            - [ub1 ss,                %u, ss]
+            - [ub4 fsec,              %u, fsec]
+            - [OraText *timezone,     "\\\"%.*s\\\"", "(int)timezone_length, timezone"]
+            - [size_t timezone_length, OCIDUMP_SIZET_FMT, timezone_length]
+
+OCIDateTimeConvert:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIDateTime *indate,   %p, indate]
+            - [OCIDateTime *outdate,  %p, outdate]
+
+OCIDateTimeFromArray:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [ub1 *inarray,          %p, inarray]
+            - [ub4 len,               %u, len]
+            - [ub1 type,              %u, type]
+            - [OCIDateTime *datetime, %p, datetime]
+            - [const OCIInterval *reftz, %p, reftz]
+            - [ub1 fsprec,            %u, fsprec]
+
+OCIDateTimeFromText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OraText *date_str, "\\\"%.*s\\\"", "(int)dstr_length, date_str"]
+            - [size_t dstr_length,    OCIDUMP_SIZET_FMT, dstr_length]
+            - [const OraText *fmt,    "\\\"%.*s\\\"", "(int)fmt_length, fmt"]
+            - [ub1 fmt_length,        %u, fmt_length]
+            - [const OraText *lang_name, "\\\"%.*s\\\"", "(int)lang_length, lang_name"]
+            - [size_t lang_length,    OCIDUMP_SIZET_FMT, lang_length]
+            - [OCIDateTime *date,     %p, date]
+
+OCIDateTimeGetDate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *date, %p, date]
+            - [sb2 *yr,               "[%d]", "*yr"]
+            - [ub1 *mnth,             "[%u]", "*mnth"]
+            - [ub1 *dy,               "[%u]", "*dy"]
+
+OCIDateTimeGetTime:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIDateTime *datetime, %p, datetime]
+            - [ub1 *hr,               "[%u]", "*hr"]
+            - [ub1 *mm,               "[%u]", "*mm"]
+            - [ub1 *ss,               "[%u]", "*ss"]
+            - [ub4 *fsec,             "[%u]", "*fsec"]
+
+OCIDateTimeGetTimeZoneName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *datetime, %p, datetime]
+            - [ub1 *buf,              "\\\"%.*s\\\"", "blen, buf"]
+            - [ub4 *buflen,           "[%d -> %d]", "old_blen, blen"]
+  :before_call: |
+     ub4 old_blen = *buflen;
+  :after_call: |
+     ub4 blen = *buflen;
+
+OCIDateTimeGetTimeZoneOffset:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *datetime, %p, datetime]
+            - [sb1 *hr,               "[%d]", "*hr"]
+            - [sb1 *mm,               "[%d]", "*mm"]
+
+OCIDateTimeIntervalAdd:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIDateTime *datetime, %p, datetime]
+            - [OCIInterval *inter,    %p, inter]
+            - [OCIDateTime *outdatetime, %p, outdatetime]
+
+OCIDateTimeIntervalSub:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIDateTime *datetime, %p, datetime]
+            - [OCIInterval *inter,    %p, inter]
+            - [OCIDateTime *outdatetime, %p, outdatetime]
+
+OCIDateTimeSubtract:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIDateTime *indate1,  %p, indate1]
+            - [OCIDateTime *indate2,  %p, indate2]
+            - [OCIInterval *inter,    %p, inter]
+
+OCIDateTimeSysTimeStamp:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIDateTime *sys_date, %p, sys_date]
+
+OCIDateTimeToArray:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *datetime, %p, datetime]
+            - [const OCIInterval *reftz, %p, reftz]
+            - [ub1 *outarray,         %p, outarray]
+            - [ub4 *len,              "[%u]", "*len"]
+            - [ub1 fsprec,            %u, fsprec]
+
+OCIDateTimeToText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIDateTime *date, %p, date]
+            - [const OraText *fmt,    "\\\"%.*s\\\"", "fmt_length, fmt"]
+            - [ub1 fmt_length,        %u, fmt_length]
+            - [ub1 fsprec,            %u, fsprec]
+            - [const OraText *lang_name, "\\\"%.*s\\\"", "(int)lang_length, lang_name"]
+            - [size_t lang_length,    OCIDUMP_SIZET_FMT, lang_length]
+            - [ub4 *buf_size,         "[%u -> %u]", "old_bsize, new_bsize"]
+            - [OraText *buf,          "\\\"%.*s\\\"", "new_bsize, buf"]
+  :before_call: |
+     ub4 old_bsize = *buf_size;
+  :after_call: |
+     ub4 new_bsize = *buf_size;
+
+OCIDateToText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date,   "{%04d-%02u-%02u %02u:%02u:%02u}", "date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS"]
+            - [const oratext *fmt,    "\\\"%.*s\\\"", "fmt_length, fmt"]
+            - [ub1 fmt_length,        %u, fmt_length]
+            - [const oratext *lang_name, "\\\"%.*s\\\"", "lang_length, lang_name"]
+            - [ub4 lang_length,       %u, lang_length]
+            - [ub4 *buf_size,         "[%u -> %u]", "old_bsize, new_bsize"]
+            - [oratext *buf,          "\\\"%.*s\\\"", "new_bsize, buf"]
+  :before_call: |
+     ub4 old_bsize = *buf_size;
+  :after_call: |
+     ub4 new_bsize = *buf_size;
+
+OCIDateZoneToZone:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCIDate *date1,  "{%04d-%02u-%02u %02u:%02u:%02u}", "date1->OCIDateYYYY, date1->OCIDateMM, date1->OCIDateDD, date1->OCIDateTime.OCITimeHH, date1->OCIDateTime.OCITimeMI, date1->OCIDateTime.OCITimeSS"]
+            - [const oratext *zon1,   "\\\"%.*s\\\"", "zon1_length, zon1"]
+            - [ub4 zon1_length,       %u, zon1_length]
+            - [const oratext *zon2,   "\\\"%.*s\\\"", "zon2_length, zon2"]
+            - [ub4 zon2_length,       %u, zon2_length]
+            - [OCIDate *date2,        "{%04d-%02u-%02u %02u:%02u:%02u}", "date2->OCIDateYYYY, date2->OCIDateMM, date2->OCIDateDD, date2->OCIDateTime.OCITimeHH, date2->OCIDateTime.OCITimeMI, date2->OCIDateTime.OCITimeSS"]
+
 OCIDefineArrayOfStruct:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIDefine *defnp,      %p, defnp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 pvskip,            %u, pvskip]
@@ -82,7 +742,7 @@ OCIDefineArrayOfStruct:
             - [ub4 rcskip,            %u, rcskip]
 
 OCIDefineByPos:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIDefine **defnp,     "[%p]", "*defnp"]
             - [OCIError *errhp,       %p, errhp]
@@ -95,8 +755,15 @@ OCIDefineByPos:
             - [ub2 *rcodep,           %p, rcodep]
             - [ub4 mode,              0x%x, mode]
 
+OCIDefineDynamic:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIDefine *defnp,      %p, defnp]
+            - [OCIError *errhp,       %p, errhp]
+            - [void  *octxp,          %p, octxp]
+            - [OCICallbackDefine ocbfp, %p, ocbfp]
+
 OCIDefineObject:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIDefine *defnp,      %p, defnp]
             - [OCIError *errhp,       %p, errhp]
             - [const OCIType *type,   %p, type]
@@ -106,7 +773,7 @@ OCIDefineObject:
             - [ub4 *indszp,           %p, indszp]
 
 OCIDescribeAny:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [dvoid *objptr,         %p, objptr]
@@ -116,8 +783,43 @@ OCIDescribeAny:
             - [ub1 objtyp,            %u, objtyp]
             - [OCIDescribe *dschp,    %p, dschp]
 
+OCIDescriptorAlloc:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [const dvoid *parenth,  %p, parenth]
+            - [dvoid **descpp,        "[%p]", "*descpp"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+            - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
+            - [dvoid **usrmempp,      %p, usrmempp]
+
+OCIDescriptorFree:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [dvoid *descp,          %p, descp]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+
+OCIDurationBegin:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [OCIDuration parent,    %u, parent]
+            - [OCIDuration *dur,      "[%u]", "*dur"]
+
+OCIDurationEnd:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [OCIDuration duration,  %u, duration]
+
+OCIDurationGetParent:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIDuration duration,  %u, duration]
+            - [OCIDuration *parent,   "[%u]", "*parent"]
+
 OCIEnvCreate:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv **envp,         "[%p]", "*envp"]
             - [ub4 mode,              0x%x, mode]
             - [dvoid *ctxp,           %p, ctxp]
@@ -128,14 +830,14 @@ OCIEnvCreate:
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIEnvInit:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv **envp,         "[%p]", "*envp"]
             - [ub4 mode,              0x%x, mode]
             - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIEnvNlsCreate:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv **envhpp,       "[%p]", "*envhpp"]
             - [ub4 mode,              0x%x, mode]
             - [void *ctxp,            %p, ctxp]
@@ -148,83 +850,1257 @@ OCIEnvNlsCreate:
             - [ub2 ncharset,          %u, ncharset]
 
 OCIErrorGet:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [ub4 recordno,          %u, recordno]
             - [text *sqlstate,        %p, sqlstate]
             - [sb4 *errcodep,         "[%d]", "*errcodep"]
             - [text *bufp,            "\\\"%.*s\\\"", "bufsiz, bufp"]
             - [ub4 bufsiz,            %u, bufsiz]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
 
-OCIDescriptorAlloc:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
-  :args:    - [const dvoid *parenth,  %p, parenth]
-            - [dvoid **descpp,        "[%p]", "*descpp"]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+OCIFEnvCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv **envp,         "[%p]", "*envp"]
+            - [ub4 mode,              0x%x, mode]
+            - [void *ctxp,            %p, ctxp]
+            - ["void *(*malocfp)(void  *ctxp, size_t size)", %p, malocfp]
+            - ["void *(*ralocfp)(void  *ctxp, void  *memptr, size_t newsize)", %p, ralocfp]
+            - ["void  (*mfreefp)(void  *ctxp, void  *memptr)", %p, mfreefp]
             - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
-            - [dvoid **usrmempp,      %p, usrmempp]
-
-OCIDescriptorFree:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
-  :args:    - [dvoid *descp,          %p, descp]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+            - [void  **usrmempp,      %p, usrmempp]
+            - [void  *fupg,           %p, fupg]
 
 OCIHandleAlloc:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [const dvoid *parenth,  %p, parenth]
             - [dvoid **hndlpp,        "[%p]", "*hndlpp"]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
             - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIHandleFree:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
 
 OCIInitialize:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [ub4 mode,              0x%x, mode]
             - [dvoid *ctxp,           %p, ctxp]
             - ["dvoid *(*malocfp)(dvoid *ctxp, size_t size)", %p, malocfp]
             - ["dvoid *(*ralocfp)(dvoid *ctxp, dvoid *memptr, size_t newsize)", %p, ralocfp]
             - ["void   (*mfreefp)(dvoid *ctxp, dvoid *memptr)", %p, mfreefp]
 
+OCIIntervalAdd:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIInterval *addend1,  %p, addend1]
+            - [OCIInterval *addend2,  %p, addend2]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIInterval *ininter, %p, ininter]
+            - [OCIInterval *outinter, %p, outinter]
+
+OCIIntervalCheck:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIInterval *interval, %p, interval]
+            - [ub4 *valid,            "[0x%x]", "*valid"]
+
+OCIIntervalCompare:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIInterval *inter1,   %p, inter1]
+            - [OCIInterval *inter2,   %p, inter2]
+            - [sword *result,         "[%d]", "*result"]
+
+OCIIntervalDivide:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIInterval *dividend, %p, dividend]
+            - [OCINumber *divisor,    %s, "ocidump_ocinumber(@OCINUMBER_BUF@, divisor)"]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalFromNumber:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIInterval *inter,    %p, inter]
+            - [OCINumber *number,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+
+OCIIntervalFromTZ:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const oratext *inpstring, "\\\"%.*s\\\"", "(int)str_len, inpstring"]
+            - [size_t str_len,        OCIDUMP_SIZET_FMT, str_len]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalFromText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OraText *inpstr, "\\\"%.*s\\\"", "(int)str_len, inpstr"]
+            - [size_t str_len,        OCIDUMP_SIZET_FMT, str_len]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalGetDaySecond:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [sb4 *dy,               "[%d]", "*dy"]
+            - [sb4 *hr,               "[%d]", "*hr"]
+            - [sb4 *mm,               "[%d]", "*mm"]
+            - [sb4 *ss,               "[%d]", "*ss"]
+            - [sb4 *fsec,             "[%d]", "*fsec"]
+            - [const OCIInterval *result, %p, result]
+
+OCIIntervalGetYearMonth:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [sb4 *yr,               "[%d]", "*yr"]
+            - [sb4 *mnth,             "[%d]", "*mnth"]
+            - [const OCIInterval *result, %p, result]
+
+OCIIntervalMultiply:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIInterval *inter, %p, inter]
+            - [OCINumber *nfactor,    %s, "ocidump_ocinumber(@OCINUMBER_BUF@, nfactor)"]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalSetDaySecond:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [sb4 dy,                %d, dy]
+            - [sb4 hr,                %d, hr]
+            - [sb4 mm,                %d, mm]
+            - [sb4 ss,                %d, ss]
+            - [sb4 fsec,              %d, fsec]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalSetYearMonth:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [sb4 yr,                %d, yr]
+            - [sb4 mnth,              %d, mnth]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalSubtract:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [OCIInterval *minuend,  %p, minuend]
+            - [OCIInterval *subtrahend, %p, subtrahend]
+            - [OCIInterval *result,   %p, result]
+
+OCIIntervalToNumber:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIInterval *inter, %p, inter]
+            - [OCINumber *number,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+
+OCIIntervalToText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *hndl,            %p, hndl]
+            - [OCIError *err,         %p, err]
+            - [const OCIInterval *inter, %p, inter]
+            - [ub1 lfprec,            %u, lfprec]
+            - [ub1 fsprec,            %u, fsprec]
+            - [OraText *buffer,       "\\\"%.*s\\\"", "(int)rlen, buffer"]
+            - [size_t buflen,         OCIDUMP_SIZET_FMT, buflen]
+            - [size_t *resultlen,     "[OCIDUMP_SIZET_FMT]", "*resultlen"]
+  :after_call: |
+     size_t rlen = *resultlen;
+
+OCIIterCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIColl *coll,   %p, coll]
+            - [OCIIter **itr,         "[%p]", "*itr"]
+
+OCIIterDelete:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIIter **itr,         "[%p -> %p]", "old_itr, *itr"]
+  :before_call: |
+     OCIIter *old_itr = *itr;
+
+OCIIterGetCurrent:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIIter *itr,    %p, itr]
+            - [void **elem,           "[%p]", "*elem"]
+            - [void **elemind,        %s, "elemind ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *elemind) : \"(nil)\""]
+
+OCIIterInit:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIColl *coll,   %p, coll]
+            - [OCIIter *itr,          %p, itr]
+
+OCIIterNext:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIIter *itr,          %p, itr]
+            - [void **elem,           "[%p]", "*elem"]
+            - [void **elemind,        %s, "elemind ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *elemind) : \"(nil)\""]
+            - [boolean *eoc,          "[%d]", "*eoc"]
+
+OCIIterPrev:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIIter *itr,          %p, itr]
+            - [void **elem,           "[%p]", "*elem"]
+            - [void **elemind,        %s, "elemind ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *elemind) : \"(nil)\""]
+            - [boolean *boc,          "[%d]", "*boc"]
+
+OCILobAppend:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *dst_locp, %p, dst_locp]
+            - [OCILobLocator *src_locp, %p, src_locp]
+
+OCILobArrayRead:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 *array_iter,       %s, "array_iter ? ocidump_sprintf(@SHORT_BUF@, \"[%u -> %u]\", old_array_iter, *array_iter) : \"(nil)\""]
+            - [OCILobLocator **lobp_arr, %p, lobp_arr] # TODO
+            - [oraub8 *byte_amt_arr,  %p, byte_amt_arr] # TODO
+            - [oraub8 *char_amt_arr,  %p, char_amt_arr] # TODO
+            - [oraub8 *offset_arr,    %p, offset_arr] # TODO
+            - [void  **bufp_arr,      %p, bufp_arr] # TODO
+            - [oraub8 *bufl_arr,      %p, bufl_arr] # TODO
+            - [ub1 piece,             %u, piece]
+            - [void *ctxp,            %p, ctxp]
+            - [OCICallbackLobArrayRead cbfp, %p, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     ub4 old_array_iter = array_iter ? *array_iter : 0;
+
+OCILobArrayWrite:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 *array_iter,       %s, "array_iter ? ocidump_sprintf(@SHORT_BUF@, \"[%u -> %u]\", old_array_iter, *array_iter) : \"(nil)\""]
+            - [OCILobLocator **lobp_arr, %p, lobp_arr] # TODO
+            - [oraub8 *byte_amt_arr,  %p, byte_amt_arr] # TODO
+            - [oraub8 *char_amt_arr,  %p, char_amt_arr] # TODO
+            - [oraub8 *offset_arr,    %p, offset_arr] # TODO
+            - [void **bufp_arr,       %p, bufp_arr] # TODO
+            - [oraub8 *bufl_arr,      %p, bufl_arr] # TODO
+            - [ub1 piece,             %u, piece]
+            - [void *ctxp,            %p, ctxp]
+            - [OCICallbackLobArrayWrite cbfp, %p, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     ub4 old_array_iter = array_iter ? *array_iter : 0;
+
+OCILobAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OCILobLocator *src_locp, %p, src_locp]
+            - [OCILobLocator **dst_locpp, "[%p -> %p]", "old_dst_locpp, *dst_locpp"]
+  :before_call: |
+     OCILobLocator *old_dst_locpp = *dst_locpp;
+
+OCILobCharSetForm:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OCILobLocator *locp, %p, locp]
+            - [ub1 *csfrm,            "[%u]", "*csfrm"]
+
+OCILobCharSetId:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OCILobLocator *locp, %p, locp]
+            - [ub2 *csid,             "[%u]", "*csid"]
+
+OCILobClose:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+
+OCILobCopy:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *dst_locp, dst_locp]
+            - [OCILobLocator *src_locp, src_locp]
+            - [ub4 amount,            %u, amount]
+            - [ub4 dst_offset,        %u, dst_offset]
+            - [ub4 src_offset,        %u, src_offset]
+
+OCILobCopy2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *dst_locp, dst_locp]
+            - [OCILobLocator *src_locp, src_locp]
+            - [oraub8 amount,         OCIDUMP_UB8_FMT, amount]
+            - [oraub8 dst_offset,     OCIDUMP_UB8_FMT, dst_offset]
+            - [oraub8 src_offset,     OCIDUMP_UB8_FMT, src_offset]
+
+OCILobCreateTemporary:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub2 csid,              %d, csid]
+            - [ub1 csfrm,             %u, csfrm]
+            - [ub1 lobtype,           %u, lobtype]
+            - [boolean cache,         %d, cache]
+            - [OCIDuration duration,  %u, duration]
+
+OCILobDisableBuffering:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+
+OCILobEnableBuffering:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+
+OCILobErase:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub4 *amount,           "[%u -> %u]", "old_amount, *amount"]
+            - [ub4 offset,            %u, offset]
+  :before_call: |
+     ub4 old_amount = *amount;
+
+OCILobErase2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [oraub8 *amount,        "[OCIDUMP_UB8_FMT -> OCIDUMP_UB8_FMT]", "old_amount, *amount"]
+            - [oraub8 offset,         OCIDUMP_UB8_FMT, offset]
+  :before_call: |
+     oraub8 old_amount = *amount;
+
+OCILobFileClose:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *filep,  %p, filep]
+
+OCILobFileCloseAll:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+
+OCILobFileExists:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *filep,  %p, filep]
+            - [boolean *flag,         "[%d]", "*flag"]
+
+OCILobFileGetName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OCILobLocator *filep, %p, filep]
+            - [text *dir_alias,       "\\\"%.*s\\\"", "dlen, dir_alias"]
+            - [ub2 *d_length,         "[%u]", "dlen"]
+            - [text *filename,        "\\\"%.*s\\\"", "flen, filename"]
+            - [ub2 *f_length,         "[%u]", "flen"]
+  :after_call: |
+     ub2 dlen = *d_length;
+     ub2 flen = *f_length;
+
+OCILobFileIsOpen:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *filep,  %p, filep]
+            - [boolean *flag,         "[%d]", "*flag"]
+
+OCILobFileOpen:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *filep,  %p, filep]
+            - [ub1 mode,              %u, mode]
+
+OCILobFileSetName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator **filepp, "[%p]", "*filepp"]
+            - [const text *dir_alias, "\\\"%.*s\\\"", "d_length, dir_alias"]
+            - [ub2 d_length,          %u, d_length]
+            - [const text *filename,  "\\\"%.*s\\\"", "f_length, filename"]
+            - [ub2 f_length,          %u, f_length]
+
+OCILobFlushBuffer:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub4 flag,              %u, flag]
+
+OCILobFreeTemporary:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+
+OCILobGetChunkSize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub4 *chunksizep,       "[%u]", "*chunksizep"]
+
+OCILobGetContentType:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *lobp,   %p, lobp]
+            - [oratext *contenttypep, %s, "ocidump_quotestring(@BUF_PTR@, contenttypep, *contenttypelenp)"]
+            - [ub4 *contenttypelenp,  "[%u -> %u]", "old_contenttypelen, *contenttypelenp"]
+            - [ub4 mode,              0x%x, mode]
+  :before_call: |
+     ub4 old_contenttypelen = *contenttypelenp;
+
+OCILobGetDeduplicateRegions:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [OCILobRegion *regp,    %p, regp]
+            - [ub4 *count,            "[%u -> %u]", "old_count, *count"]
+            - [ub1 piece,             %u, piece]
+            - [void *ctxp,            %p, ctxp]
+            - [OCICallbackLobGetDeduplicateRegions cbfp, %p, cbfp]
+  :before_call: |
+     ub4 old_count = *count;
+
+OCILobGetLength:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub4 *lenp,             "[%u]", "*lenp"]
+
+OCILobGetLength2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [oraub8 *lenp,          "[OCIDUMP_UB8_FMT]", "*lenp"]
+
+OCILobGetOptions:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *lobp,   %p, lobp]
+            - [ub4 optypes,           0x%x, optypes]
+            - [void *optionsp,        "[0x%x]", "*(ub4*)optionsp"]
+            - [ub4 *optionslenp,      "[%u]", "*optionslenp"]
+            - [ub4 mode,              0x%x, mode]
+
+OCILobGetStorageLimit:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *lobp,   %p, lobp]
+            - [oraub8 *limitp,        "[OCIDUMP_UB8_FMT]", "*limitp"]
+
+OCILobIsEqual:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,      %p, envhp]
+            - [const OCILobLocator *x, %p, x]
+            - [const OCILobLocator *y, %p, y]
+            - [boolean *is_equal,     "[%d]", "*is_equal"]
+
+OCILobIsOpen:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [boolean *flag,         "[%d]", "*flag"]
+
+OCILobIsTemporary:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [boolean *is_temporary, "[%d]", "*is_temporary"]
+
+OCILobLoadFromFile:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *dst_locp, %p, dst_locp]
+            - [OCILobLocator *src_filep, %p, src_filep]
+            - [ub4 amount,            %u, amount]
+            - [ub4 dst_offset,        %u, dst_offset]
+            - [ub4 src_offset,        %u, src_offset]
+
+OCILobLoadFromFile2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *dst_locp, %p, dst_locp]
+            - [OCILobLocator *src_filep, %p, src_filep]
+            - [oraub8 amount,         OCIDUMP_UB8_FMT, amount]
+            - [oraub8 dst_offset,     OCIDUMP_UB8_FMT, dst_offset]
+            - [oraub8 src_offset,     OCIDUMP_UB8_FMT, src_offset]
+
+OCILobLocatorAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OCILobLocator *src_locp, %p, src_locp]
+            - [OCILobLocator **dst_locpp, "[%p -> %p]", "old_dst_locpp, *dst_locpp"]
+  :before_call: |
+     OCILobLocator *old_dst_locpp = *dst_locpp;
+
+OCILobLocatorIsInit:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OCILobLocator *locp, %p, locp]
+            - [boolean *is_initialized, "[%d]", "*is_initialized"]
+
+OCILobOpen:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub1 mode,              %u, mode]
+
+OCILobRead:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub4 *amtp,             "[%u -> %u]", "old_amt, *amtp"]
+            - [ub4 offset,            %u, offset]
+            - [dvoid *bufp,           %p, bufp]
+            - [ub4 bufl,              %u, bufl]
+            - [dvoid *ctxp,           %p, ctxp]
+            - [OCICallbackLobRead cbfp, %p, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     ub4 old_amt = *amtp;
+
+OCILobRead2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [oraub8 *byte_amtp,     "[OCIDUMP_UB8_FMT -> OCIDUMP_UB8_FMT]", "old_byte_amt, *byte_amtp"]
+            - [oraub8 *char_amtp,     "[OCIDUMP_UB8_FMT -> OCIDUMP_UB8_FMT]", "old_char_amt, *char_amtp"]
+            - [oraub8 offset,         OCIDUMP_UB8_FMT, offset]
+            - [dvoid *bufp,           %p, bufp]
+            - [oraub8 bufl,           OCIDUMP_UB8_FMT, bufl]
+            - [ub1 piece,             %u, piece]
+            - [dvoid *ctxp,           %p, ctxp]
+            - [OCICallbackLobRead2 cbfp, %p, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     oraub8 old_byte_amt = *byte_amtp;
+     oraub8 old_char_amt = *char_amtp;
+
+OCILobSetContentType:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *lobp,   %p, lobp]
+            - [const oratext *contenttypep, %s, "ocidump_quotestring(@BUF_PTR@, contenttypep, contenttypelen)"]
+            - [ub4 contenttypelen,    %u, contenttypelen]
+            - [ub4 mode,              0x%x, mode]
+
+OCILobSetOptions:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *lobp,   %p, lobp]
+            - [ub4 optypes,           0x%x, optypes]
+            - [void *optionsp,        "[0x%x]", "*(ub4*)optionsp"]
+            - [ub4 optionslen,        %u, optionslen]
+            - [ub4 mode,              0x%x, mode]
+
+OCILobTrim:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub4 newlen,            %u, newlen]
+
+OCILobTrim2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [oraub8 newlen,         OCIDUMP_UB8_FMT, newlen]
+
+OCILobWrite:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [ub4 *amtp,             "[%u -> %u]", "old_amt, *amtp"]
+            - [ub4 offset,            %u, offset]
+            - [dvoid *bufp,           %p, bufp]
+            - [ub4 buflen,            %u, buflen]
+            - [ub1 piece,             %u, piece]
+            - [dvoid *ctxp,           %p, ctxp]
+            - [OCICallbackLobWrite cbfp, %p, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     ub4 old_amt = *amtp;
+
+OCILobWrite2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *locp,   %p, locp]
+            - [oraub8 *byte_amtp,     "[OCIDUMP_UB8_FMT -> OCIDUMP_UB8_FMT]", "old_byte_amt, *byte_amtp"]
+            - [oraub8 *char_amtp,     "[OCIDUMP_UB8_FMT -> OCIDUMP_UB8_FMT]", "old_char_amt, *char_amtp"]
+            - [oraub8 offset,         OCIDUMP_UB8_FMT, offset]
+            - [dvoid *bufp,           %p, bufp]
+            - [oraub8 buflen,         OCIDUMP_UB8_FMT, buflen]
+            - [ub1 piece,             %u, piece]
+            - [dvoid *ctxp,           %p, ctxp]
+            - [OCICallbackLobWrite2 cbfp, %p, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     oraub8 old_byte_amt = *byte_amtp;
+     oraub8 old_char_amt = *char_amtp;
+
+OCILobWriteAppend:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *lobp,   %p, lobp]
+            - [ub4 *amtp,             "[%u -> %u]", "old_amt, *amtp"]
+            - [void *bufp,            %p, bufp]
+            - [ub4 bufl,              %u, bufl]
+            - [ub1 piece,             %u, piece]
+            - [void *ctxp,            %p, ctxp]
+            - [OCICallbackLobWrite cbfp, %p, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     ub4 old_amt = *amtp;
+
+OCILobWriteAppend2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCILobLocator *lobp,   %p, lobp]
+            - [oraub8 *byte_amtp,     "[OCIDUMP_UB8_FMT -> OCIDUMP_UB8_FMT]", "old_byte_amt, *byte_amtp"]
+            - [oraub8 *char_amtp,     "[OCIDUMP_UB8_FMT -> OCIDUMP_UB8_FMT]", "old_char_amt, *char_amtp"]
+            - [void  *bufp,           %p, bufp]
+            - [oraub8 bufl,           OCIDUMP_UB8_FMT, bufl]
+            - [ub1 piece,             %u, piece]
+            - [void  *ctxp,           %p, ctxp]
+            - [OCICallbackLobWrite2 cbfp, cbfp]
+            - [ub2 csid,              %u, csid]
+            - [ub1 csfrm,             %u, csfrm]
+  :before_call: |
+     oraub8 old_byte_amt = *byte_amtp;
+     oraub8 old_char_amt = *char_amtp;
+
+
 OCILogoff:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
 
 OCILogon:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv *envhp,         %p, envhp]
             - [OCIError *errhp,       %p, errhp]
             - [OCISvcCtx **svchp,     "[%p]", "*svchp"]
-            - [const text *username,  "\\\"%.*s\\\"", "uname_len, username"]
+            - [const text *username,  %s, "ocidump_quotestring(@BUF_PTR@, username, uname_len)"]
             - [ub4 uname_len,         %u, uname_len]
-            - [const text *password,  "\\\"%.*s\\\"", "passwd_len, password"]
+            - [const text *password,  %s, "ocidump_quotestring(@BUF_PTR@, password, passwd_len)"]
             - [ub4 passwd_len,        %u, passwd_len]
-            - [const text *dbname,    "\\\"%.*s\\\"", "dbname_len, dbname"]
-            - [ub4 dbname_len,         %u, dbname_len]
-  :secret:    placeholder = "secret"; placeh_len = strlen(placeholder);
+            - [const text *dbname,    %s, "ocidump_quotestring(@BUF_PTR@, dbname, dbname_len)"]
+            - [ub4 dbname_len,        %u, dbname_len]
+
+OCILogon2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCISvcCtx **svchp,     "[%p]", "*svchp"]
+            - [const text *username,  %s, "ocidump_quotestring(@BUF_PTR@, username, uname_len)"]
+            - [ub4 uname_len,         %u, uname_len]
+            - [const text *password,  %s, "ocidump_quotestring(@BUF_PTR@, password, passwd_len)"]
+            - [ub4 passwd_len,        %u, passwd_len]
+            - [const text *dbname,    %s, "ocidump_quotestring(@BUF_PTR@, dbname, dbname_len)"]
+            - [ub4 dbname_len,        %u, dbname_len]
+            - [ub4 mode,              0x%x, mode]
+
+OCIMessageClose:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void  *envhp,          %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIMsg *msghp,         %p, msghp]
+
+OCIMessageGet:
+  :ret:       [OraText *,             %s, "ret ? ocidump_asprintf(@BUF_PTR@, \"\\\"%s\\\"\", ret) : \"(nil)\""]
+  :args:    - [OCIMsg *msgh,          %p, msgh]
+            - [ub4 msgno,             %u, msgno]
+            - [OraText *msgbuf,       "\\\"%.*s\\\"", "(int)buflen, msgbuf"]
+            - [size_t buflen,         OCIDUMP_SIZET_FMT, buflen]
+
+OCIMessageOpen:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [dvoid *envhp,          %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIMsg **msghp,        "[%p]", "*msghp"]
+            - [const OraText *product, "\\\"%s\\\"", product]
+            - [const OraText *facility, "\\\"%s\\\"", facility]
+            - [OCIDuration dur,       %u, dur]
+
+OCINlsCharSetIdToName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [dvoid *envhp,          %p, envhp]
+            - [oratext *buf,          "\\\"%.*s\\\"", "(int)buflen, buf"]
+            - [size_t buflen,         OCIDUMP_SIZET_FMT, buflen]
+            - [ub2 id,                %u, id]
+
+OCINlsCharSetNameToId:
+  :ret:       [ub2,                   %u, ret]
+  :args:    - [dvoid *envhp,          %p, envhp]
+            - [const oratext *name,   %s, name]
+
+OCINumberAbs:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %p, number]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberAdd:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number1, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number1)"]
+            - [const OCINumber *number2, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number2)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberArcCos:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %p, number]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberArcSin:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberArcTan:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberArcTan2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number1, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number1)"]
+            - [const OCINumber *number2, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number2)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *from, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, from)"]
+            - [OCINumber *to,         %s, "ocidump_ocinumber(@OCINUMBER_BUF@, to)"]
+
+OCINumberCeil:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberCmp:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number1, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number1)"]
+            - [const OCINumber *number2, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number2)"]
+            - [sword *result,         "[%d]", "*result"]
+
+OCINumberCos:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberDec:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [OCINumber *number,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+
+OCINumberDiv:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number1, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number1)"]
+            - [const OCINumber *number2, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number2)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberExp:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberFloor:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberFromInt:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const dvoid *inum,     %p, inum]
+            - [uword inum_length,     %u, inum_length]
+            - [uword inum_s_flag,     %u, inum_s_flag]
+            - [OCINumber *number,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+
+OCINumberFromReal:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const dvoid *rnum,     %p, rnum]
+            - [uword rnum_length,     %u, rnum_length]
+            - [OCINumber *number,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+
+OCINumberFromText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const text *str,       %s, "ocidump_quotestring(@BUF_PTR@, str, str_length)"]
+            - [ub4 str_length,        %u, str_length]
+            - [const text *fmt,       %s, "ocidump_quotestring(@BUF_PTR@, fmt, fmt_length)"]
+            - [ub4 fmt_length,        %u, fmt_length]
+            - [const text *nls_params, %s, "ocidump_quotestring(@BUF_PTR@, nls_params, nls_p_length)"]
+            - [ub4 nls_p_length,      %u, nls_p_length]
+            - [OCINumber *number,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+
+OCINumberHypCos:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberHypSin:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberHypTan:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberInc:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [OCINumber *number,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+
+OCINumberIntPower:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *base, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, base)"]
+            - [const sword exp,       %d, exp]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberIsInt:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [boolean *result,       "[%d]", "*result"]
+
+OCINumberIsZero:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [boolean *result,       "[%d]", "*result"]
+
+OCINumberLn:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberLog:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *base, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, base)"]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberMod:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number1, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number1)"]
+            - [const OCINumber *number2, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number2)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberMul:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :version: 800
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number1, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number1)"]
+            - [const OCINumber *number2, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number2)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberNeg:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberPower:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *base, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, base)"]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberPrec:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [eword nDigs,           %d, nDigs]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberRound:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [sword decplace,        %d, decplace]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberSetPi:
+  :ret:       [void]
+  :args:    - [OCIError *err,         %p, err]
+            - [OCINumber *num,        %s, "ocidump_ocinumber(@OCINUMBER_BUF@, num)"]
+
+OCINumberSetZero:
+  :ret:       [void]
+  :args:    - [OCIError *err,         %p, err]
+            - [OCINumber *num,        %s, "ocidump_ocinumber(@OCINUMBER_BUF@, num)"]
+
+OCINumberShift:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [const sword nDig,      %d, nDig]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberSign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [sword *result,         "[%d]", "*result"]
+
+OCINumberSin:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %p, result]
+
+OCINumberSqrt:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberSub:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number1, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number1)"]
+            - [const OCINumber *number2, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number2)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberTan:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCINumberToInt:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [uword rsl_length,      %u, rsl_length]
+            - [uword rsl_flag,        %u, rsl_flag]
+            - [dvoid *rsl,            %p, rsl]
+
+OCINumberToReal:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [uword rsl_length,      %u, rsl_length]
+            - [dvoid *rsl,            %p, rsl]
+
+OCINumberToRealArray:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber **number, "[%s, ...]", "elems ? ocidump_ocinumber(@OCINUMBER_BUF@, *number) : \"\""]
+            - [uword elems,           %u, elems]
+            - [uword rsl_length,      %u, rsl_length]
+            - [dvoid *rsl,            %p, rsl]
+
+OCINumberToText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [const text *fmt,       %s, "ocidump_quotestring(@BUF_PTR@, fmt, fmt_length)"]
+            - [ub4 fmt_length,        %u, fmt_length]
+            - [const text *nls_params, %s, "ocidump_quotestring(@BUF_PTR@, nls_params, nls_p_length)"]
+            - [ub4 nls_p_length,      %u, nls_p_length]
+            - [ub4 *buf_size,         "[%u]", "*buf_size"]
+            - [text *buf,             %s, "ret ? \"\" : ocidump_quotestring(@BUF_PTR@, buf, *buf_size)"]
+
+OCINumberTrunc:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIError *err,         %p, err]
+            - [const OCINumber *number, %s, "ocidump_ocinumber(@OCINUMBER_BUF@, number)"]
+            - [sword decplace,        %d, decplace]
+            - [OCINumber *result,     %s, "ocidump_ocinumber(@OCINUMBER_BUF@, result)"]
+
+OCIObjectAlwaysLatest:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void  *object,         %p, object]
+
+OCIObjectArrayPin:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIRef **ref_array,    %s, "ref_array ? ocidump_sprintf(@SHORT_BUF@, \"[%p, ...]\", *ref_array) : \"(nil)\""]
+            - [ub4 array_size,        %u, array_size]
+            - [OCIComplexObject **cor_array, %s, "cor_array ? ocidump_sprintf(@SHORT_BUF@, \"[%p, ...]\", *cor_array) : \"(nil)\""]
+            - [ub4 cor_array_size,    %u, cor_array_size]
+            - [OCIPinOpt pin_option,  %d, pin_option]
+            - [OCIDuration pin_duration, %u, pin_duration]
+            - [OCILockOpt lock,       %d, lock]
+            - [void **obj_array,      %s, "obj_array ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *obj_array) : \"(nil)\""]
+            - [ub4 *pos,              "[%u]", "*pos"]
+
+OCIObjectCopy:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [void *source,          %p, source]
+            - [void *null_source,     %p, null_source]
+            - [void *target,          %p, target]
+            - [void *null_target,     %p, null_target]
+            - [OCIType *tdo,          %p, tdo]
+            - [OCIDuration duration,  %u, duration]
+            - [ub1 option,            %u, option]
+
+OCIObjectExists:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *ins,             %p, ins]
+            - [boolean *exist,        "[%d]", "*exist"]
+
+OCIObjectFlush:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
+OCIObjectFlushRefresh:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
 
 OCIObjectFree:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [dvoid *instance,       %p, instance]
             - [ub2 flags,             %u, flags]
 
+OCIObjectGetAttr:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *instance,        %p, instance]
+            - [void *null_struct,     %p, null_struct]
+            - [struct OCIType *tdo,   %p, tdo]
+            - [const oratext **names, %s, "names ? ocidump_sprintf(@SHORT_BUF@, \"[%p, ...]\", *names) : \"(nil)\""]
+            - [const ub4 *lengths,    %s, "lengths ? ocidump_sprintf(@SHORT_BUF@, \"[%u, ...]\", *lengths) : \"(nil)\""]
+            - [const ub4 name_count,  %u, name_count]
+            - [const ub4 *indexes,    %s, "indexes ? ocidump_sprintf(@SHORT_BUF@, \"[%u, ...]\", *indexes) : \"(nil)\""]
+            - [const ub4 index_count, %u, index_count]
+            - [OCIInd *attr_null_status, %s, "attr_null_status ? ocidump_sprintf(@SHORT_BUF@, \"[%d]\", *attr_null_status) : \"(nil)\""]
+            - [void **attr_null_struct, %s, "attr_null_struct ? ocidump_sprintf(@SHORT_BUF@, \"[%p]\", *attr_null_struct) : \"(nil)\""]
+            - [void **attr_value,    "[%p]", "*attr_value"]
+            - [struct OCIType **attr_tdo, "[%p]", "*attr_tdo"]
+
 OCIObjectGetInd:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [dvoid *instance,       %p, instance]
             - [dvoid **null_struct,   "[%p]", "*null_struct"]
 
+OCIObjectGetNewOID:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCISvcCtx *svc,        %p, svc]
+            - [ub1 *oid,              %s, "oid ? ocidump_sprintf(@SHORT_BUF@, \"%u\", *oid) : \"(nil)\""]
+
+OCIObjectGetObjectRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+            - [OCIRef *object_ref,    %p, object_ref]
+
+OCIObjectGetPrimaryKeyTypeRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [void *table,           %p, table]
+            - [OCIRef *type_ref,      %p, type_ref]
+
+OCIObjectGetProperty:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const void *obj,       %p, obj]
+            - [OCIObjectPropId propertyId, %u, propertyId]
+            - [void *property,        %p, property]
+            - [ub4 *size,             "[%u -> %u]", "old_size, *size"]
+  :before_call: |
+     ub4 old_size = *size;
+
+OCIObjectGetTypeRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *instance,        %p, instance]
+            - [OCIRef *type_ref,      %p, type_ref]
+
+OCIObjectIsDirtied:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *ins,             %p, ins]
+            - [boolean *dirty,        "[%d]", "*dirty"]
+
+OCIObjectIsDirty:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *ins,             %p, ins]
+            - [boolean *dirty,        "[%d]", "*dirty"]
+
+OCIObjectIsLoaded:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *ins,             %p, ins]
+            - [boolean *load,         "[%d]", "*load"]
+
+OCIObjectIsLocked:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *ins,             %p, ins]
+            - [boolean *lock,         "[%d]", "*lock"]
+
+OCIObjectLock:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
+OCIObjectLockNoWait:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
+OCIObjectMakeObjectRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [void *table,           %p, table]
+            - [void **values,         "[%p, ...]", "*values"]
+            - [ub4 array_len,         %u, array_len]
+            - [OCIRef *object_ref,    %p, object_ref]
+
+OCIObjectMarkDelete:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *instance,        %p, instance]
+
+OCIObjectMarkDeleteByRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIRef *object_ref,    %p, object_ref]
+
+OCIObjectMarkUpdate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
 OCIObjectNew:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [const OCISvcCtx *svc,  %p, svc]
@@ -235,8 +2111,14 @@ OCIObjectNew:
             - [boolean value,         %d, value]
             - [dvoid **instance,      "[%p]", "*instance"]
 
+OCIObjectNotAlwaysLatest:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
 OCIObjectPin:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [OCIRef *object_ref,    %p, object_ref]
@@ -246,33 +2128,248 @@ OCIObjectPin:
             - [OCILockOpt lock_option, %u, lock_option]
             - [dvoid **object,        "[%p]", "*object"]
 
+OCIObjectPinCountReset:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
+OCIObjectPinTable:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [const oratext *schema_name, %s, "ocidump_quotestring(@BUF_PTR@, schema_name, s_n_length)"]
+            - [ub4 s_n_length,        %u, s_n_length]
+            - [const oratext *object_name, %s, "ocidump_quotestring(@BUF_PTR@, object_name, o_n_length)"]
+            - [ub4 o_n_length,        %u, o_n_length]
+            - [const OCIRef *scope_obj_ref, %p, scope_obj_ref]
+            - [OCIDuration pin_duration, %u, pin_duration]
+            - [void **object,         "[%p]", "*object"]
+
+OCIObjectRefresh:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
+OCIObjectSetAttr:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *instance,        %p, instance]
+            - [void *null_struct,     %p, null_struct]
+            - [struct OCIType *tdo,   %p, tdo]
+            - [const oratext **names, %p, "names ? ocidump_sprintf(@SHORT_BUF@, \"[%p, ...]\", *names) : \"(nil)\""]
+            - [const ub4 *lengths,    %p, "lengths ? ocidump_sprintf(@SHORT_BUF@, \"[%u, ...]\", *lengths) : \"(nil)\""]
+            - [const ub4 name_count,  %u, name_count]
+            - [const ub4 *indexes,    %s, "indexes ? ocidump_sprintf(@SHORT_BUF@, \"[%u, ...]\", *indexes) : \"(nil)\""]
+            - [const ub4 index_count, %u, index_count]
+            - [const OCIInd null_status, %d, null_status]
+            - [const void *attr_null_struct, %p, attr_null_struct]
+            - [const void *attr_value, %p, attr_value]
+
+OCIObjectSetData:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *obj_hdr,         %p, obj_hdr]
+            - [void *data,            %p, data]
+
+OCIObjectUnmark:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [void *object,          %p, object]
+
+OCIObjectUnmarkByRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIRef *ref,           %p, ref]
+
 OCIObjectUnpin:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIEnv *env,           %p, env]
             - [OCIError *err,         %p, err]
             - [dvoid *object,         %p, object]
 
 OCIParamGet:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [const dvoid *hndlp,    %p, hndlp]
-            - [ub4 htype,             %s, "ocidump_htype2name(htype, @NAME_BUF@)"]
+            - [ub4 htype,             %s, "ocidump_htype2name(htype, @SHORT_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
             - [dvoid **parmdpp,       "[%p]", "*parmdpp"]
             - [ub4 pos,               %u, pos]
 
+OCIPasswordChange:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [const OraText *user_name, %s, "ocidump_quotestring(@BUF_PTR@, user_name, usernm_len)"]
+            - [ub4 usernm_len,        %d, usernm_len]
+            - [const OraText *opasswd, %s, "ocidump_quotestring(@BUF_PTR@, opasswd, opasswd_len)"]
+            - [ub4 opasswd_len,       %d, opasswd_len]
+            - [const OraText *npasswd, %s, "ocidump_quotestring(@BUF_PTR@, npasswd, npasswd_len)"]
+            - [ub4 npasswd_len,       %d, npasswd_len]
+            - [ub4 mode,              %d, mode]
+
 OCIPing:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 mode,              0x%x, mode]
 
+OCIRawAllocSize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIRaw *raw,     %p, raw]
+            - [ub4 *allocsize,        "[%u]", "*allocsize"]
+
+OCIRawAssignBytes:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const ub1 *rhs,        %p, rhs]
+            - [ub4 rhs_len,           %u, rhs_len]
+            - [OCIRaw **lhs,          "[%p -> %p]", "old_lhs, *lhs"]
+  :before_call: |
+     OCIRaw *old_lhs = *lhs;
+
+OCIRawAssignRaw:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIRaw *rhs,     %p, rhs]
+            - [OCIRaw **lhs,          "[%p -> %p]", "old_lhs, *lhs"]
+  :before_call: |
+     OCIRaw *old_lhs = *lhs;
+
+OCIRawPtr:
+  :ret:       [ub1 *,                 %p, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIRaw *raw,     %p, raw]
+
+OCIRawResize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [ub4 new_size,          %u, new_size]
+            - [OCIRaw **raw,          "[%p -> %p]", "old_raw, *raw"]
+  :before_call: |
+     OCIRaw *old_raw = *raw;
+
+OCIRawSize:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIRaw *raw,     %p, raw]
+
+OCIRefAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIRef *source,  %p, source]
+            - [OCIRef **target,       "[%p -> %p]", "old_target, *target"]
+  :before_call: |
+     OCIRef *old_target = *target;
+
+OCIRefClear:
+  :ret:       [void]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIRef *ref,           %p, ref]
+
+OCIRefFromHex:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [const oratext *hex,    "\\\"%.*s\\\"", "length, hex"]
+            - [ub4 length,            %u, length]
+            - [OCIRef **ref,          "[%p -> %p]", "old_ref, *ref"]
+  :before_call: |
+     OCIRef *old_ref = *ref;
+
+OCIRefHexSize:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIRef *ref,     %p, ref]
+
+OCIRefIsEqual:
+  :ret:       [boolean,               %d, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIRef *x,       %p, x]
+            - [const OCIRef *y,       %p, y]
+
+OCIRefIsNull:
+  :ret:       [boolean,               %d, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIRef *ref,     %p, ref]
+
+OCIRefToHex:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIRef *ref,     %p, ref]
+            - [oratext *hex,          "\\\"%.*s\\\"", "new_hex_length, hex"]
+            - [ub4 *hex_length,       "[%u -> %u]", "old_hex_length, *hex_length"]
+  :before_call: |
+     ub4 old_hex_length = *hex_length;
+  :after_call: |
+     ub4 new_hex_length = *hex_length;
+
 OCIReset:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
             - [OCIError *errhp,       %p, errhp]
 
+OCIResultSetToStmt:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIResult *rsetdp,     %p, rsetdp]
+            - [OCIError *errhp,       %p, errhp]
+
+OCIRowidToChar:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIRowid *rowidDesc,   %p, rowidDesc]
+            - [OraText *outbfp,       "\\\"%.*s\\\"", "outbfl, outbfp"]
+            - [ub2 *outbflp,          "[%u]", "outbfl"]
+            - [OCIError *errhp,       %p, errhp]
+  :after_call: |
+     ub2 outbfl = (ret == 0) ? *outbflp : 0;
+
+OCIServerAttach:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIServer *srvhp,      %p, srvhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [CONST text *dblink,    %s, "ocidump_quotestring(@BUF_PTR@, dblink, dblink_len)"]
+            - [sb4 dblink_len,        %d, dblink_len]
+            - [ub4 mode,              0x%x, mode]
+
+OCIServerDetach:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIServer *srvhp,      %p, srvhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 mode,              0x%x, mode]
+
+OCIServerRelease:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [dvoid *hndlp,          %p, hndlp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OraText *bufp,         "\\\"%.*s\\\"", "bufsz, bufp"]
+            - [ub4 bufsz,             %u, bufsz]
+            - [ub1 hndltype,          %s, "ocidump_htype2name(hndltype, @SHORT_BUF@)"]
+            - [ub4 *version,          "[0x%08x]", "version ? *version : 0"]
+
+OCIServerVersion:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [dvoid *hndlp,          %p, hndlp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OraText *bufp,         "\\\"%.*s\\\"", "bufsz, bufp"]
+            - [ub4 bufsz,             %u, bufsz]
+            - [ub1 hndltype,          %s, "ocidump_htype2name(hndltype, @SHORT_BUF@)"]
+
 OCISessionBegin:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [OCISession *usrhp,     %p, usrhp]
@@ -280,45 +2377,73 @@ OCISessionBegin:
             - [ub4 mode,              0x%x, mode]
 
 OCISessionEnd:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [OCISession *usrhp,     %p, usrhp]
             - [ub4 mode,              0x%x, mode]
 
-OCIServerAttach:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
-  :args:    - [OCIServer *srvhp,      %p, srvhp]
+OCISessionGet:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
             - [OCIError *errhp,       %p, errhp]
-            - [CONST text *dblink,    "\\\"%.*s\\\"", "dblink_len, dblink"]
-            - [sb4 dblink_len,        %d, dblink_len]
+            - [OCISvcCtx **svchp,     "[%p]", "*svchp"]
+            - [OCIAuthInfo *authhp,   %p, authhp]
+            - [OraText *poolName,     %s, "ocidump_quotestring(@BUF_PTR@, poolName, poolName_len)"]
+            - [ub4 poolName_len,      %u, poolName_len]
+            - [const OraText *tagInfo, %s, "ocidump_quotestring(@BUF_PTR@, tagInfo, tagInfo_len)"]
+            - [ub4 tagInfo_len,       %u, tagInfo_len]
+            - [OraText **retTagInfo,  %s, "ocidump_quotestring2(@BUF_PTR@, retTagInfo, retTagInfo_len)"]
+            - [ub4 *retTagInfo_len,   %s, "retTagInfo_len ? ocidump_sprintf(@SHORT_BUF@, \"[%u]\", *retTagInfo_len) : \"(nil)\""]
+            - [boolean *found,        %s, "found ? ocidump_sprintf(@SHORT_BUF@, \"[%d]\", *found) : \"(nil)\""]
             - [ub4 mode,              0x%x, mode]
 
-OCIServerDetach:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
-  :args:    - [OCIServer *srvhp,      %p, srvhp]
+OCISessionPoolCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *envhp,         %p, envhp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCISPool *spoolhp,     %p, spoolhp]
+            - [OraText **poolName,    "[\\\"%.*s\\\"]", "len, name"]
+            - [ub4 *poolNameLen,      "[%u]", "*poolNameLen"]
+            - [const OraText *connStr, %s, "ocidump_quotestring(@BUF_PTR@, connStr, connStrLen)"]
+            - [ub4 connStrLen,        %u, connStrLen]
+            - [ub4 sessMin,           %u, sessMin]
+            - [ub4 sessMax,           %u, sessMax]
+            - [ub4 sessIncr,          %u, sessIncr]
+            - [OraText *userid,       %s, "ocidump_quotestring(@BUF_PTR@, userid, useridLen)"]
+            - [ub4 useridLen,         %u, useridLen]
+            - [OraText *password,     %s, "ocidump_quotestring(@BUF_PTR@, password, passwordLen)"]
+            - [ub4 passwordLen,       %u, passwordLen]
+            - [ub4 mode,              0x%x, mode]
+  :after_call: |
+     OraText *name = *poolName;
+     ub4 len = (ret == 0) ? *poolNameLen : 0;
+
+OCISessionPoolDestroy:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISPool *spoolhp,     %p, spoolhp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 mode,              0x%x, mode]
 
-OCIServerRelease:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
-  :args:    - [dvoid *hndlp,          %p, hndlp]
+OCISessionRelease:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
-            - [OraText *bufp,         "\\\"%.*s\\\"", "bufsz, bufp"]
-            - [ub4 bufsz,             %u, bufsz]
-            - [ub1 hndltype,          %s, "ocidump_htype2name(hndltype, @NAME_BUF@)"]
-            - [ub4 *version,          "[0x%08x]", "version ? *version : 0"]
+            - [OraText *tag,          %s, "ocidump_quotestring(@BUF_PTR@, tag, tag_len)"]
+            - [ub4 tag_len,           %u, tag_len]
+            - [ub4 mode,              0x%x, mode]
 
-OCIServerVersion:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
-  :args:    - [dvoid *hndlp,          %p, hndlp]
-            - [OCIError *errhp,       %p, errhp]
-            - [OraText *bufp,         "\\\"%.*s\\\"", "bufsz, bufp"]
-            - [ub4 bufsz,             %u, bufsz]
-            - [ub1 hndltype,          %s, "ocidump_htype2name(hndltype, @NAME_BUF@)"]
+OCISharedLibInit:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [void *metaCtx,         %p, metaCtx]
+            - [void *libCtx,          %p, libCtx]
+            - [ub4 argfmt,            %u, argfmt]
+            - [sword argc,            %d, argc]
+            - [void **argv,           %p, argv]
+            - [OCIEnvCallbackType envCallback, %p, envCallback]
 
 OCIStmtExecute:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
@@ -329,57 +2454,80 @@ OCIStmtExecute:
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtFetch:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 nrows,             %u, nrows]
             - [ub2 orientation,       0x%x, orientation]
             - [ub4 mode,              0x%x, mode]
 
+OCIStmtFetch2:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIStmt *stmtp,        %p, stmtp]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 nrows,             %u, nrows]
+            - [ub2 orientation,       0x%x, orientation]
+            - [sb4 scrollOffset,      %d, scrollOffset]
+            - [ub4 mode,              0x%x, mode]
+
+OCIStmtGetBindInfo:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIStmt *stmtp,        %p, stmtp]
+            - [OCIError *errhp,       %p, errhp]
+            - [ub4 size,              %u, size]
+            - [ub4 startloc,          %u, startloc]
+            - [sb4 *found,            "[%d]", "*found"]
+            - ["OraText *bvnp[]",     %p, bvnp] # TODO: print bind info
+            - ["ub1 bvnl[]",          %p, bvnl] # ditto
+            - ["OraText *invp[]",     %p, invp] # ditto
+            - ["ub1 inpl[]",          %p, inpl] # ditto
+            - ["ub1 dupl[]",          %p, dupl] # ditto
+            - [OCIBind **hndl,        %p, hndl] # ditto
+
 OCIStmtGetPieceInfo:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
             - [dvoid **hndlpp,        "[%p]", "*hndlpp"]
-            - [ub4 *typep,            "[%s]", "ocidump_htype2name(*typep, @NAME_BUF@)"]
+            - [ub4 *typep,            "[%s]", "ocidump_htype2name(*typep, @SHORT_BUF@)"]
             - [ub1 *in_outp,          "[%u]", "*in_outp"]
             - [ub4 *iterp,            "[%u]", "*iterp"]
             - [ub4 *idxp,             "[%u]", "*idxp"]
             - [ub1 *piecep,           "[%u]", "*piecep"]
 
 OCIStmtPrepare:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
-            - [const OraText *stmt,   "\\\"%.*s\\\"", "stmt_len, stmt"]
+            - [const OraText *stmt,   %s, "ocidump_quotestring(@BUF_PTR@, stmt, stmt_len)"]
             - [ub4 stmt_len,          %u, stmt_len]
             - [ub4 language,          %u, language]
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtPrepare2:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIStmt **stmtp,       "[%p]", "*stmtp"]
             - [OCIError *errhp,       %p, errhp]
-            - [const OraText *stmt,   "\\\"%.*s\\\"", "stmt_len, stmt"]
+            - [const OraText *stmt,   %s, "ocidump_quotestring(@BUF_PTR@, stmt, stmt_len)"]
             - [ub4 stmt_len,          %u, stmt_len]
-            - [const OraText *key,    "\\\"%.*s\\\"", "key_len, key"]
+            - [const OraText *key,    %s, "ocidump_quotestring(@BUF_PTR@, key, key_len)"]
             - [ub4 key_len,           %u, key_len]
             - [ub4 language,          %u, language]
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtRelease:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCIStmt *stmtp,        %p, stmtp]
             - [OCIError *errhp,       %p, errhp]
-            - [const OraText *key,    "\\\"%.*s\\\"", "key_len, key"]
+            - [const OraText *key,    %s, "ocidump_quotestring(@BUF_PTR@, key, key_len)"]
             - [ub4 key_len,           %u, key_len]
             - [ub4 mode,              0x%x, mode]
 
 OCIStmtSetPieceInfo:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @NAME_BUF@)"]
+            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
             - [OCIError *errhp,       %p, errhp]
             - [CONST dvoid *bufp,     %p, bufp]
             - [ub4 *alenp,            %p, alenp]
@@ -387,14 +2535,510 @@ OCIStmtSetPieceInfo:
             - [CONST dvoid *indp,     %p, indp]
             - [ub2 *rcodep,           %p, rcodep]
 
+OCIStringAllocSize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIString *vs,   %p, vs]
+            - [ub4 *allocsize,        "[%u]", "*allocsize"]
+
+OCIStringAssign:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIString *rhs,  %p, rhs]
+            - [OCIString **lhs,       "[%p -> %p]", "old_lhs, *lhs"]
+  :before_call: |
+     OCIString *old_lhs = *lhs;
+
+OCIStringAssignText:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const text *rhs,       %s, "ocidump_quotestring(@BUF_PTR@, rhs, rhs_len)"]
+            - [ub4 rhs_len,           %u, rhs_len]
+            - [OCIString **lhs,       "[%p -> %p]", "old_lhs, *lhs"]
+  :before_call: |
+     OCIString *old_lhs = *lhs;
+
+OCIStringPtr:
+  :ret:       [text *,                %p, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIString *vs,   %p, vs]
+
+OCIStringResize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [ub4 new_size,          %u, new_size]
+            - [OCIString **str,       "[%p -> %p]", "old_str, *str"]
+  :before_call: |
+     OCIString *old_str = *str;
+
+OCIStringSize:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [const OCIString *vs,   %p, vs]
+
+OCITableDelete:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [sb4 index,             %d, index]
+            - [OCITable *tbl,         %p, tbl]
+
+OCITableExists:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITable *tbl,   %p, tbl]
+            - [sb4 index,             %d, index]
+            - [boolean *exists,       "[%d]", "*exists"]
+
+OCITableFirst:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITable *tbl,   %p, tbl]
+            - [sb4 *index,            "[%d]", "*index"]
+
+OCITableLast:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITable *tbl,   %p, tbl]
+            - [sb4 *index,            "[%d]", "*index"]
+
+OCITableNext:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [sb4 index,             %d, index]
+            - [const OCITable *tbl,   %p, tbl]
+            - [sb4 *next_index,       "[%d]", "*next_index"]
+            - [boolean *exists,       "[%d]", "*exists"]
+
+OCITablePrev:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [sb4 index,             %d, index]
+            - [const OCITable *tbl,   %p, tbl]
+            - [sb4 *prev_index,       "[%d]", "*prev_index"]
+            - [boolean *exists,       "[%d]", "*exists"]
+
+OCITableSize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITable *tbl,   %p, tbl]
+            - [sb4 *size,             "[%d]", "*size"]
+
 OCITransCommit:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 flags,             0x%x, flags]
 
 OCITransRollback:
-  :ret:       [sword,                 %s, "ocidump_status2name(ret, @NAME_BUF@)"]
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [OCISvcCtx *svchp,      %p, svchp]
             - [OCIError *errhp,       %p, errhp]
             - [ub4 flags,             0x%x, flags]
+
+OCITypeAddAttr:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIType *type,         %p, type]
+            - [const oratext *a_name, %s, "ocidump_quotestring(@BUF_PTR@, a_name, a_length)"]
+            - [ub4 a_length,          %u, a_length]
+            - [OCIParam *attr_info,   %p, attr_info]
+
+OCITypeArrayByName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [ub4 array_len,         %u, array_len]
+            - ["const oratext *schema_name[]", "[%s, ...]", "ocidump_quotestring(@BUF_PTR@, schema_name[0], s_length[0])"] # TODO: print up to array_len
+            - ["ub4 s_length[]",        "[%u, ...]", "s_length[0]"]
+            - ["const oratext *type_name[]", "[%s, ...]", "ocidump_quotestring(@BUF_PTR@, type_name[0], t_length[0])"]
+            - ["ub4 t_length[]",        "[%u, ...]", "t_length[0]"]
+            - ["const oratext *version_name[]", %s, "version_name ? ocidump_asprintf(@BUF_PTR@, \"[%s, ...]\", ocidump_quotestring(@BUF_PTR@, version_name[0], v_length[0])) : \"(nil)\""]
+            - ["ub4 v_length[]",        %s, "v_length ? ocidump_sprintf(@SHORT_BUF@, \"[%u, ...]\", v_length[0]) : \"(nil)\""]
+            - [OCIDuration pin_duration, %u, pin_duration]
+            - [OCITypeGetOpt get_option, %d, get_option]
+            - [OCIType **tdo,         "[%p]", "*tdo"]
+
+OCITypeArrayByRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [ub4 array_len,         %u, array_len]
+            - [const OCIRef **type_ref, "[%p, ...]", "*type_ref"] # TODO: print up to array_len
+            - [OCIDuration pin_duration, %u, pin_duration]
+            - [OCITypeGetOpt get_option, %d, get_option]
+            - [OCIType **tdo,         "[%p]", "*tdo"]
+
+OCITypeAttrByName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [const oratext *name,   %s, "ocidump_quotestring(@BUF_PTR@, name, n_length)"]
+            - [ub4 n_length,          %u, n_length]
+            - [OCITypeElem **elem,    "[%p]", "*elem"]
+
+OCITypeAttrNext:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCITypeIter *iterator_ort, %p, iterator_ort]
+            - [OCITypeElem **elem,    "[%p]", "*elem"]
+
+OCITypeAttrs:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+
+OCITypeBeginCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCITypeCode tc,        %u, tc]
+            - [OCIDuration dur,       %u, dur]
+            - [OCIType **type,        "[%p]", "*type"]
+
+OCITypeByName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCISvcCtx *svc,  %p, svc]
+            - [const oratext *schema_name, %s, "ocidump_quotestring(@BUF_PTR@, schema_name, s_length)"]
+            - [ub4 s_length,          %u, s_length]
+            - [const oratext *type_name, %s, "ocidump_quotestring(@BUF_PTR@, type_name, t_length)"]
+            - [ub4 t_length,          %u, t_length]
+            - [const oratext *version_name, %s, "ocidump_quotestring(@BUF_PTR@, version_name, v_length)"]
+            - [ub4 v_length,          %u, v_length]
+            - [OCIDuration pin_duration, %u, pin_duration]
+            - [OCITypeGetOpt get_option, %d, get_option]
+            - [OCIType **tdo,         "[%p]", "*tdo"]
+
+OCITypeByRef:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIRef *type_ref, %p, type_ref]
+            - [OCIDuration pin_duration, %u, pin_duration]
+            - [OCITypeGetOpt get_option, %d, get_option]
+            - [OCIType **tdo,         "[%p]", "*tdo"]
+
+OCITypeCollElem:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [OCITypeElem **element, "[%p]", "*element"]
+
+OCITypeCollExtTypeCode:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [OCITypeCode *sqt_code, "[%u]", "*sqt_code"]
+
+OCITypeCollSize:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [ub4 *num_elems,        "[%u]", "*num_elems"]
+
+OCITypeCollTypeCode:
+  :ret:       [OCITypeCode,           %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+
+OCITypeElemCharSetForm:
+  :ret:       [ub2,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemCharSetID:
+  :ret:       [ub2,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemDefaultValue:
+  :ret:       [oratext* ,             %s, "ocidump_quotestring(@BUF_PTR@, ret, *d_v_length)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+            - [ub4 *d_v_length,       "[%u]", "*d_v_length"]
+
+OCITypeElemExtTypeCode:
+  :ret:       [OCITypeCode,           %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemFlags:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemLength:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemName:
+  :ret:       [oratext* ,             %s, "ocidump_quotestring(@BUF_PTR@, ret, *n_length)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+            - [ub4 *n_length,         "[%u]", "*n_length"]
+
+OCITypeElemNumPrec:
+  :ret:       [ub1,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemNumScale:
+  :ret:       [sb1,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemParamMode:
+  :ret:       [OCITypeParamMode,      %d, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeElemParameterizedType:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+            - [OCIType **type_stored, "[%p]", "*type_stored"]
+
+OCITypeElemType:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+            - [OCIType **elem_tdo,    "[%p]", "*elem_tdo"]
+
+OCITypeElemTypeCode:
+  :ret:       [OCITypeCode,           %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeElem *elem, %p, elem]
+
+OCITypeEndCreate:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIType *type,         %p, type]
+
+OCITypeIterFree:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCITypeIter *iterator_ort, %p, iterator_ort]
+
+OCITypeIterNew:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIType *tdo,          %p, tdo]
+            - [OCITypeIter **iterator_ort, "[%p]", "*iterator_ort"]
+
+OCITypeIterSet:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCIType *tdo,          %p, tdo]
+            - [OCITypeIter *iterator_ort, %p, iterator_ort]
+
+OCITypeMethodByName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [const oratext *method_name, %s, "ocidump_quotestring(@BUF_PTR@, method_name, m_length)"]
+            - [ub4 m_length,          %u, m_length]
+            - [OCITypeMethod **mdos,  "[%p]", "*mdos"]
+
+OCITypeMethodEncap:
+  :ret:       [OCITypeEncap,          %d, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+
+OCITypeMethodFlags:
+  :ret:       [OCITypeMethodFlag,     0x%x, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+
+OCITypeMethodMap:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [OCITypeMethod **mdo,   "[%p]", "*mdo"]
+
+OCITypeMethodName:
+  :ret:       [oratext *,             %s, "ocidump_quotestring(@BUF_PTR@, ret, *n_length)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+            - [ub4 *n_length,         "[%u]", "*n_length"]
+
+OCITypeMethodNext:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [OCITypeIter *iterator_ort, %p, iterator_ort]
+            - [OCITypeMethod **mdo,   "[%p]", "*mdo"]
+
+OCITypeMethodOrder:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [OCITypeMethod **mdo,   "[%p]", "*mdo"]
+
+OCITypeMethodOverload:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [const oratext *method_name, %s, "ocidump_quotestring(@BUF_PTR@, method_name, m_length)"]
+            - [ub4 m_length,          %u, m_length]
+
+OCITypeMethodParams:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+
+OCITypeMethods:
+  :ret:       [ub4,                   %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+
+OCITypeName:
+  :ret:       [oratext *,             %s, "ret ? ocidump_asprintf(@BUF_PTR@, \"\\\"%.*s\\\"\", *n_length, ret) : \"(nil)\""]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [ub4 *n_length,         "[%u]", "*n_length"]
+
+OCITypeParamByName:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+            - [const oratext *name,   %s, "ocidump_quotestring(@BUF_PTR@, name, n_length)"]
+            - [ub4 n_length,          %u, n_length]
+            - [OCITypeElem **elem,    "[%p]", "*elem"]
+
+OCITypeParamByPos:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+            - [ub4 position,          %u, position]
+            - [OCITypeElem **elem,    "[%p]", "*elem"]
+
+OCITypeParamPos:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+            - [const oratext *name,   %s, "ocidump_quotestring(@BUF_PTR@, name, n_length)"]
+            - [ub4 n_length,          %u, n_length]
+            - [ub4 *position,         "[%u]", "*position"]
+            - [OCITypeElem **elem,    "[%p]", "*elem"]
+
+OCITypeResult:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCITypeMethod *mdo, %p, mdo]
+            - [OCITypeElem **elem,    "[%p]", "*elem"]
+
+OCITypeSchema:
+  :ret:       [oratext*,              %s, "ocidump_quotestring(@BUF_PTR@, ret, *n_length)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [ub4 *n_length,         "[%u]", "*n_length"]
+
+OCITypeSetBuiltin:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIType *type,         %p, type]
+            - [OCIParam *builtin_info, %p, builtin_info]
+
+OCITypeSetCollection:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCISvcCtx *svchp,      %p, svchp]
+            - [OCIError *errhp,       %p, errhp]
+            - [OCIType *type,         %p, type]
+            - [OCIParam *collelem_info, %p, collelem_info]
+            - [ub4 coll_count,        %u, coll_count]
+
+OCITypeTypeCode:
+  :ret:       [OCITypeCode,           %u, ret]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+
+OCITypeVTInit:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+
+OCITypeVTInsert:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const oratext *schema_name, %s, "ocidump_quotestring(@BUF_PTR@, schema_name, s_n_length)"]
+            - [ub4 s_n_length,        %u, s_n_length]
+            - [const oratext *type_name, %s, "ocidump_quotestring(@BUF_PTR@, type_name, t_n_length)"]
+            - [ub4 t_n_length,        %u, t_n_length]
+            - [const oratext *user_version, %s, "ocidump_quotestring(@BUF_PTR@, user_version, u_v_length)"]
+            - [ub4 u_v_length,        %u, u_v_length]
+
+OCITypeVTSelect:
+  :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const oratext *schema_name, %s, "ocidump_quotestring(@BUF_PTR@, schema_name, s_n_length)"]
+            - [ub4 s_n_length,        %u, s_n_length]
+            - [const oratext *type_name, %s, "ocidump_quotestring(@BUF_PTR@, type_name, t_n_length)"]
+            - [ub4 t_n_length,        %u, t_n_length]
+            - [oratext **user_version, %s, "ocidump_quotestring2(@BUF_PTR@, user_version, u_v_length)"]
+            - [ub4 *u_v_length,       %s, "u_v_length ? ocidump_sprintf(@SHORT_BUF@, \"[%u]\", *u_v_length) : \"(nil)\""]
+            - [ub2 *version,          %s, "version ? ocidump_sprintf(@SHORT_BUF@, \"[%u]\", *version) : \"(nil)\""]
+
+OCITypeVersion:
+  :ret:       [oratext*,              %s, "ocidump_quotestring(@BUF_PTR@, ret, *v_length)"]
+  :args:    - [OCIEnv *env,           %p, env]
+            - [OCIError *err,         %p, err]
+            - [const OCIType *tdo,    %p, tdo]
+            - [ub4 *v_length,         "[%u]", "*v_length"]

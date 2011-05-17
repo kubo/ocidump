@@ -644,6 +644,96 @@ const char *ocidump_attrtype2name(ub4 htype, ub4 attrtype, char *buf)
     return buf;
 }
 
+const char *ocidump_ocinumber(char *buf, const OCINumber *on)
+{
+    int idx;
+    int len = on->OCINumberPart[0];
+    int offset;
+
+    offset = sprintf(buf, "Len=%u: ", len);
+    if (len > 21) {
+        len = 21;
+    }
+    for (idx = 1; idx <= len; idx++) {
+        offset += sprintf(buf + offset, "%u,", (ub4)on->OCINumberPart[idx]);
+    }
+    buf[--offset] = '\0';
+    return buf;
+}
+
+const char *ocidump_quotestring(char **buf, const OraText *str, ub4 len)
+{
+    ub4 idx;
+    ub4 cnt;
+
+    if (ocidump_hide_string) {
+        return "--hidden--";
+    }
+
+    if (str == NULL) {
+        return "(nil)";
+    }
+    for (idx = cnt = 0; idx < len; idx++) {
+        if (str[idx] == '"') {
+            cnt++;
+        }
+    }
+    *buf = malloc(len + cnt + 3);
+    if (*buf == NULL) {
+        return "... out of memory ...";
+    }
+    (*buf)[0] = '"';
+    for (idx = cnt = 0; idx < len; idx++) {
+        (*buf)[idx + cnt + 1] = str[idx];
+        if (str[idx] == '"') {
+            cnt++;
+            (*buf)[idx + cnt + 1] = str[idx];
+        }
+    }
+    (*buf)[idx + cnt + 1] = '"';
+    (*buf)[idx + cnt + 2] = '\0';
+    return *buf;
+}
+
+const char *ocidump_quotestring2(char **buf, OraText **str, ub4 *len)
+{
+    ub4 idx;
+    ub4 cnt;
+
+    if (ocidump_hide_string) {
+        return "--hidden--";
+    }
+
+    if (str == NULL) {
+        return "(nil)";
+    }
+    if (*str == NULL) {
+        return "[(nil)]";
+    }
+    for (idx = cnt = 0; idx < *len; idx++) {
+        if ((*str)[idx] == '"') {
+            cnt++;
+        }
+    }
+    *buf = malloc(*len + cnt + 5);
+    if (*buf == NULL) {
+        return "... out of memory ...";
+    }
+    (*buf)[0] = '"';
+    (*buf)[1] = '[';
+    for (idx = cnt = 0; idx < *len; idx++) {
+        (*buf)[idx + cnt + 2] = (*str)[idx];
+        if ((*str)[idx] == '"') {
+            cnt++;
+            (*buf)[idx + cnt + 2] = (*str)[idx];
+        }
+    }
+    (*buf)[idx + cnt + 2] = ']';
+    (*buf)[idx + cnt + 3] = '"';
+    (*buf)[idx + cnt + 4] = '\0';
+    return *buf;
+}
+
 const char *ocidump_sprintf(char *buf, const char *fmt, ...)
 {
     va_list ap;
@@ -651,6 +741,15 @@ const char *ocidump_sprintf(char *buf, const char *fmt, ...)
     vsprintf(buf, fmt, ap);
     va_end(ap);
     return buf;
+}
+
+const char *ocidump_asprintf(char **buf, const char *fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    vasprintf(buf, fmt, ap);
+    va_end(ap);
+    return *buf ? *buf : "";
 }
 
 void ocidump_log(const char *fmt, ...)
