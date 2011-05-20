@@ -26,7 +26,7 @@ Officially it supports Linux only. It may work on other Unix-like operating syst
 How to compile
 --------------
 
-Edit Makefile and run `make`.
+If ruby is not in the system, install it. Then run `make`.
 
 How to uee
 ----------

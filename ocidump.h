@@ -1,10 +1,68 @@
 #ifndef OCIDUMP_H
 #define OCIDUMP_H 1
-#include <ociap.h>
-#include <orid.h>
-#include <orl.h>
-#include <oro.h>
-#include <ort.h>
+
+typedef unsigned char ub1;
+typedef   signed char sb1;
+typedef unsigned char ub2;
+typedef   signed char sb2;
+typedef unsigned int ub4;
+typedef   signed int sb4;
+#ifdef __LP64__
+typedef unsigned long oraub8;
+typedef   signed long orasb8;
+#else
+typedef unsigned long long oraub8;
+typedef   signed long long orasb8;
+#endif
+typedef unsigned int uword;
+typedef   signed int sword;
+typedef          int eword;
+
+typedef unsigned char OraText;
+typedef unsigned char oratext;
+typedef unsigned char text;
+
+typedef ub2 OCITypeCode;
+typedef ub2 OCIDuration;
+
+typedef sb2 OCIInd;
+typedef ub1 OCIObjectPropId;
+
+#include "ocidefs.h"
+
+/* The followings are not correct, but work in ocidump. */
+typedef void * OCICallbackInBind;
+typedef void * OCICallbackOutBind;
+typedef void * OCICallbackLobGetDeduplicateRegions;
+typedef void * OCICallbackDefine;
+typedef void * OCICallbackLobArrayRead;
+typedef void * OCICallbackLobArrayWrite;
+typedef void * OCICallbackLobRead;
+typedef void * OCICallbackLobRead2;
+typedef void * OCICallbackLobWrite;
+typedef void * OCICallbackLobWrite2;
+typedef void * OCIEnvCallbackType;
+
+typedef struct OCIDate {
+    sb2 OCIDateYYYY;
+    ub1 OCIDateMM;
+    ub1 OCIDateDD;
+    struct {
+        ub1 OCITimeHH;
+        ub1 OCITimeMI;
+        ub1 OCITimeSS;
+    } OCIDateTime;
+} OCIDate;
+
+#define boolean int
+#define dvoid void
+#define CONST const
+
+#define OCI_DTYPE_FIRST 50
+
+typedef struct OCINumber {
+  ub1 OCINumberPart[22];
+} OCINumber;
 
 #ifdef __GNUC__
 #define PRINTF_FMT(x, y) __attribute__((format (printf, x, y)))

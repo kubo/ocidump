@@ -1,27 +1,28 @@
-# full client
-INC = $$ORACLE_HOME/rdbms/public
-
-# instant client
-#INC = /opt/instantclient_11_2/sdk/include
+ORACLE_INC = /opt/instantclient_11_2/sdk/include
 
 CC = gcc
-CFLAGS = -pthread -fPIC -I$(INC) -D_GNU_SOURCE -Wall
+CFLAGS = -pthread -fPIC -D_GNU_SOURCE -Wall
 LD_SHARED = $(CC) -shared
 LDFLAGS = -pthread
 
-.PHONY : clean all
+OBJS = ocidump.o ocifunc.o ocidefs.o
 
-libocidump.so: ocidump.o ocifunc.o
-	$(LD_SHARED) $(LDFLAGS) -o libocidump.so ocidump.o ocifunc.o
+.PHONY : clean check_defs
 
-all: .ocifunc.c.timestamp libocidump.so
+libocidump.so: $(OBJS)
+	$(LD_SHARED) $(LDFLAGS) -o libocidump.so $(OBJS)
 
-ocidump.o: ocidump.c ocidump.h
-ocifunc.o: ocifunc.c ocidump.h
+ocidump.o: ocidump.c ocidump.h ocidefs.h
+ocifunc.o: ocifunc.c ocidump.h ocidefs.h
+ocidefs.o: ocidefs.c ocidump.h ocidefs.h
 
-.ocifunc.c.timestamp: ocifunc.c.tmpl ocifunc.yml
+ocifunc.c ocidefs.c ocidefs.h: mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml
 	ruby mkocifunc.rb
-	touch .ocifunc.c.timestamp
 
 clean:
-	$(RM) libocidump.so ocidump.o ocifunc.o
+	$(RM) libocidump.so $(OBJS)
+
+check_defs:
+	ruby mkocifunc.rb check_defs
+	$(CC) $(CFLAGS) -I$(ORACLE_INC) -o check_defs check_defs.c
+	./check_defs

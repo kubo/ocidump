@@ -1,2 +1,7 @@
 *.so
 *.o
+check_defs
+check_defs.c
+ocidefs.c
+ocidefs.h
+ocifunc.c
