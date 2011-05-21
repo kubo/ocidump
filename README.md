@@ -15,7 +15,7 @@ There have been similar utilities such as [ocitrace][1] and
 monitor OCI function calls. But it is not perfect. Some OCI functions
 call other OCI functions internally. Such internal calls, which are
 not executed by an application, also fire user-defined callback
-functions. So these utilitis cannot monitor function calls exactly
+functions. So these utilities cannot monitor function calls exactly
 issued by Oracle client applications.
 
 Ocidump uses another way to monitor OCI functions. It uses LD_PRELOAD
@@ -26,7 +26,7 @@ Windows. It is due to the timing of loading ocidump.dll into process
 memory.
 
 The downside of ocidump way is that it cannot monitor explicitly
-linked functions. Some applications try to get the entroy point of a
+linked functions. Some applications try to get the entry point of a
 function and use it if it is found, otherwise do another job.
 As far as I know, the ruby-oci8 Windows binary package does it to
 use OCI functions newly added in recent Oracle versions.
@@ -69,7 +69,7 @@ Set `OCIDUMP_LOGFILE` to log them to a file.
 
 All supported OCI functions are dumped by default. The output may be
 verbose because it needs several function calls to issue a single SQL
-statement. Set `OCITRACRER_CONFIG` to point to a file which contains
+statement. Set `OCIDUMP_CONFIG` to point to a file which contains
 functions to be monitored.
 
     $ cat ocidump.cfg
@@ -77,8 +77,8 @@ functions to be monitored.
     OCIStmtPrepare
     OCIStmtPrepare2
     
-    $ OCITRACRER_CONFIG=ocidump.cfg
-    $ export OCITRACRER_CONFIG
+    $ OCIDUMP_CONFIG=ocidump.cfg
+    $ export OCIDUMP_CONFIG
 
 If you are an application user who is requested to send a trace log by
 application developers, set `OCIDUMP_HIDE_STRING` to hide sensitive
