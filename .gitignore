@@ -1,5 +1,9 @@
 *.so
 *.o
+*.dll
+*.exp
+*.lib
+*.obj
 check_defs
 check_defs.c
 ocidefs.c

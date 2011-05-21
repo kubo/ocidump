@@ -7,7 +7,10 @@ typedef unsigned char ub2;
 typedef   signed char sb2;
 typedef unsigned int ub4;
 typedef   signed int sb4;
-#ifdef __LP64__
+#if defined _WIN32
+typedef unsigned __int64 oraub8;
+typedef   signed __int64 orasb8;
+#elif defined __LP64__
 typedef unsigned long oraub8;
 typedef   signed long orasb8;
 #else
@@ -73,7 +76,13 @@ typedef struct OCINumber {
 #define OCIDUMP_SHORT_BUF_SIZE 32
 #define OCIDUMP_OCINUMBER_BUF_SIZE 99
 
-#ifdef __LP64__
+#if defined _WIN64
+#define OCIDUMP_SIZET_FMT "I64u"
+#define OCIDUMP_UB8_FMT "I64u"
+#elif defined _WIN32
+#define OCIDUMP_SIZET_FMT "u"
+#define OCIDUMP_UB8_FMT "I64u"
+#elif defined __LP64__
 #define OCIDUMP_SIZET_FMT "lu"
 #define OCIDUMP_UB8_FMT "lu"
 #else
@@ -81,17 +90,23 @@ typedef struct OCINumber {
 #define OCIDUMP_UB8_FMT "llu"
 #endif
 
+#define OCIDUMP_HOOK_ENTRY   (1u << 0)
+#define OCIDUMP_HOOK_EXIT    (1u << 1)
+
 typedef struct {
     const char *name;
-    int *target;
-} ocidump_target_t;
+    void *hook_func;
+    void **orig_func;
+    unsigned int *flags;
+} ocidump_hook_t;
 
-extern ocidump_target_t ocidump_targets[];
+/* ocifunc.c */
+extern ocidump_hook_t ocidump_hooks[];
 
+/* ocidump.c */
 extern int ocidump_hide_string;
+extern int ocidump_is_initialized;
 void ocidump_init(void);
-const char *ocidump_status2name(sword status, char *buf);
-const char *ocidump_htype2name(ub4 htype, char *buf);
 const char *ocidump_attrtype2name(ub4 htype, ub4 attrtype, char *buf);
 const char *ocidump_ocinumber(char *buf, const OCINumber *n);
 const char *ocidump_quotestring(char **buf, const OraText *str, ub4 len);
@@ -99,5 +114,8 @@ const char *ocidump_quotestring2(char **buf, OraText **str, ub4 *len);
 const char *ocidump_sprintf(char *buf, const char *fmt, ...) PRINTF_FMT(2, 3);
 const char *ocidump_asprintf(char **buf, const char *fmt, ...) PRINTF_FMT(2, 3);
 void ocidump_log(const char *fmt, ...) PRINTF_FMT(1, 2);
+
+/* win32.c */
+void ocidump_setup_win32_api_hook(void);
 
 #endif /* OCIDUMP_H */

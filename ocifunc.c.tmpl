@@ -1,12 +1,16 @@
 /* -*- c-file-style: "ruby"; indent-tabs-mode: nil -*- */
 <%= header_comment %>
-#include <stdlib.h>
-#include <dlfcn.h>
+#ifdef _WIN32
+#include <windows.h>
+#define OCIDUMP_THREAD_ID_FMT "%5u"
+#define OCIDUMP_THREAD_ID GetCurrentThreadId()
+#else
 #include <pthread.h>
+#define OCIDUMP_THREAD_ID_FMT "%p"
+#define OCIDUMP_THREAD_ID (void*)pthread_self()
+#endif
+#include <stdlib.h>
 #include "ocidump.h"
-
-static int is_initialized;
-static void initialize(void);
 
 <%
 funcs.each do |f|
@@ -39,8 +43,8 @@ funcs.each do |f|
   end
 %>
 typedef <%=f.ret.type%> (*<%=f.name%>_func_t)(<%=f.args.collect {|arg| arg.type}.join(', ')%>);
-static <%=f.name%>_func_t <%=f.name%>_func;
-static int trace_<%=f.name%> = 1;
+static <%=f.name%>_func_t <%=f.name%>_orig;
+static unsigned int <%=f.name%>_flags = OCIDUMP_HOOK_EXIT;
 
 <%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.join(', ')%>)
 {
@@ -50,11 +54,11 @@ static int trace_<%=f.name%> = 1;
     if f.before_call
 %>    <%=f.before_call.gsub("\n", "\n    ").gsub(/ +$/, '')%>
 <%  end
-%>    if (!is_initialized) {
-        initialize();
+%>    if (!ocidump_is_initialized) {
+        ocidump_init();
     }
-    <%=f.ret.type != 'void' ? "ret = " : ""%><%=f.name%>_func(<%=f.args.collect {|arg| arg.name}.join(', ')%>);
-    if (trace_<%=f.name%>) {
+    <%=f.ret.type != 'void' ? "ret = " : ""%><%=f.name%>_orig(<%=f.args.collect {|arg| arg.name}.join(', ')%>);
+    if (<%=f.name%>_flags & OCIDUMP_HOOK_EXIT) {
 <%  if f.after_call
 %>        <%=f.after_call.gsub("\n", "\n        ").gsub(/ +$/, '')%>
 <%  end
@@ -65,9 +69,9 @@ static int trace_<%=f.name%> = 1;
 <%    end
 %>        }
 <%  end
-%>        ocidump_log("%0*lX: <%=f.name%>(<%=f.args.collect {|arg| arg.fmt.gsub(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'}}.join(', ')%>)<%=
+%>        ocidump_log(OCIDUMP_THREAD_ID_FMT ": <%=f.name%>(<%=f.args.collect {|arg| arg.fmt.gsub(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'}}.join(', ')%>)<%=
 f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
-                     (int)sizeof(pthread_t), pthread_self(),
+                     OCIDUMP_THREAD_ID,
                      <%=fmt_args.join(",\n                     ")%>);
     }
 <%  cleanups.each do |cleanup|
@@ -80,17 +84,8 @@ f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
 <%
 end # funcs.each
 %>
-ocidump_target_t ocidump_targets[] = {
+ocidump_hook_t ocidump_hooks[] = {
 <% funcs.each do |f|
-%>    {"<%=f.name%>", &trace_<%=f.name%>},
-<% end %>    {NULL, NULL},
+%>    {"<%=f.name%>", (void*)<%=f.name%>, (void**)&<%=f.name%>_orig, &<%=f.name%>_flags},
+<% end %>    {NULL, NULL, NULL, NULL},
 };
-
-static void initialize(void)
-{
-<% funcs.each do |f|
-%>    <%=f.name%>_func = (<%=f.name%>_func_t)dlsym(RTLD_NEXT, "<%=f.name%>");
-<% end
-%>    is_initialized = 1;
-    ocidump_init();
-}

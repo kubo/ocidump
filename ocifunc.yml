@@ -787,14 +787,14 @@ OCIDescriptorAlloc:
   :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [const dvoid *parenth,  %p, parenth]
             - [dvoid **descpp,        "[%p]", "*descpp"]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
-            - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
+            - [const ub4 type,        %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+            - [const size_t xtramem_sz, OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIDescriptorFree:
   :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *descp,          %p, descp]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+            - [const ub4 type,        %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
 
 OCIDurationBegin:
   :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
@@ -875,14 +875,14 @@ OCIHandleAlloc:
   :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [const dvoid *parenth,  %p, parenth]
             - [dvoid **hndlpp,        "[%p]", "*hndlpp"]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
-            - [size_t xtramem_sz,     OCIDUMP_SIZET_FMT, xtramem_sz]
+            - [const ub4 type,        %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+            - [const size_t xtramem_sz, OCIDUMP_SIZET_FMT, xtramem_sz]
             - [dvoid **usrmempp,      %p, usrmempp]
 
 OCIHandleFree:
   :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]
   :args:    - [dvoid *hndlp,          %p, hndlp]
-            - [ub4 type,              %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
+            - [const ub4 type,        %s, "ocidump_htype2name(type, @SHORT_BUF@)"]
 
 OCIInitialize:
   :ret:       [sword,                 %s, "ocidump_status2name(ret, @SHORT_BUF@)"]

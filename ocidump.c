@@ -1,17 +1,46 @@
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <pthread.h>
+#include <dlfcn.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include "ocidump.h"
-#include "ocidefs.h"
+
+#ifdef __linux
+#define HAVE_ASPRINTF
+#endif
+
+#ifdef _WIN32
+extern CRITICAL_SECTION ocidump_mutex;
+#define OCIDUMP_LOCK_MUTEX EnterCriticalSection(&ocidump_mutex)
+#define OCIDUMP_UNLOCK_MUTEX EnterCriticalSection(&ocidump_mutex)
+#else
+static pthread_mutex_t ocidump_mutex = PTHREAD_MUTEX_INITIALIZER;
+#define OCIDUMP_LOCK_MUTEX pthread_mutex_lock(&ocidump_mutex)
+#define OCIDUMP_UNLOCK_MUTEX pthread_mutex_unlock(&ocidump_mutex)
+#endif
+
+#define OUT_OF_MEMORY_MSG "... out of memory ..."
 
 int ocidump_hide_string = 0;
+int ocidump_is_initialized;
 
 static FILE *logfp;
 
 void ocidump_init(void)
 {
-    char *val = getenv("OCIDUMP_HIDE_STRING");
+    char *val;
+
+    OCIDUMP_LOCK_MUTEX;
+    if (ocidump_is_initialized) {
+        OCIDUMP_UNLOCK_MUTEX;
+        return;
+    }
+    val = getenv("OCIDUMP_HIDE_STRING");
     if (val != NULL) {
         ocidump_hide_string = atoi(val);
     }
@@ -29,9 +58,9 @@ void ocidump_init(void)
             char buf[256];
             int i;
 
-            /* clear all targets */
-            for (i = 0; ocidump_targets[i].name != NULL; i++) {
-                *ocidump_targets[i].target = 0;
+            /* clear all hooks */
+            for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+                *ocidump_hooks[i].flags = 0;
             }
 
             while (fgets(buf, sizeof(buf), fp) != NULL) {
@@ -39,9 +68,9 @@ void ocidump_init(void)
                 while (len > 0 && (buf[len - 1] == '\n' || buf[len - 1] == '\r')) {
                     buf[len - 1] = '\0';
                 }
-                for (i = 0; ocidump_targets[i].name != NULL; i++) {
-                    if (strcmp(ocidump_targets[i].name, buf) == 0) {
-                        *ocidump_targets[i].target = 1;
+                for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+                    if (strcmp(ocidump_hooks[i].name, buf) == 0) {
+                        *ocidump_hooks[i].flags = OCIDUMP_HOOK_EXIT;
                         break;
                     }
                 }
@@ -49,6 +78,18 @@ void ocidump_init(void)
             fclose(fp);
         }
     }
+#ifdef _WIN32
+    ocidump_setup_win32_api_hook();
+#else
+    {
+        int i;
+        for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+            *ocidump_hooks[i].orig_func = dlsym(RTLD_NEXT, ocidump_hooks[i].name);
+        }
+    }
+#endif
+    ocidump_is_initialized = 1;
+    OCIDUMP_UNLOCK_MUTEX;
 }
 
 const char *ocidump_attrtype2name(ub4 htype, ub4 attrtype, char *buf)
@@ -98,7 +139,7 @@ const char *ocidump_quotestring(char **buf, const OraText *str, ub4 len)
     }
     *buf = malloc(len + cnt + 3);
     if (*buf == NULL) {
-        return "... out of memory ...";
+        return OUT_OF_MEMORY_MSG;
     }
     (*buf)[0] = '"';
     for (idx = cnt = 0; idx < len; idx++) {
@@ -135,7 +176,7 @@ const char *ocidump_quotestring2(char **buf, OraText **str, ub4 *len)
     }
     *buf = malloc(*len + cnt + 5);
     if (*buf == NULL) {
-        return "... out of memory ...";
+        return OUT_OF_MEMORY_MSG;
     }
     (*buf)[0] = '"';
     (*buf)[1] = '[';
@@ -163,11 +204,45 @@ const char *ocidump_sprintf(char *buf, const char *fmt, ...)
 
 const char *ocidump_asprintf(char **buf, const char *fmt, ...)
 {
+#ifdef HAVE_VASPRINTF
     va_list ap;
     va_start(ap, fmt);
     vasprintf(buf, fmt, ap);
     va_end(ap);
-    return *buf ? *buf : "";
+    return *buf ? *buf : OUT_OF_MEMORY_MSG;
+#else
+    int size = strlen(fmt) + 32;
+    char *ptr;
+
+    if ((ptr = malloc(size)) == NULL) {
+        return OUT_OF_MEMORY_MSG;
+    }
+
+    while (1) {
+        va_list ap;
+        int n;
+        char *new_ptr;
+
+        va_start(ap, fmt);
+        n = vsnprintf(ptr, size, fmt, ap);
+        va_end(ap);
+        if (n > -1 && n < size) {
+            *buf = ptr;
+            return ptr;
+        }
+        if (n > -1) {
+            size = n + 1;
+        } else {
+            size *= 2;
+        }
+        if ((new_ptr = realloc(ptr, size)) == NULL) {
+            free(ptr);
+            return OUT_OF_MEMORY_MSG;
+        } else {
+            ptr = new_ptr;
+        }
+    }
+#endif
 }
 
 void ocidump_log(const char *fmt, ...)

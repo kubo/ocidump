@@ -8,38 +8,61 @@ Tracing utility to monitor Oracle OCI function calls.
 This is useful for OCI developers to debug your programs.
 
 What is different from others.
---------------------------------------------
+------------------------------
 
 There have been similar utilities such as [ocitrace][1] and
 [ocispy][2]. They use [User-Defined Callback Functions in OCI][3] to
 monitor OCI function calls. But it is not perfect. Some OCI functions
 call other OCI functions internally. Such internal calls, which are
 not executed by an application, also fire user-defined callback
-functions. So this utility was made to monitor function calls exactly
+functions. So these utilitis cannot monitor function calls exactly
 issued by Oracle client applications.
+
+Ocidump uses another way to monitor OCI functions. It uses LD_PRELOAD
+on Unix and IAT hooking on Windows. It can monitor function calls
+exactly as they are issued. Note that there is an exception that the
+first call of OCIEnvCreate() or similar functions is not monitored on
+Windows. It is due to the timing of loading ocidump.dll into process
+memory.
+
+The downside of ocidump way is that it cannot monitor explicitly
+linked functions. Some applications try to get the entroy point of a
+function and use it if it is found, otherwise do another job.
+As far as I know, the ruby-oci8 Windows binary package does it to
+use OCI functions newly added in recent Oracle versions.
 
 Supported platforms
 -------------------
 
 Officially it supports Linux only. It may work on other Unix-like operating systems.
+Windows is supported experimentally.
 
 How to compile
 --------------
 
 If ruby is not in the system, install it. Then run `make`.
 
-How to uee
+Run `nmake -f win32.mak` instead for Windows.
+
+How to use
 ----------
 
-Set the environment variable `LD_PRELOAD` to point to libocitrace.so and
+Set the environment variable `LD_PRELOAD` to point to libocidump.so and
 run a Oracle client application.
 
-    LD_PRELOAD=/foo/bar/libocitrace.so
+    LD_PRELOAD=/foo/bar/libocidump.so
     export LD_PRELOAD
     sqlplus scott/tiger
 
+On Windows, copy ocidump.dll to %ORACLE_HOME\bin and set the environment
+variable ORA_OCI_UCBPKG=ocidump in order to inject the dll into application
+memory space.
+
+    set ORA_OCI_UCBPKG=ocidump
+    sqlplus scott/tiger
+
 OCI function calls are dumped to the standard error by default.
-Set `OCITRACE_LOGFILE` to log them to a file.
+Set `OCIDUMP_LOGFILE` to log them to a file.
 
     OCIDUMP_LOGFILE=/tmp/ocidump.log
     export OCIDUMP_LOGFILE

@@ -103,6 +103,9 @@ OCITypeIter:
 OCITypeMethod:
   :type: :opaque
 
+OCIUcb:
+  :type: :opaque
+
 OCILockOpt:
   :type: :enum
   :format: %d
