@@ -135,6 +135,8 @@ static void replace_import_section(HANDLE hModule)
                             DWORD dwOld;
                             DWORD dwDummy;
 
+                            ocidump_log(OCIDUMP_LOG_HOOK, "# Replace %s from %p to %p.\n",
+                                        hooks[i].name, (void*)thunk->u1.Function, ocidump_hooks[i].hook_func);
                             VirtualProtect(&thunk->u1.Function, sizeof(void *), PAGE_EXECUTE_READWRITE, &dwOld);
                             thunk->u1.Function = (size_t)ocidump_hooks[i].hook_func;
                             VirtualProtect(&thunk->u1.Function, sizeof(void *), dwOld, &dwDummy);
@@ -160,23 +162,28 @@ void ocidump_setup_win32_api_hook(void)
 
     for (i = 0; ocidump_hooks[i].name != NULL; i++) {
         *ocidump_hooks[i].orig_func = (void*)GetProcAddress(hModuleOCI, ocidump_hooks[i].name);
+        ocidump_log(OCIDUMP_LOG_HOOK, "# GetProcAddress(\"OCI.DLL\", \"%s\") => %p\n",
+                    ocidump_hooks[i].name, *ocidump_hooks[i].orig_func);
     }
 
 #if OCIDUMP_ENABLE_KERNEL32_DLL_HOOK
     for (i = 0; kernel32_dll_hooks[i].name != NULL; i++) {
         *kernel32_dll_hooks[i].orig_func = (void*)GetProcAddress(hModuleKernel32, kernel32_dll_hooks[i].name);
+        ocidump_log(OCIDUMP_LOG_HOOK, "# GetProcAddress(\"KERNEL32.DLL\", \"%s\") => %p\n",
+                    kernel32_dll_hooks[i].name, *kernel32_dll_hooks[i].orig_func);
     }
 #endif
 
     hSnapModule = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, 0);
     if (hSnapModule == INVALID_HANDLE_VALUE) {
-        ocidump_log("ERROR: Could not enumerate modules to hook functions.\n");
+        ocidump_log(0, "ERROR: Could not enumerate modules to hook functions.\n");
         return;
     }
     for (ok = Module32First(hSnapModule, &me); ok; ok = Module32Next(hSnapModule, &me)) {
         if (me.hModule == hThisModule) {
             continue;
         }
+        ocidump_log(OCIDUMP_LOG_HOOK, "# Checking %s\n", me.szExePath);
         replace_import_section(me.hModule);
     }
     CloseHandle(hSnapModule);

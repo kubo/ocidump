@@ -93,6 +93,9 @@ typedef struct OCINumber {
 #define OCIDUMP_HOOK_ENTRY   (1u << 0)
 #define OCIDUMP_HOOK_EXIT    (1u << 1)
 
+#define OCIDUMP_LOG_ALL      (0xffffffff)
+#define OCIDUMP_LOG_HOOK     (1u << 0)
+
 typedef struct {
     const char *name;
     void *hook_func;
@@ -113,7 +116,7 @@ const char *ocidump_quotestring(char **buf, const OraText *str, ub4 len);
 const char *ocidump_quotestring2(char **buf, OraText **str, ub4 *len);
 const char *ocidump_sprintf(char *buf, const char *fmt, ...) PRINTF_FMT(2, 3);
 const char *ocidump_asprintf(char **buf, const char *fmt, ...) PRINTF_FMT(2, 3);
-void ocidump_log(const char *fmt, ...) PRINTF_FMT(1, 2);
+void ocidump_log(unsigned int flags, const char *fmt, ...) PRINTF_FMT(2, 3);
 
 /* win32.c */
 void ocidump_setup_win32_api_hook(void);

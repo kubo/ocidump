@@ -24,6 +24,7 @@ int ocidump_hide_string = 0;
 int ocidump_is_initialized;
 
 static FILE *logfp;
+static unsigned int log_flags = 0;
 
 static void ocidump_do_init(void)
 {
@@ -77,6 +78,9 @@ static void ocidump_do_init(void)
         int i;
         for (i = 0; ocidump_hooks[i].name != NULL; i++) {
             *ocidump_hooks[i].orig_func = dlsym(RTLD_NEXT, ocidump_hooks[i].name);
+            ocidump_log(OCIDUMP_LOG_HOOK, "# dlsym(RTLD_NEXT, \"%s\") => %p\n",
+                        ocidump_hooks[i].name,
+                        *ocidump_hooks[i].orig_func);
         }
     }
 #endif
@@ -248,9 +252,17 @@ const char *ocidump_asprintf(char **buf, const char *fmt, ...)
 #endif
 }
 
-void ocidump_log(const char *fmt, ...)
+void ocidump_log(unsigned int filter, const char *fmt, ...)
 {
     va_list ap;
+
+    if (logfp == NULL) {
+        return;
+    }
+    if (filter != 0 && !(log_flags & filter)) {
+        return;
+    }
+
     va_start(ap, fmt);
     vfprintf(logfp, fmt, ap);
     va_end(ap);

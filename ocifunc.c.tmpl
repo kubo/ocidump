@@ -69,7 +69,7 @@ static unsigned int <%=f.name%>_flags = OCIDUMP_HOOK_EXIT;
 <%    end
 %>        }
 <%  end
-%>        ocidump_log(OCIDUMP_THREAD_ID_FMT ": <%=f.name%>(<%=f.args.collect {|arg| arg.fmt.gsub(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'}}.join(', ')%>)<%=
+%>        ocidump_log(0, OCIDUMP_THREAD_ID_FMT ": <%=f.name%>(<%=f.args.collect {|arg| arg.fmt.gsub(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'}}.join(', ')%>)<%=
 f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
                      OCIDUMP_THREAD_ID,
                      <%=fmt_args.join(",\n                     ")%>);
