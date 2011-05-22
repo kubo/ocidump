@@ -9,7 +9,6 @@
 
 #define OCIDUMP_ENABLE_KERNEL32_DLL_HOOK 0 /* This option is problematic...  */
 
-CRITICAL_SECTION ocidump_mutex;
 static HMODULE hModuleOCI;
 static HMODULE hThisModule;
 
@@ -19,7 +18,6 @@ __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, L
 {
     if (fdwReason == DLL_PROCESS_ATTACH) {
         hThisModule = hinstDLL;
-        InitializeCriticalSection(&ocidump_mutex);
         ocidump_init();
     }
     return TRUE;

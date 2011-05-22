@@ -14,14 +14,8 @@
 #define HAVE_ASPRINTF
 #endif
 
-#ifdef _WIN32
-extern CRITICAL_SECTION ocidump_mutex;
-#define OCIDUMP_LOCK_MUTEX EnterCriticalSection(&ocidump_mutex)
-#define OCIDUMP_UNLOCK_MUTEX EnterCriticalSection(&ocidump_mutex)
-#else
-static pthread_mutex_t ocidump_mutex = PTHREAD_MUTEX_INITIALIZER;
-#define OCIDUMP_LOCK_MUTEX pthread_mutex_lock(&ocidump_mutex)
-#define OCIDUMP_UNLOCK_MUTEX pthread_mutex_unlock(&ocidump_mutex)
+#ifndef _WIN32
+static pthread_once_t init_once = PTHREAD_ONCE_INIT;
 #endif
 
 #define OUT_OF_MEMORY_MSG "... out of memory ..."
@@ -31,13 +25,11 @@ int ocidump_is_initialized;
 
 static FILE *logfp;
 
-void ocidump_init(void)
+static void ocidump_do_init(void)
 {
     char *val;
 
-    OCIDUMP_LOCK_MUTEX;
     if (ocidump_is_initialized) {
-        OCIDUMP_UNLOCK_MUTEX;
         return;
     }
     val = getenv("OCIDUMP_HIDE_STRING");
@@ -88,8 +80,19 @@ void ocidump_init(void)
         }
     }
 #endif
+}
+
+void ocidump_init(void)
+{
+#ifdef _WIN32
+    /* ocidump_init is called by DllMain().
+     * It will be assured that only one thread call this.
+     */
+    ocidump_do_init();
+#else
+    pthread_once(&init_once, ocidump_do_init);
+#endif
     ocidump_is_initialized = 1;
-    OCIDUMP_UNLOCK_MUTEX;
 }
 
 const char *ocidump_attrtype2name(ub4 htype, ub4 attrtype, char *buf)
