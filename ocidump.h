@@ -3,8 +3,8 @@
 
 typedef unsigned char ub1;
 typedef   signed char sb1;
-typedef unsigned char ub2;
-typedef   signed char sb2;
+typedef unsigned short ub2;
+typedef   signed short sb2;
 typedef unsigned int ub4;
 typedef   signed int sb4;
 #if defined _WIN32
