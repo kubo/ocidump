@@ -9,21 +9,62 @@
 #include <stdarg.h>
 #include <string.h>
 #include "ocidump.h"
-
-#ifdef __linux
-#define HAVE_ASPRINTF
-#endif
+#include "oranumber_util.h"
 
 #ifndef _WIN32
 static pthread_once_t init_once = PTHREAD_ONCE_INIT;
+#endif
+
+#ifdef __linux
+
+typedef void *(dlsym_func_t)(void *map, const char *name);
+static dlsym_func_t *dlsym_func;
+
+__attribute__((constructor))
+void init(void)
+{
+    static const char * const dlsym_versions[] = {
+        "GLIBC_2.2.5", /* x86_64 */
+        "GLIBC_2.0",   /* i386 */
+        NULL,
+    };
+    int idx;
+
+    for (idx = 0; dlsym_versions[idx] != NULL; idx++) {
+        dlsym_func = (dlsym_func_t *)dlvsym(RTLD_DEFAULT, "dlsym", dlsym_versions[idx]);
+        if (dlsym_func != NULL) {
+            break;
+        }
+    }
+}
+
+static int ocidump_hook_cmp(const void *lhs, const void *rhs)
+{
+    const ocidump_hook_t *l = (const ocidump_hook_t *)lhs;
+    const ocidump_hook_t *r = (const ocidump_hook_t *)rhs;
+    return strcmp(l->name, r->name);
+}
+
+void *dlsym(void *map, const char *name)
+{
+    ocidump_hook_t key, *found;
+
+    key.name = name;
+    found = bsearch(&key, ocidump_hooks, ocidump_hook_cnt, sizeof(ocidump_hook_t), ocidump_hook_cmp);
+    if (found) {
+        return found->hook_func;
+    }
+    return dlsym_func(map, name);
+}
+#define dlsym dlsym_func
 #endif
 
 #define OUT_OF_MEMORY_MSG "... out of memory ..."
 
 int ocidump_hide_string = 0;
 int ocidump_is_initialized;
+FILE *ocidump_logfp;
 
-static FILE *logfp;
 static unsigned int log_flags = 0;
 
 static void ocidump_do_init(void)
@@ -39,10 +80,10 @@ static void ocidump_do_init(void)
     }
     val = getenv("OCIDUMP_LOGFILE");
     if (val != NULL) {
-        logfp = fopen(val, "a");
+        ocidump_logfp = fopen(val, "a");
     }
-    if (logfp == NULL) {
-        logfp = stderr;
+    if (ocidump_logfp == NULL) {
+        ocidump_logfp = stderr;
     }
     val = getenv("OCIDUMP_CONFIG");
     if (val != NULL) {
@@ -52,7 +93,7 @@ static void ocidump_do_init(void)
             int i;
 
             /* clear all hooks */
-            for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+            for (i = 0; i < ocidump_hook_cnt; i++) {
                 *ocidump_hooks[i].flags = 0;
             }
 
@@ -61,7 +102,7 @@ static void ocidump_do_init(void)
                 while (len > 0 && (buf[len - 1] == '\n' || buf[len - 1] == '\r')) {
                     buf[len - 1] = '\0';
                 }
-                for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+                for (i = 0; i < ocidump_hook_cnt; i++) {
                     if (strcmp(ocidump_hooks[i].name, buf) == 0) {
                         *ocidump_hooks[i].flags = OCIDUMP_HOOK_EXIT;
                         break;
@@ -76,7 +117,7 @@ static void ocidump_do_init(void)
 #else
     {
         int i;
-        for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+        for (i = 0; i < ocidump_hook_cnt; i++) {
             *ocidump_hooks[i].orig_func = dlsym(RTLD_NEXT, ocidump_hooks[i].name);
             ocidump_log(OCIDUMP_LOG_HOOK, "# dlsym(RTLD_NEXT, \"%s\") => %p\n",
                         ocidump_hooks[i].name,
@@ -99,156 +140,23 @@ void ocidump_init(void)
     ocidump_is_initialized = 1;
 }
 
-const char *ocidump_attrtype2name(ub4 htype, ub4 attrtype, char *buf)
+void ocidump_log_start(const char *funcname)
 {
-    if (htype >= OCI_DTYPE_FIRST) {
-        const char *rval = ocidump_dtypeattr2name(attrtype);
-        if (rval != NULL) {
-            return rval;
-        }
-    }
-    return ocidump_htypeattr2name(attrtype, buf);
-}
-
-const char *ocidump_ocinumber(char *buf, const OCINumber *on)
-{
-    int idx;
-    int len = on->OCINumberPart[0];
-    int offset;
-
-    offset = sprintf(buf, "Len=%u: ", len);
-    if (len > 21) {
-        len = 21;
-    }
-    for (idx = 1; idx <= len; idx++) {
-        offset += sprintf(buf + offset, "%u,", (ub4)on->OCINumberPart[idx]);
-    }
-    buf[--offset] = '\0';
-    return buf;
-}
-
-const char *ocidump_quotestring(char **buf, const OraText *str, ub4 len)
-{
-    ub4 idx;
-    ub4 cnt;
-
-    if (ocidump_hide_string) {
-        return "--hidden--";
-    }
-
-    if (str == NULL) {
-        return "(nil)";
-    }
-    for (idx = cnt = 0; idx < len; idx++) {
-        if (str[idx] == '"') {
-            cnt++;
-        }
-    }
-    *buf = malloc(len + cnt + 3);
-    if (*buf == NULL) {
-        return OUT_OF_MEMORY_MSG;
-    }
-    (*buf)[0] = '"';
-    for (idx = cnt = 0; idx < len; idx++) {
-        (*buf)[idx + cnt + 1] = str[idx];
-        if (str[idx] == '"') {
-            cnt++;
-            (*buf)[idx + cnt + 1] = str[idx];
-        }
-    }
-    (*buf)[idx + cnt + 1] = '"';
-    (*buf)[idx + cnt + 2] = '\0';
-    return *buf;
-}
-
-const char *ocidump_quotestring2(char **buf, OraText **str, ub4 *len)
-{
-    ub4 idx;
-    ub4 cnt;
-
-    if (ocidump_hide_string) {
-        return "--hidden--";
-    }
-
-    if (str == NULL) {
-        return "(nil)";
-    }
-    if (*str == NULL) {
-        return "[(nil)]";
-    }
-    for (idx = cnt = 0; idx < *len; idx++) {
-        if ((*str)[idx] == '"') {
-            cnt++;
-        }
-    }
-    *buf = malloc(*len + cnt + 5);
-    if (*buf == NULL) {
-        return OUT_OF_MEMORY_MSG;
-    }
-    (*buf)[0] = '"';
-    (*buf)[1] = '[';
-    for (idx = cnt = 0; idx < *len; idx++) {
-        (*buf)[idx + cnt + 2] = (*str)[idx];
-        if ((*str)[idx] == '"') {
-            cnt++;
-            (*buf)[idx + cnt + 2] = (*str)[idx];
-        }
-    }
-    (*buf)[idx + cnt + 2] = ']';
-    (*buf)[idx + cnt + 3] = '"';
-    (*buf)[idx + cnt + 4] = '\0';
-    return *buf;
-}
-
-const char *ocidump_sprintf(char *buf, const char *fmt, ...)
-{
-    va_list ap;
-    va_start(ap, fmt);
-    vsprintf(buf, fmt, ap);
-    va_end(ap);
-    return buf;
-}
-
-const char *ocidump_asprintf(char **buf, const char *fmt, ...)
-{
-#ifdef HAVE_VASPRINTF
-    va_list ap;
-    va_start(ap, fmt);
-    vasprintf(buf, fmt, ap);
-    va_end(ap);
-    return *buf ? *buf : OUT_OF_MEMORY_MSG;
+#ifdef _WIN32
+    _lock_file(ocidump_logfp);
+    fprintf(ocidump_logfp, "%5u: %s", GetCurrentThreadId(), funcname);
 #else
-    int size = strlen(fmt) + 32;
-    char *ptr;
+    flockfile(ocidump_logfp);
+    fprintf(ocidump_logfp, "%p: %s", (void*)pthread_self(), funcname);
+#endif
+}
 
-    if ((ptr = malloc(size)) == NULL) {
-        return OUT_OF_MEMORY_MSG;
-    }
-
-    while (1) {
-        va_list ap;
-        int n;
-        char *new_ptr;
-
-        va_start(ap, fmt);
-        n = vsnprintf(ptr, size, fmt, ap);
-        va_end(ap);
-        if (n > -1 && n < size) {
-            *buf = ptr;
-            return ptr;
-        }
-        if (n > -1) {
-            size = n + 1;
-        } else {
-            size *= 2;
-        }
-        if ((new_ptr = realloc(ptr, size)) == NULL) {
-            free(ptr);
-            return OUT_OF_MEMORY_MSG;
-        } else {
-            ptr = new_ptr;
-        }
-    }
+void ocidump_log_end(void)
+{
+#ifdef _WIN32
+    _unlock_file(ocidump_logfp);
+#else
+    funlockfile(ocidump_logfp);
 #endif
 }
 
@@ -256,7 +164,7 @@ void ocidump_log(unsigned int filter, const char *fmt, ...)
 {
     va_list ap;
 
-    if (logfp == NULL) {
+    if (ocidump_logfp == NULL) {
         return;
     }
     if (filter != 0 && !(log_flags & filter)) {
@@ -264,6 +172,374 @@ void ocidump_log(unsigned int filter, const char *fmt, ...)
     }
 
     va_start(ap, fmt);
-    vfprintf(logfp, fmt, ap);
+    vfprintf(ocidump_logfp, fmt, ap);
     va_end(ap);
+}
+
+void ocidump_puts(const char *str)
+{
+    char c;
+    while ((c = *(str++)) != '\0') {
+        putc_unlocked(c, ocidump_logfp);
+    }
+}
+
+#define NUM2HEX(c)  (((c) < 10) ? ((c) + '0') : ((c) - 10 + 'a'))
+
+void ocidump_pointer(const void *ptr)
+{
+    if (ptr == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+        size_t n = (size_t)ptr;
+        int nshift = sizeof(void*) * 8;
+
+        putc_unlocked('0', ocidump_logfp);
+        putc_unlocked('x', ocidump_logfp);
+        while (nshift != 0) {
+            if ((n >> (nshift - 4)) != 0) {
+                break;
+            }
+            nshift -= 4;
+        }
+        while (nshift != 0) {
+            int c = (n >> (nshift - 4)) & 0xF;
+            c += (c < 10) ? '0' : ('a' - 10);
+            putc_unlocked(c, ocidump_logfp);
+            nshift -= 4;
+        }
+    }
+}
+
+void ocidump_function_pointer(void *addr)
+{
+#ifdef __linux
+    Dl_info info;
+    if (dladdr(addr, &info) == 0 && info.dli_saddr == addr) {
+        ocidump_pointer(addr);
+        putc_unlocked('(', ocidump_logfp);
+        ocidump_puts(info.dli_sname);
+        ocidump_puts(" in ");
+        ocidump_puts(info.dli_fname);
+        putc_unlocked(')', ocidump_logfp);
+        return;
+    }
+#else
+    ocidump_pointer(addr);
+#endif
+}
+
+void ocidump_attrtype(ub4 attrtype, ub4 htype)
+{
+    if (htype >= OCI_DTYPE_FIRST && ocidump_dtypeattr(attrtype) == 0) {
+        return;
+    }
+    ocidump_htypeattr(attrtype);
+}
+
+void ocidump_long(const signed long sl)
+{
+    char buf[OCIDUMP_SHORT_BUF_SIZE];
+    sprintf(buf, "%ld", sl);
+    ocidump_puts(buf);
+}
+
+void ocidump_ulong(const unsigned long ul)
+{
+    char buf[OCIDUMP_SHORT_BUF_SIZE];
+    sprintf(buf, "%lu", ul);
+    ocidump_puts(buf);
+}
+
+#if SIZEOF_LONG == 4
+void ocidump_ub8(const ub8 ul)
+{
+    char buf[OCIDUMP_SHORT_BUF_SIZE];
+    sprintf(buf, "%" OCIDUMP_UB8_FMT, ul);
+    ocidump_puts(buf);
+}
+
+void ocidump_sb8(const sb8 sl)
+{
+    char buf[OCIDUMP_SHORT_BUF_SIZE];
+    sprintf(buf, "%" OCIDUMP_SB8_FMT, sl);
+    ocidump_puts(buf);
+}
+#endif
+
+void ocidump_hex(const unsigned long ul)
+{
+    char buf[OCIDUMP_SHORT_BUF_SIZE];
+    sprintf(buf, "0x%lx", ul);
+    ocidump_puts(buf);
+}
+
+void ocidump_OCIDate(const OCIDate *date)
+{
+    fprintf(ocidump_logfp, "{%04d-%02u-%02u %02u:%02u:%02u}", date->OCIDateYYYY, date->OCIDateMM, date->OCIDateDD, date->OCIDateTime.OCITimeHH, date->OCIDateTime.OCITimeMI, date->OCIDateTime.OCITimeSS);
+}
+
+void ocidump_OCINumber(const OCINumber *num)
+{
+    if (num == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+        char buf[128];
+
+        if (ocidump_oranumber_to_str(num, buf, sizeof(buf)) <= 0) {
+            ocidump_oranumber_dump(num, buf);
+        }
+        ocidump_puts(buf);
+    }
+}
+
+void ocidump_pointer_to_null_indicator(void *ind, OCITypeCode tc, int is_input)
+{
+    if (ind == NULL) {
+        ocidump_puts("(nil)");
+    } else if (tc != 108 /* OCI_TYPECODE_OBJECT */) {
+        putc_unlocked('[', ocidump_logfp);
+        ocidump_OCIInd(*(OCIInd*)ind);
+        putc_unlocked(']', ocidump_logfp);
+    } else if (is_input) {
+        ocidump_pointer(ind);
+    } else {
+        putc_unlocked('[', ocidump_logfp);
+        ocidump_pointer(*(void**)ind);
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+void ocidump_pointer_or_pointer_to_pointer(void *val, int is_pointer)
+{
+    if (val == NULL) {
+        ocidump_puts("(nil)");
+    } else if (is_pointer) {
+        ocidump_pointer(val);
+    } else {
+        putc_unlocked('[', ocidump_logfp);
+        ocidump_pointer(*(void**)val);
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+void ocidump_string(const text *str)
+{
+    if (str == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+        ocidump_string_with_length(str, (ub4)strlen((const char*)str));
+    }
+}
+
+void ocidump_string_with_length(const text *str, ub4 len)
+{
+    if (str == NULL) {
+        ocidump_puts("(nil)");
+    } else if (ocidump_hide_string) {
+        ocidump_puts("(hidden)");
+    } else {
+        ub4 idx;
+        putc_unlocked('"', ocidump_logfp);
+        for (idx = 0; idx < len; idx++) {
+            text chr = str[idx];
+            switch (chr) {
+            case '\0':
+                putc_unlocked('\\', ocidump_logfp);
+                putc_unlocked('0', ocidump_logfp);
+                break;
+            case '\r':
+                putc_unlocked('\\', ocidump_logfp);
+                putc_unlocked('r', ocidump_logfp);
+                break;
+            case '\n':
+                putc_unlocked('\\', ocidump_logfp);
+                putc_unlocked('n', ocidump_logfp);
+                break;
+            case '\\':
+            case '"':
+                putc_unlocked('\\', ocidump_logfp);
+                /* pass through */
+            default:
+                putc_unlocked(chr, ocidump_logfp);
+            }
+        }
+        putc_unlocked('"', ocidump_logfp);
+    }
+}
+
+void ocidump_string_with_maxlen(const text *str, ub4 len)
+{
+    if (str == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+        ub4 i;
+        for (i = 0; i < len && str[i] != '\0'; i++);
+        ocidump_string_with_length(str, i);
+    }
+}
+
+void ocidump_pointer_to_int_with_length(const void *val, uword length, uword flag)
+{
+    switch (flag) {
+    case 0: /* OCI_NUMBER_UNSIGNED */
+        switch (length) {
+        case 1: ocidump_pointer_to_ub1((ub1*)val); break;
+        case 2: ocidump_pointer_to_ub2((ub2*)val); break;
+        case 4: ocidump_pointer_to_ub4((ub4*)val); break;
+        case 8: ocidump_pointer_to_ub8((ub8*)val); break;
+        default: ocidump_puts("(invalid length)");
+        }
+    case 2: /* OCI_NUMBER_SIGNED */
+        switch (length) {
+        case 1: ocidump_pointer_to_sb1((sb1*)val); break;
+        case 2: ocidump_pointer_to_sb2((sb2*)val); break;
+        case 4: ocidump_pointer_to_sb4((sb4*)val); break;
+        case 8: ocidump_pointer_to_sb8((sb8*)val); break;
+        default: ocidump_puts("(invalid length)");
+        }
+    default:
+        ocidump_puts("(invalid flag)");
+    }
+}
+
+void ocidump_pointer_to_real_with_length(const void *val, uword length, ub4 cnt, sword status)
+{
+    if (val == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+        ub4 idx;
+        char buf[128];
+
+        putc_unlocked('[', ocidump_logfp);
+        for (idx = 0; idx < cnt; idx++) {
+            switch (length) {
+            case 4:
+                snprintf(buf, sizeof(buf), "%f", ((float*)val)[idx]);
+                ocidump_puts(buf);
+                break;
+            case 8:
+                snprintf(buf, sizeof(buf), "%f", ((double*)val)[idx]);
+                ocidump_puts(buf);
+                break;
+            default:
+                ocidump_puts("(invalid length)");
+            }
+        }
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+void ocidump_pointer_to_string_with_length(text **str, ub4 *len, sword status)
+{
+    if (str == NULL || len == NULL) {
+        ocidump_puts("(nil)");
+    } else if (status != 0) {
+        ocidump_puts("[skip]");
+    } else {
+        putc_unlocked('[', ocidump_logfp);
+        ocidump_string_with_length(*str, *len);
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+#define DECLARE_POINTER_TO_TYPE_FUNC(x, y) \
+void ocidump_pointer_to_##x(const y *val) \
+{ \
+    if (val == NULL) { \
+        ocidump_puts("(nil)"); \
+    } else { \
+        putc_unlocked('[', ocidump_logfp); \
+        ocidump_##x(*val); \
+        putc_unlocked(']', ocidump_logfp); \
+    } \
+}
+
+DECLARE_POINTER_TO_TYPE_FUNC(ub1, ub1)
+DECLARE_POINTER_TO_TYPE_FUNC(sb1, sb1)
+DECLARE_POINTER_TO_TYPE_FUNC(ub2, ub2)
+DECLARE_POINTER_TO_TYPE_FUNC(sb2, sb2)
+DECLARE_POINTER_TO_TYPE_FUNC(ub4, ub4)
+DECLARE_POINTER_TO_TYPE_FUNC(sb4, sb4)
+DECLARE_POINTER_TO_TYPE_FUNC(ub8, ub8)
+DECLARE_POINTER_TO_TYPE_FUNC(sb8, sb8)
+DECLARE_POINTER_TO_TYPE_FUNC(uword, uword)
+DECLARE_POINTER_TO_TYPE_FUNC(sword, sword)
+DECLARE_POINTER_TO_TYPE_FUNC(size_t, size_t)
+DECLARE_POINTER_TO_TYPE_FUNC(boolean, boolean)
+DECLARE_POINTER_TO_TYPE_FUNC(OCIDuration, OCIDuration)
+DECLARE_POINTER_TO_TYPE_FUNC(OCIInd, OCIInd)
+DECLARE_POINTER_TO_TYPE_FUNC(OCITypeCode, OCITypeCode)
+DECLARE_POINTER_TO_TYPE_FUNC(OCI_PIECE, ub1)
+DECLARE_POINTER_TO_TYPE_FUNC(SQLT, OCITypeCode)
+DECLARE_POINTER_TO_TYPE_FUNC(htype, ub4)
+DECLARE_POINTER_TO_TYPE_FUNC(SQLCS, ub1)
+DECLARE_POINTER_TO_TYPE_FUNC(pointer, void *)
+
+#define DECLARE_ARRAY_OF_TYPE_FUNC(x, y) \
+void ocidump_array_of_##x(const y *val, const ub4 array_size, sword status) \
+{ \
+    if (val == NULL) { \
+        ocidump_puts("(nil)"); \
+    } else if (status != 0) { \
+        ocidump_puts("[skip]"); \
+    } else { \
+        ub4 idx; \
+        putc_unlocked('[', ocidump_logfp); \
+        for (idx = 0; idx < array_size; idx++) { \
+            if (idx != 0) { \
+                putc_unlocked(',', ocidump_logfp); \
+            } \
+            ocidump_##x(val[idx]); \
+        } \
+        putc_unlocked(']', ocidump_logfp); \
+    } \
+}
+
+DECLARE_ARRAY_OF_TYPE_FUNC(pointer, void *)
+DECLARE_ARRAY_OF_TYPE_FUNC(ub1, ub1)
+DECLARE_ARRAY_OF_TYPE_FUNC(ub4, ub4)
+DECLARE_ARRAY_OF_TYPE_FUNC(OCINumber, OCINumber *)
+
+void ocidump_array_of_string_with_length(text **str, ub4 *len, const ub4 array_size, sword status)
+{
+    ocidump_array_of_const_string_with_length((const text **)str, (const ub4 *)len, array_size, status);
+}
+
+void ocidump_array_of_const_string_with_length(const text **str, const ub4 *len, const ub4 array_size, sword status)
+{
+    if (str == NULL || len == NULL) {
+        ocidump_puts("(nil)");
+    } else if (status != 0) {
+        ocidump_puts("[skip]");
+    } else {
+        ub4 idx;
+        putc_unlocked('[', ocidump_logfp);
+        for (idx = 0; idx < array_size; idx++) {
+            if (idx != 0) {
+                putc_unlocked(',', ocidump_logfp);
+            }
+            ocidump_string_with_length(str[idx], len[idx]);
+        }
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+void ocidump_array_of_string_with_ub1length(text **str, ub1 *len, const ub4 array_size, sword status)
+{
+    if (str == NULL || len == NULL) {
+        ocidump_puts("(nil)");
+    } else if (status != 0) {
+        ocidump_puts("[skip]");
+    } else {
+        ub4 idx;
+        putc_unlocked('[', ocidump_logfp);
+        for (idx = 0; idx < array_size; idx++) {
+            if (idx != 0) {
+                putc_unlocked(',', ocidump_logfp);
+            }
+            ocidump_string_with_length(str[idx], len[idx]);
+        }
+        putc_unlocked(']', ocidump_logfp);
+    }
 }

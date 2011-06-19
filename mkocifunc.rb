@@ -1,18 +1,42 @@
 require 'erb'
 require 'yaml'
 
+if defined? YAML::ENGINE
+  YAML::ENGINE.yamler = 'syck'
+end
+
 class ArgDef
   attr_reader :type
   attr_reader :name
   attr_reader :fmt
   attr_reader :fmt_arg
+  attr_reader :local_var
 
-  def initialize(arg)
-    @type, @fmt, @fmt_arg = arg
-    @name = @type.gsub(/\[\]/, '')
-    /(\w+)\s*$/ =~ @name
-    /\(\*(\w+)\)/ =~ @name if $1.nil?
-    @name = $1
+  def initialize(arg, idx)
+    @type, @fmt, *@args = arg
+    @fmt_arg = @args[0] if @fmt.is_a? String
+    if idx == 0
+      @name = 'ret'
+    else
+      @name = @type.gsub(/\[\]/, '')
+      /(\w+)\s*$/ =~ @name
+      /\(\*(\w+)\)/ =~ @name if $1.nil?
+      @name = $1
+    end
+    @fmt.gsub!(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'} if @fmt.is_a? String
+    @args.shift if @args[0].is_a? Symbol
+    @args.unshift(@name)
+  end
+
+  def to_c_code(fmt_arg)
+    case @fmt
+    when String
+      "ocidump_log(0, \"#{@fmt}\", #{fmt_arg})"
+    when :pointer_to_pointer, :array_of_pointer
+      "ocidump_%s((const void **)%s)" % [@fmt, @args.join(', ')]
+    when Symbol
+      "ocidump_%s(%s)" % [@fmt, @args.join(', ')]
+    end
   end
 end
 
@@ -23,14 +47,57 @@ class FuncDef
   attr_reader :before_call
   attr_reader :after_call
 
+  attr_reader :fmt_args
+  attr_reader :local_vars
+  attr_reader :hide_vars
+  attr_reader :cleanups
+  attr_reader :logging_args
+  attr_reader :logging_ret
+
   def initialize(key, val)
     @name = key
-    @ret = ArgDef.new(val[:ret])
-    @args = val[:args].collect do |arg|
-      ArgDef.new(arg)
+    @ret = ArgDef.new(val[:ret], 0)
+    @args = []
+    val[:args].each_with_index do |arg, idx|
+      args << ArgDef.new(arg, idx + 1)
     end
     @before_call = val[:before_call]
     @after_call = val[:after_call]
+
+    @fmt_args = @args.collect {|arg| arg.fmt_arg}
+    @fmt_args << @ret.fmt_arg if @ret.type != 'void'
+
+    @local_vars = []
+    @cleanups = []
+    fmt_args.collect! do |fmt_arg|
+      if fmt_arg.nil?
+        nil
+      else
+        fmt_arg.gsub(/@(\w+)_BUF@/) do |match|
+          var_name = "buf" + (local_vars.length + 1).to_s
+          @local_vars << "char #{var_name}[OCIDUMP_#{$1}_BUF_SIZE]"
+          var_name
+        end.gsub(/@BUF_PTR@/) do |match|
+          var_name = "buf" + (local_vars.length + 1).to_s
+          @local_vars << "char *#{var_name} = NULL"
+          cleanups << "free(#{var_name})"
+          '&' + var_name
+        end
+      end
+    end
+    @local_vars.unshift(@ret.type + " ret") if @ret.type != 'void'
+
+    @hide_vars = []
+    @logging_args = []
+    @args.each_with_index do |arg, idx|
+      if arg.fmt == '\"%.*s\"'
+        len, str = arg.fmt_arg.gsub(/\(.*?\)/, '').split(/\s*,\s*/)
+        @hide_vars << len + ' = 6'
+        @hide_vars << str + ' = (OraText*)"hidden"'
+      end
+      @logging_args << arg.to_c_code(@fmt_args[idx])
+    end
+    @logging_ret = @ret.to_c_code(@fmt_args[@args.length])
   end
 end
 
@@ -131,10 +198,9 @@ EOS
       else
         arg = "#{typedef.datatype} val"
       end
-      arg += ", char *buf" if typedef.format
       fd.write <<EOS
 
-const char *ocidump_#{typedef.name}2name(#{arg});
+int ocidump_#{typedef.name}(#{arg});
 EOS
     end
     fd.write <<EOS
@@ -156,32 +222,39 @@ EOS
       else
         arg = "#{typedef.datatype} val"
       end
-      arg += ", char *buf" if typedef.format
       fd.write <<EOS
 
-const char *ocidump_#{typedef.name}2name(#{arg})
+int ocidump_#{typedef.name}(#{arg})
 {
+    const char *str = NULL;
     switch (val) {
 EOS
       typedef.values.each do |val|
         fd.write <<EOS
-    case #{val[0]}: return "#{val[1]}";
+    case #{val[0]}: str = "#{val[1]}"; break;
 EOS
       end
-      if typedef.format
         fd.write <<EOS
     }
-    sprintf(buf, "#{typedef.format}", val);
-    return buf;
-}
+    if (str == NULL) {
+EOS
+      if typedef.format
+        fd.write <<EOS
+        char buf[OCIDUMP_SHORT_BUF_SIZE];
+        sprintf(buf, "#{typedef.format}", val);
+        str = buf;
 EOS
       else
         fd.write <<EOS
-    }
-    return NULL;
-}
+        return -1;
 EOS
       end
+      fd.write <<EOS
+    }
+    ocidump_puts(str);
+    return 0;
+}
+EOS
     end
   end
 end

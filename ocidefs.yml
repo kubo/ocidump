@@ -187,6 +187,235 @@ OCITypeParamMode:
            - [4,      OCI_TYPEPARAM_OUTNCPY]
            - [5,      OCI_TYPEPARAM_INOUTNCPY]
 
+LobBufferingFlushFlag:
+  :type: :macro
+  :datatype: ub4
+  :format: %u
+  :values: - [1,      OCI_LOB_BUFFER_FREE]
+           - [2,      OCI_LOB_BUFFER_NOFREE]
+
+LobOpenMode:
+  :type: :macro
+  :datatype: ub1
+  :format: %u
+  :values: - [1,      OCI_LOB_READONLY]
+           - [2,      OCI_LOB_READWRITE]
+           - [3,      OCI_LOB_WRITEONLY]
+           - [4,      OCI_LOB_APPENDONLY]
+           - [5,      OCI_LOB_FULLOVERWRITE]
+           - [6,      OCI_LOB_FULLREAD]
+
+LobType:
+  :type: :macro
+  :datatype: ub1
+  :format: %u
+  :values: - [1,      OCI_TEMP_BLOB]
+           - [2,      OCI_TEMP_CLOB]
+
+OCICredentialType:
+  :type: :macro
+  :datatype: ub4
+  :format: %u
+  :values: - [1,      OCI_CRED_RDBMS]
+           - [2,      OCI_CRED_EXT]
+           - [3,      OCI_CRED_PROXY]
+
+OCIDuration:
+  :type: :macro
+  :datatype: OCIDuration
+  :format: %u
+  :values: - [0xFFFF, OCI_DURATION_INVALID]
+           #- [10,     OCI_DURATION_BEGIN]
+           - [9,      OCI_DURATION_NULL]
+           - [8,      OCI_DURATION_DEFAULT]
+           - [7,      OCI_DURATION_USER_CALLBACK]
+           - [6,      OCI_DURATION_NEXT]
+           - [10,     OCI_DURATION_SESSION]
+           - [11,     OCI_DURATION_TRANS]
+           - [12,     OCI_DURATION_CALL]
+           - [13,     OCI_DURATION_STATEMENT]
+           - [14,     OCI_DURATION_CALLOUT]
+           - [5,      OCI_DURATION_PROCESS]
+
+OCIFetchOption:
+  :type: :macro
+  :datatype: ub2
+  :format: 0x%x
+  :values: - [0x00000001, OCI_FETCH_CURRENT]
+           - [0x00000002, OCI_FETCH_NEXT]
+           - [0x00000004, OCI_FETCH_FIRST]
+           - [0x00000008, OCI_FETCH_LAST]
+           - [0x00000010, OCI_FETCH_PRIOR]
+           - [0x00000020, OCI_FETCH_ABSOLUTE]
+           - [0x00000040, OCI_FETCH_RELATIVE]
+
+OCIInd:
+  :type: :macro
+  :datatype: OCIInd
+  :format: %d
+  :values: - [0,      OCI_IND_NOTNULL]
+           - [-1,     OCI_IND_NULL]
+           - [-2,     OCI_IND_BADNULL]
+           - [-3,     OCI_IND_NOTNULLABLE]
+
+OCILogon2Mode:
+  :type: :macro
+  :datatype: ub4
+  :format: %u
+  :values: - [0x0001, OCI_LOGON2_SPOOL]
+           - [0x0200, OCI_LOGON2_CPOOL]
+           - [0x0004, OCI_LOGON2_STMTCACHE]
+           - [0x0008, OCI_LOGON2_PROXY]
+
+OCIObjectPropId:
+  :type: :macro
+  :datatype: OCIObjectPropId
+  :format: %u
+  :values: - [1,      OCI_OBJECTPROP_LIFETIME]
+           - [2,      OCI_OBJECTPROP_SCHEMA]
+           - [3,      OCI_OBJECTPROP_TABLE]
+           - [4,      OCI_OBJECTPROP_PIN_DURATION]
+           - [5,      OCI_OBJECTPROP_ALLOC_DURATION]
+           - [6,      OCI_OBJECTPROP_LOCK]
+           - [7,      OCI_OBJECTPROP_MARKSTATUS]
+           - [8,      OCI_OBJECTPROP_VIEW]
+
+OCITypeCode:
+  :type: :macro
+  :datatype: OCITypeCode
+  :format: %u
+  :values: - [0,      OCI_TYPECODE_NONE]
+           - [1,      OCI_TYPECODE_VARCHAR]
+           - [2,      OCI_TYPECODE_NUMBER]
+           - [3,      OCI_TYPECODE_INTEGER]
+           - [4,      OCI_TYPECODE_FLOAT]
+           - [7,      OCI_TYPECODE_DECIMAL]
+           - [9,      OCI_TYPECODE_VARCHAR2]
+           - [12,     OCI_TYPECODE_DATE]
+           - [21,     OCI_TYPECODE_REAL]
+           - [22,     OCI_TYPECODE_DOUBLE]
+           - [23,     OCI_TYPECODE_UNSIGNED8]
+           - [25,     OCI_TYPECODE_UNSIGNED16]
+           - [26,     OCI_TYPECODE_UNSIGNED32]
+           - [27,     OCI_TYPECODE_SIGNED8]
+           - [28,     OCI_TYPECODE_SIGNED16]
+           - [29,     OCI_TYPECODE_SIGNED32]
+           - [32,     OCI_TYPECODE_PTR]
+           - [58,     OCI_TYPECODE_OPAQUE]
+           - [95,     OCI_TYPECODE_RAW]
+           - [96,     OCI_TYPECODE_CHAR]
+           - [100,    OCI_TYPECODE_BFLOAT]
+           - [101,    OCI_TYPECODE_BDOUBLE]
+           - [104,    OCI_TYPECODE_UROWID]
+           - [105,    OCI_TYPECODE_MLSLABEL]
+           - [108,    OCI_TYPECODE_OBJECT]
+           - [110,    OCI_TYPECODE_REF]
+           - [112,    OCI_TYPECODE_CLOB]
+           - [113,    OCI_TYPECODE_BLOB]
+           - [114,    OCI_TYPECODE_BFILE]
+           - [115,    OCI_TYPECODE_CFILE]
+           - [122,    OCI_TYPECODE_NAMEDCOLLECTION]
+           - [185,    OCI_TYPECODE_TIME]
+           - [186,    OCI_TYPECODE_TIME_TZ]
+           - [187,    OCI_TYPECODE_TIMESTAMP]
+           - [188,    OCI_TYPECODE_TIMESTAMP_TZ]
+           - [189,    OCI_TYPECODE_INTERVAL_YM]
+           - [190,    OCI_TYPECODE_INTERVAL_DS]
+           - [232,    OCI_TYPECODE_TIMESTAMP_LTZ]
+           - [245,    OCI_TYPECODE_OCTET]
+           - [246,    OCI_TYPECODE_SMALLINT]
+           - [247,    OCI_TYPECODE_VARRAY]
+           - [248,    OCI_TYPECODE_TABLE]
+           - [266,    OCI_TYPECODE_PLS_INTEGER]
+           - [283,    OCI_TYPECODE_ERRHP]
+           - [286,    OCI_TYPECODE_NCHAR]
+           - [287,    OCI_TYPECODE_NVARCHAR2]
+           - [288,    OCI_TYPECODE_NCLOB]
+           - [320,    OCI_TYPECODE_OTMLAST]
+#           - [SQLT_TAB     OCI_TYPECODE_ITABLE]
+#           - [SQLT_REC     OCI_TYPECODE_RECORD]
+#           - [SQLT_BOL     OCI_TYPECODE_BOOLEAN]
+
+OCI_PIECE:
+  :type: macro
+  :datatype: ub1
+  :format: %u
+  :values: - [0,      OCI_ONE_PIECE]
+           - [1,      OCI_FIRST_PIECE]
+           - [2,      OCI_NEXT_PIECE]
+           - [3,      OCI_LAST_PIECE]
+
+OCI_SYNTAX:
+  :type: macro
+  :datatype: ub4
+  :format: %u
+  :values: - [2,      OCI_V7_SYNTAX]
+           - [3,      OCI_V8_SYNTAX]
+           - [1,      OCI_NTV_SYNTAX]
+
+SQLCS:
+  :type: macro
+  :datatype: ub1
+  :format: %u
+  :values: - [1,      SQLCS_IMPLICIT]
+           - [2,      SQLCS_NCHAR]
+           - [3,      SQLCS_EXPLICIT]
+           - [4,      SQLCS_FLEXIBLE]
+           - [5,      SQLCS_LIT_NULL]
+
+SQLT:
+  :type: :macro
+  :datatype: ub2
+  :format: %u
+  :values: - [1,      SQLT_CHR]
+           - [2,      SQLT_NUM]
+           - [3,      SQLT_INT]
+           - [4,      SQLT_FLT]
+           - [5,      SQLT_STR]
+           - [6,      SQLT_VNU]
+           - [7,      SQLT_PDN]
+           - [8,      SQLT_LNG]
+           - [9,      SQLT_VCS]
+           - [10,     SQLT_NON]
+           - [11,     SQLT_RID]
+           - [12,     SQLT_DAT]
+           - [15,     SQLT_VBI]
+           - [21,     SQLT_BFLOAT]
+           - [22,     SQLT_BDOUBLE]
+           - [23,     SQLT_BIN]
+           - [24,     SQLT_LBI]
+           - [68,     SQLT_UIN]
+           - [91,     SQLT_SLS]
+           - [94,     SQLT_LVC]
+           - [95,     SQLT_LVB]
+           - [96,     SQLT_AFC]
+           - [97,     SQLT_AVC]
+           - [100,    SQLT_IBFLOAT]
+           - [101,    SQLT_IBDOUBLE]
+           - [102,    SQLT_CUR]
+           - [104,    SQLT_RDD]
+           - [105,    SQLT_LAB]
+           - [106,    SQLT_OSL]
+           - [108,    SQLT_NTY]
+           - [110,    SQLT_REF]
+           - [112,    SQLT_CLOB]
+           - [113,    SQLT_BLOB]
+           - [114,    SQLT_BFILEE]
+           - [115,    SQLT_CFILEE]
+           - [116,    SQLT_RSET]
+           - [122,    SQLT_NCO]
+           - [155,    SQLT_VST]
+           - [156,    SQLT_ODT]
+           - [184,    SQLT_DATE]
+           - [185,    SQLT_TIME]
+           - [186,    SQLT_TIME_TZ]
+           - [187,    SQLT_TIMESTAMP]
+           - [188,    SQLT_TIMESTAMP_TZ]
+           - [189,    SQLT_INTERVAL_YM]
+           - [190,    SQLT_INTERVAL_DS]
+           - [232,    SQLT_TIMESTAMP_LTZ]
+           - [241,    SQLT_PNTY]
+
 status:
   :type: :macro
   :datatype: sword

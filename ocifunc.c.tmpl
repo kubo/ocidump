@@ -1,46 +1,19 @@
 /* -*- c-file-style: "ruby"; indent-tabs-mode: nil -*- */
 <%= header_comment %>
-#ifdef _WIN32
-#include <windows.h>
-#define OCIDUMP_THREAD_ID_FMT "%5u"
-#define OCIDUMP_THREAD_ID GetCurrentThreadId()
-#else
-#include <pthread.h>
-#define OCIDUMP_THREAD_ID_FMT "%p"
-#define OCIDUMP_THREAD_ID (void*)pthread_self()
+#ifndef _WIN32
+#define __try
+#define __finally
 #endif
 #include <stdlib.h>
+#include <string.h>
 #include "ocidump.h"
 
 <%
 funcs.each do |f|
-  fmt_args = f.args.collect {|arg| arg.fmt_arg}.compact
-  fmt_args << f.ret.fmt_arg if f.ret.type != 'void'
-
-  local_vars = []
-  cleanups = []
-  fmt_args.collect! do |fmt_arg|
-    fmt_arg.gsub(/@(\w+)_BUF@/) do |match|
-      var_name = "buf" + (local_vars.length + 1).to_s
-      local_vars << "char #{var_name}[OCIDUMP_#{$1}_BUF_SIZE]"
-      var_name
-    end.gsub(/@BUF_PTR@/) do |match|
-      var_name = "buf" + (local_vars.length + 1).to_s
-      local_vars << "char *#{var_name} = NULL"
-      cleanups << "free(#{var_name})"
-      '&' + var_name
-    end
-  end
-  local_vars.unshift(f.ret.type + " ret") if f.ret.type != 'void'
-
-  hide_vars = []
-  f.args.each do |arg|
-    if arg.fmt == '\"%.*s\"'
-       len, str = arg.fmt_arg.gsub(/\(.*?\)/, '').split(/\s*,\s*/)
-       hide_vars << len + ' = 6'
-       hide_vars << str + ' = (OraText*)"hidden"'
-    end
-  end
+  fmt_args = f.fmt_args
+  local_vars = f.local_vars
+  hide_vars = f.hide_vars
+  cleanups = f.cleanups
 %>
 typedef <%=f.ret.type%> (*<%=f.name%>_func_t)(<%=f.args.collect {|arg| arg.type}.join(', ')%>);
 static <%=f.name%>_func_t <%=f.name%>_orig;
@@ -69,10 +42,25 @@ static unsigned int <%=f.name%>_flags = OCIDUMP_HOOK_EXIT;
 <%    end
 %>        }
 <%  end
-%>        ocidump_log(0, OCIDUMP_THREAD_ID_FMT ": <%=f.name%>(<%=f.args.collect {|arg| arg.fmt.gsub(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'}}.join(', ')%>)<%=
-f.ret.type != 'void' ? " => " + f.ret.fmt : ""%>\n",
-                     OCIDUMP_THREAD_ID,
-                     <%=fmt_args.join(",\n                     ")%>);
+%>        ocidump_log_start("<%=f.name%>(");
+        __try {
+<%  f.logging_args.each_with_index do |arg, idx|
+      if idx != 0
+%>            ocidump_putc(',');
+            ocidump_putc(' ');
+<%    end
+%>            <%=arg%>;
+<%  end
+    if f.logging_ret
+%>            ocidump_puts(") => ");
+            <%=f.logging_ret%>;
+<%  else
+%>            ocidump_putc(')');
+<%  end
+%>            ocidump_putc('\n');
+        } __finally {
+            ocidump_log_end();
+        }
     }
 <%  cleanups.each do |cleanup|
 %>    <%=cleanup%>;
@@ -87,5 +75,6 @@ end # funcs.each
 ocidump_hook_t ocidump_hooks[] = {
 <% funcs.each do |f|
 %>    {"<%=f.name%>", (void*)<%=f.name%>, (void**)&<%=f.name%>_orig, &<%=f.name%>_flags},
-<% end %>    {NULL, NULL, NULL, NULL},
-};
+<% end %>};
+
+int ocidump_hook_cnt = <%=funcs.size%>;
