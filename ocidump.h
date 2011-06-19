@@ -2,6 +2,10 @@
 #define OCIDUMP_H 1
 #include <stdio.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 typedef unsigned char ub1;
 typedef   signed char sb1;
 typedef unsigned short ub2;
@@ -210,6 +214,10 @@ void ocidump_array_of_const_string_with_length(const text **str, const ub4 *len,
 void ocidump_array_of_string_with_ub1length(text **str, ub1 *len, const ub4 array_size, sword status);
 
 /* win32.c */
+#ifdef _WIN32
+extern BOOL ocidump_use_dbghelp;
+extern CRITICAL_SECTION ocidump_dbghelp_lock;
 void ocidump_setup_win32_api_hook(void);
+#endif
 
 #endif /* OCIDUMP_H */

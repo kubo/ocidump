@@ -9,6 +9,9 @@
 
 #define OCIDUMP_ENABLE_KERNEL32_DLL_HOOK 0 /* This option is problematic...  */
 
+BOOL ocidump_use_dbghelp = TRUE; /* FIXME: changed by a directive in OCIDUMP_CONFIG */
+CRITICAL_SECTION ocidump_dbghelp_lock;
+
 static HMODULE hModuleOCI;
 static HMODULE hThisModule;
 
@@ -19,6 +22,10 @@ __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, L
     if (fdwReason == DLL_PROCESS_ATTACH) {
         hThisModule = hinstDLL;
         ocidump_init();
+        if (ocidump_use_dbghelp) {
+            SymInitialize(GetCurrentProcess(), NULL, TRUE);
+            InitializeCriticalSectionAndSpinCount(&ocidump_dbghelp_lock, 4000);
+        }
     }
     return TRUE;
 }

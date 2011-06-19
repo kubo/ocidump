@@ -1,9 +1,9 @@
 ORACLE_HOME = c:\oraclexe\app\oracle\product\10.2.0\server
 
 CC = cl /nologo
-CFLAGS = /MT
+CFLAGS = /MT /Zi
 LD_SHARED = $(CC) /LD
-LDFLAGS = /MT
+LDFLAGS = /MT /Zi
 RM = del
 
 OBJS = ocidump.obj ocifunc.obj ocidefs.obj oranumber_util.obj win32.obj

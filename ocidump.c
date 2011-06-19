@@ -1,5 +1,6 @@
 #ifdef _WIN32
 #include <windows.h>
+#include <dbghelp.h>
 #define snprintf _snprintf
 #else
 #include <pthread.h>
@@ -214,20 +215,56 @@ void ocidump_pointer(const void *ptr)
 
 void ocidump_function_pointer(void *addr)
 {
+    const char *file_name = NULL;
+    const char *symbol_name = NULL;
 #ifdef __linux
     Dl_info info;
-    if (dladdr(addr, &info) == 0 && info.dli_saddr == addr) {
-        ocidump_pointer(addr);
-        putc_unlocked('(', ocidump_logfp);
-        ocidump_puts(info.dli_sname);
-        ocidump_puts(" in ");
-        ocidump_puts(info.dli_fname);
-        putc_unlocked(')', ocidump_logfp);
-        return;
+    if (addr != NULL) {
+        if (dladdr(addr, &info) != 0 && info.dli_saddr == addr) {
+            file_name = info.dli_fname;
+            symbol_name = info.dli_sname;
+        }
     }
-#else
-    ocidump_pointer(addr);
 #endif
+#ifdef _WIN32
+    char fbuf[MAX_PATH];
+    struct {
+        SYMBOL_INFO info;
+        char buf[MAX_SYM_NAME];
+    } symbol;
+
+    if (addr != NULL) {
+        HMODULE hModule;
+
+        if (ocidump_use_dbghelp) {
+            HANDLE hProcess = GetCurrentProcess();
+            DWORD64 displacement;
+
+            symbol.info.SizeOfStruct = sizeof(symbol);
+            symbol.info.MaxNameLen = MAX_SYM_NAME;
+            EnterCriticalSection(&ocidump_dbghelp_lock);
+            if (SymFromAddr(hProcess, (DWORD64)addr, &displacement, &symbol.info) && displacement == 0) {
+                symbol_name = symbol.info.Name;
+            }
+            LeaveCriticalSection(&ocidump_dbghelp_lock);
+        }
+        if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, addr, &hModule)) {
+            if (GetModuleFileName(hModule, fbuf, sizeof(fbuf)) > 0) {
+                file_name = fbuf;
+            }
+            FreeLibrary(hModule);
+        }
+    }
+#endif
+    if (symbol_name != NULL) {
+        ocidump_puts(symbol_name);
+    } else {
+        ocidump_pointer(addr);
+    }
+    if (file_name != NULL) {
+        ocidump_puts(" in ");
+        ocidump_puts(file_name);
+    }
 }
 
 void ocidump_attrtype(ub4 attrtype, ub4 htype)
