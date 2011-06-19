@@ -1,5 +1,6 @@
 #ifdef _WIN32
 #include <windows.h>
+#define snprintf _snprintf
 #else
 #include <pthread.h>
 #include <dlfcn.h>

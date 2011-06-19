@@ -43,7 +43,7 @@ static FARPROC WINAPI GetProcAddress_hook(HMODULE hModule, LPCSTR lpProcName)
 
     if (ret != NULL && hModule == hModuleOCI) {
         int i;
-        for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+        for (i = 0; i < ocidump_hook_cnt; i++) {
             if (ret == *ocidump_hooks[i].orig_func) {
                 return (FARPROC)ocidump_hooks[i].hook_func;
             }
@@ -106,8 +106,8 @@ static ocidump_hook_t kernel32_dll_hooks[] = {
     {"LoadLibraryW", (void*)LoadLibraryW_hook, (void**)&LoadLibraryW_orig, NULL},
     {"LoadLibraryExA", (void*)LoadLibraryExA_hook, (void**)&LoadLibraryExA_orig, NULL},
     {"LoadLibraryExW", (void*)LoadLibraryExW_hook, (void**)&LoadLibraryExW_orig, NULL},
-    {NULL, NULL, NULL, NULL},
 };
+#define NUM_OF_KERNEL32_DLL_HOOKS (sizeof(kernel32_dll_hooks)/sizeof(kernel32_dll_hooks[0]))
 #endif
 
 static void replace_import_section(HANDLE hModule)
@@ -118,19 +118,22 @@ static void replace_import_section(HANDLE hModule)
     if (desc != NULL) {
         while (desc->Name != 0) {
             ocidump_hook_t *hooks = NULL;
+            int cnt;
             const char *dll_name = (const char*)hModule + desc->Name;
             if (stricmp(dll_name, "OCI.DLL") == 0) {
                 hooks = ocidump_hooks;
+                cnt = ocidump_hook_cnt;
 #if OCIDUMP_ENABLE_KERNEL32_DLL_HOOK
             } else if (stricmp(dll_name, "KERNEL32.DLL") == 0) {
                 hooks = kernel32_dll_hooks;
+                cnt = NUM_OF_KERNEL32_DLL_HOOKS;
 #endif
             }
             if (hooks != NULL) {
                 IMAGE_THUNK_DATA *thunk = (IMAGE_THUNK_DATA*)((char*)hModule + desc->FirstThunk);
                 while (thunk->u1.Function != 0) {
                     int i;
-                    for (i = 0; hooks[i].name != NULL; i++) {
+                    for (i = 0; i < cnt; i++) {
                         if ((void *)thunk->u1.Function == *hooks[i].orig_func) {
                             DWORD dwOld;
                             DWORD dwDummy;
@@ -160,7 +163,7 @@ void ocidump_setup_win32_api_hook(void)
 
     hModuleOCI = GetModuleHandle("OCI.DLL");
 
-    for (i = 0; ocidump_hooks[i].name != NULL; i++) {
+    for (i = 0; i < ocidump_hook_cnt; i++) {
         *ocidump_hooks[i].orig_func = (void*)GetProcAddress(hModuleOCI, ocidump_hooks[i].name);
         ocidump_log(OCIDUMP_LOG_HOOK, "# GetProcAddress(\"OCI.DLL\", \"%s\") => %p\n",
                     ocidump_hooks[i].name, *ocidump_hooks[i].orig_func);
