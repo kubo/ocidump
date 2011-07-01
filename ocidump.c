@@ -115,7 +115,7 @@ static void ocidump_do_init(void)
         }
     }
 #ifdef _WIN32
-    ocidump_setup_win32_api_hook();
+    ocidump_init_win32();
 #else
     {
         int i;

@@ -217,7 +217,12 @@ void ocidump_array_of_string_with_ub1length(text **str, ub1 *len, const ub4 arra
 #ifdef _WIN32
 extern BOOL ocidump_use_dbghelp;
 extern CRITICAL_SECTION ocidump_dbghelp_lock;
-void ocidump_setup_win32_api_hook(void);
+void ocidump_init_win32(void);
+#endif
+
+/* win32_trampoline.c */
+#ifdef _WIN32
+void ocidump_init_win32_trampoline(HMODULE hMod);
 #endif
 
 #endif /* OCIDUMP_H */

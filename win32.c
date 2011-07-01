@@ -12,8 +12,57 @@
 BOOL ocidump_use_dbghelp = TRUE; /* FIXME: changed by a directive in OCIDUMP_CONFIG */
 CRITICAL_SECTION ocidump_dbghelp_lock;
 
-static HMODULE hModuleOCI;
+static HMODULE hModuleOCI = NULL;
 static HMODULE hThisModule;
+static void ocidump_setup_win32_api_hook(void);
+
+void ocidump_unresolved_symbol(const char *symbol_name)
+{
+    ocidump_log(0, "ERROR! Unresolved symbol %s is referenced.", symbol_name);
+    exit(1);
+}
+
+static void setup_oci_module_handle(void)
+{
+    HMODULE hMod = NULL;
+    DWORD size;
+    wchar_t *env;
+    wchar_t *next_token;
+    wchar_t *path;
+    wchar_t buf[MAX_PATH];
+
+    if (hModuleOCI != NULL) {
+        return;
+    }
+    hMod = GetModuleHandle("OCI.DLL");
+    if (hMod != NULL && hMod != hThisModule) {
+        hModuleOCI = hMod;
+        return;
+    }
+
+    size = GetEnvironmentVariableW(L"PATH", NULL, 0);
+    env = malloc(sizeof(wchar_t) * size);
+    GetEnvironmentVariableW(L"PATH", env, size);
+
+    hMod = NULL;
+    for (path = wcstok_s(env, L";", &next_token); path != NULL; path = wcstok_s(NULL, L";", &next_token)) {
+        swprintf(buf, MAX_PATH, L"%s\\OCI.DLL", path);
+        hMod = LoadLibraryW(buf);
+        if (hMod != NULL) {
+            if (hMod != hThisModule) {
+                break;
+            }
+            FreeLibrary(hMod);
+            hMod = NULL;
+        }
+    }
+    if (hMod == NULL) {
+        ocidump_log(0, "ERROR! Could not load library OCI.DLL.");
+        exit(1);
+    }
+    free(env);
+    hModuleOCI = hMod;
+}
 
 static void replace_import_section(HANDLE hModule);
 
@@ -21,11 +70,6 @@ __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, L
 {
     if (fdwReason == DLL_PROCESS_ATTACH) {
         hThisModule = hinstDLL;
-        ocidump_init();
-        if (ocidump_use_dbghelp) {
-            SymInitialize(GetCurrentProcess(), NULL, TRUE);
-            InitializeCriticalSectionAndSpinCount(&ocidump_dbghelp_lock, 4000);
-        }
     }
     return TRUE;
 }
@@ -38,6 +82,8 @@ static sword ocidumpEnvCallback(OCIEnv *env, ub4 mode, size_t xtramem_sz, void *
 /* The entry point of ORA_OCI_UCBPKG. */
 __declspec(dllexport) sword ocidumpInit(void *metaCtx, void *libCtx, ub4 argfmt, sword argc, void **argv)
 {
+    ocidump_init();
+    ocidump_setup_win32_api_hook();
     return OCISharedLibInit(metaCtx, libCtx, argfmt, argc, argv, ocidumpEnvCallback);
 }
 
@@ -160,23 +206,15 @@ static void replace_import_section(HANDLE hModule)
     }
 }
 
-void ocidump_setup_win32_api_hook(void)
+static void ocidump_setup_win32_api_hook(void)
 {
     HANDLE hSnapModule;
     MODULEENTRY32 me = {sizeof(me)};
     BOOL ok;
+#if OCIDUMP_ENABLE_KERNEL32_DLL_HOOK
     HMODULE hModuleKernel32 = GetModuleHandle("Kernel32.dll");
     int i;
 
-    hModuleOCI = GetModuleHandle("OCI.DLL");
-
-    for (i = 0; i < ocidump_hook_cnt; i++) {
-        *ocidump_hooks[i].orig_func = (void*)GetProcAddress(hModuleOCI, ocidump_hooks[i].name);
-        ocidump_log(OCIDUMP_LOG_HOOK, "# GetProcAddress(\"OCI.DLL\", \"%s\") => %p\n",
-                    ocidump_hooks[i].name, *ocidump_hooks[i].orig_func);
-    }
-
-#if OCIDUMP_ENABLE_KERNEL32_DLL_HOOK
     for (i = 0; kernel32_dll_hooks[i].name != NULL; i++) {
         *kernel32_dll_hooks[i].orig_func = (void*)GetProcAddress(hModuleKernel32, kernel32_dll_hooks[i].name);
         ocidump_log(OCIDUMP_LOG_HOOK, "# GetProcAddress(\"KERNEL32.DLL\", \"%s\") => %p\n",
@@ -197,4 +235,24 @@ void ocidump_setup_win32_api_hook(void)
         replace_import_section(me.hModule);
     }
     CloseHandle(hSnapModule);
+}
+
+void ocidump_init_win32(void)
+{
+    int i;
+
+    setup_oci_module_handle();
+
+    if (ocidump_use_dbghelp) {
+        SymInitialize(GetCurrentProcess(), NULL, TRUE);
+        InitializeCriticalSectionAndSpinCount(&ocidump_dbghelp_lock, 4000);
+    }
+
+    for (i = 0; i < ocidump_hook_cnt; i++) {
+        *ocidump_hooks[i].orig_func = (void*)GetProcAddress(hModuleOCI, ocidump_hooks[i].name);
+        ocidump_log(OCIDUMP_LOG_HOOK, "# GetProcAddress(\"OCI.DLL\", \"%s\") => %p\n",
+                    ocidump_hooks[i].name, *ocidump_hooks[i].orig_func);
+    }
+
+    ocidump_init_win32_trampoline(hModuleOCI);
 }
