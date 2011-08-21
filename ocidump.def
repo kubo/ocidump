@@ -555,6 +555,7 @@ OCIPServerPost
 OCIPSetObjectPtrNull
 OCIPStreamClose
 OCIPStreamFromXMLType
+OCIPStreamFromXMLType2
 OCIPStreamRead
 OCIParamGet
 OCIParamSet
@@ -1595,6 +1596,7 @@ lmsggfl
 lmsggfx
 lmtprime
 lmtrand
+lmxconp2
 lmxconpar
 lmxver
 lnxabs

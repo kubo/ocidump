@@ -6,11 +6,18 @@ LD_SHARED = $(CC) /LD
 LDFLAGS = /MT /Zi
 RM = del
 
-OBJS = ocidump.obj ocifunc.obj ocidefs.obj oranumber_util.obj win32.obj win32_trampoline.obj win32_trampoline_vc.obj
-MKOCIFUNC_FILES = ocifunc.c ocidefs.c ocidefs.h
-WIN32_TRAMPOLINE_FILES = win32_trampoline.c win32_trampoline_vc.asm
+!ifdef WIN64
+WIN32_TRAMPOLINE_VC_OBJ = win32_trampoline_vc64.obj
+!else
+WIN32_TRAMPOLINE_VC_OBJ = win32_trampoline_vc32.obj
+!endif
 
-all: oci.dll ocidump.dll
+
+OBJS = ocidump.obj ocifunc.obj ocidefs.obj oranumber_util.obj win32.obj win32_trampoline.obj $(WIN32_TRAMPOLINE_VC_OBJ)
+MKOCIFUNC_FILES = ocifunc.c ocidefs.c ocidefs.h
+WIN32_TRAMPOLINE_FILES = win32_trampoline.c win32_trampoline_vc32.asm win32_trampoline_vc64.asm
+
+all: ocidump.dll oci.dll
 
 oci.dll: ocidump.dll
 	copy ocidump.dll oci.dll
@@ -23,8 +30,11 @@ ocifunc.obj: ocifunc.c ocidump.h ocidefs.h
 ocidefs.obj: ocidefs.c ocidump.h ocidefs.h
 oranumber_util.obj: oranumber_util.c oranumber_util.h
 
-win32_trampoline_vc.obj: win32_trampoline_vc.asm
-	ml /nologo /c /coff /Cp win32_trampoline_vc.asm
+win32_trampoline_vc32.obj: win32_trampoline_vc32.asm
+	ml /nologo /c /coff /Cp win32_trampoline_vc32.asm
+
+win32_trampoline_vc64.obj: win32_trampoline_vc64.asm
+	ml64 /nologo /c /Cp win32_trampoline_vc64.asm
 
 $(MKOCIFUNC_FILES): mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml
 	ruby mkocifunc.rb
