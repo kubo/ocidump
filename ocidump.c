@@ -5,6 +5,10 @@
 #else
 #include <pthread.h>
 #include <dlfcn.h>
+#ifdef __linux
+#include <unistd.h>
+#include <sys/syscall.h>
+#endif
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -162,10 +166,16 @@ void ocidump_log_start(const char *funcname)
 #ifdef _WIN32
     _lock_file(ocidump_logfp);
     fprintf(ocidump_logfp, "%5u: %s", GetCurrentThreadId(), funcname);
-#else
+#else /* _WIN32 */
     flockfile(ocidump_logfp);
+#if defined(__linux)
+    fprintf(ocidump_logfp, "%5ld: %s", syscall(SYS_gettid), funcname);
+#elif defined(__sun)
+    fprintf(ocidump_logfp, "%5u: %s", pthread_self(), funcname);
+#else
     fprintf(ocidump_logfp, "%p: %s", (void*)pthread_self(), funcname);
 #endif
+#endif /* _WIN32 */
 }
 
 void ocidump_log_end(void)
