@@ -1,9 +1,22 @@
 ORACLE_INC = /opt/instantclient_11_2/sdk/include
 
+## Linux
 CC = gcc
 CFLAGS = -pthread -fPIC -D_GNU_SOURCE -Wall
 LD_SHARED = $(CC) -shared
 LDFLAGS = -pthread -Wl,--version-script,ocidump.map
+
+## Solaris gcc
+#CC = gcc
+#CFLAGS = -D_REENTRANT -fPIC -Wall
+#LD_SHARED = $(CC) -shared
+#LDFLAGS = -Wl,-M,ocidump.map
+
+## Solaris Studio
+#CC = cc
+#CFLAGS = -D_REENTRANT -KPIC
+#LD_SHARED = $(CC) -G
+#LDFLAGS = -Wl,-M,ocidump.map
 
 OBJS = ocidump.o ocifunc.o ocidefs.o oranumber_util.o
 

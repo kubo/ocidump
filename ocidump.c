@@ -14,15 +14,21 @@
 #include "oranumber_util.h"
 
 #ifndef _WIN32
-static pthread_once_t init_once = PTHREAD_ONCE_INIT;
+static pthread_once_t init_once = {PTHREAD_ONCE_INIT};
 #endif
 
-#ifdef __linux
+#if defined(__linux) || defined(__sun)
 
 typedef void *(dlsym_func_t)(void *map, const char *name);
 static dlsym_func_t *dlsym_func;
 
-__attribute__((constructor))
+#ifdef __GNUC__
+void init(void) __attribute__((constructor));
+#else
+#pragma init(init)
+#endif
+
+#ifdef __linux
 void init(void)
 {
     static const char * const dlsym_versions[] = {
@@ -39,6 +45,15 @@ void init(void)
         }
     }
 }
+#endif
+
+#ifdef __sun
+extern void *_dlsym(void *, const char *);
+void init(void)
+{
+    dlsym_func = (dlsym_func_t *)_dlsym(RTLD_NEXT, "dlsym");
+}
+#endif
 
 static int ocidump_hook_cmp(const void *lhs, const void *rhs)
 {
