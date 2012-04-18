@@ -122,6 +122,24 @@ EOS
   open('ocifunc.c', 'w') do |fd|
     fd.write(erb.result(binding))
   end
+  open('ocidump.map', 'w') do |fd|
+    fd.write <<EOS
+ocidump {
+global:
+EOS
+    funcs.each do |func|
+      fd.write <<EOS
+	#{func.name};
+EOS
+    end
+
+    fd.write <<EOS
+	dlsym;
+local:
+	*;
+};
+EOS
+  end
 end
 
 class TypeDef

@@ -11,5 +11,6 @@ check_defs
 check_defs.c
 ocidefs.c
 ocidefs.h
+ocidump.map
 ocifunc.c
 win32_trampoline.c
