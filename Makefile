@@ -4,7 +4,7 @@ ORACLE_INC = /opt/instantclient_11_2/sdk/include
 CC = gcc
 CFLAGS = -pthread -fPIC -D_GNU_SOURCE -Wall
 LD_SHARED = $(CC) -shared
-LDFLAGS = -pthread -Wl,--version-script,ocidump.map
+LDFLAGS = -pthread -Wl,--version-script,ocidump.map -ldl
 
 ## Solaris gcc
 #CC = gcc
