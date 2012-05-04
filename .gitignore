@@ -7,8 +7,10 @@
 *.asm
 *.ilk
 *.pdb
+*~
 check_defs
 check_defs.c
+ociattr.c
 ocidefs.c
 ocidefs.h
 ocidump.map

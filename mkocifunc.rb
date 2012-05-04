@@ -160,8 +160,10 @@ end
 
 def make_ocidefs_c
   typedefs = []
+  htype_values = nil
   YAML.load(open(File.dirname(__FILE__) + '/ocidefs.yml')).each do |key, val|
     typedefs << TypeDef.new(key, val)
+    htype_values = val[:values] if key == 'htype'
   end
   typedefs.sort! do |a, b|
     a.name <=> b.name
@@ -209,6 +211,12 @@ EOS
       end
     end
 
+    htype_values.each do |val|
+        fd.write <<EOS
+#define #{val[1]} #{val[0]}
+EOS
+    end
+
     typedefs.each do |typedef|
       next unless typedef.values
       if typedef.type == :enum
@@ -232,6 +240,7 @@ EOS
 /* This file was generaed by mkocifunc.rb */
 #include <stdio.h>
 #include "ocidump.h"
+#include "ocidefs.h"
 EOS
     typedefs.each do |typedef|
       next unless typedef.values
@@ -274,6 +283,170 @@ EOS
 }
 EOS
     end
+  end
+end
+
+class AttrDef
+  attr_reader :name
+  attr_reader :value
+  attr_reader :read_func
+  attr_reader :write_func
+
+  def initialize(value, name, mode, type)
+    @value = value
+    @name = name
+    @read_func = nil
+    @write_func = nil
+    case mode
+    when 'READ'
+      read_type = type
+    when 'WRITE'
+      write_type = type
+    when 'READ/WRITE'
+      if /\// =~ type.to_s
+        read_type = $`
+        write_type = $'
+      else
+        read_type = write_type = type
+      end
+    else
+      raise "Unknown read/write mode: #{mode}"
+    end
+    @read_func = type_to_func(read_type, true)
+    @write_func = type_to_func(write_type, false)
+  end
+
+  private
+
+  def type_to_func(type, is_read)
+    case type
+    when "ub1*":      "ocidump_pointer_to_ub1(val)"
+    when "sb1*":      "ocidump_pointer_to_sb1(val)"
+    when "ub2*":      "ocidump_pointer_to_ub2(val)"
+    when "sb2*":      "ocidump_pointer_to_sb2(val)"
+    when "ub4*":      "ocidump_pointer_to_ub4(val)"
+    when "sb4*":      "ocidump_pointer_to_sb4(val)"
+    when "ub8*":      "ocidump_pointer_to_ub8(val)"
+    when "sb8*":      "ocidump_pointer_to_sb8(val)"
+    when "word*":     "ocidump_pointer_to_sword(val)"
+    when "oratext*":  "ocidump_string_with_length(val, size)"
+    when "oratext**": if is_read
+                        "ocidump_pointer_to_string_with_length(val, sizep, status)"
+                      else
+                        # OCI_ATTR_INITIAL_CLIENT_ROLES
+                        "ocidump_array_of_null_terminated_string(val, size, status)"
+                      end
+    when "OCIServer*", "OCISession*", "OCIAuthInfo*", "OCIRaw*", "OCIRowid*", "OCIColl*"
+      "ocidump_pointer(val)"
+    when "OCIServer**", "OCIServer**", "OCIEnv**", "void**", "OCIColl**"
+      "ocidump_pointer_to_pointer(val)"
+    when :function_pointer, "OCIEventCallback", "OCIFocbkStruct*"
+      "ocidump_function_pointer(val)"
+    else nil
+    end
+  end
+end
+
+def make_ociattr_c
+  htypes = []
+  YAML.load(open(File.dirname(__FILE__) + '/ociattr.yml')).each do |htype, attrs|
+    attrdefs = []
+    attrs.each do |attr|
+      attrdefs << AttrDef.new(*attr)
+    end
+    htypes << [htype, attrdefs]
+  end
+  htypes.sort! do |a, b|
+    a[0] <=> b[0]
+  end
+
+  open('ociattr.c', 'w') do |fd|
+    fd.write <<EOS
+/* This file was generaed by mkocifunc.rb */
+#include <stdio.h>
+#include "ocidump.h"
+
+void ocidump_attrtype(ub4 attrtype, ub4 htype)
+{
+    const char *str = NULL;
+    char buf[OCIDUMP_SHORT_BUF_SIZE];
+
+    switch (htype) {
+EOS
+    htypes.each do |htype, attrdefs|
+      fd.write <<EOS
+    case #{htype}:
+        switch (attrtype) {
+EOS
+      attrdefs.each do |attrdef|
+      fd.write <<EOS
+        case #{attrdef.value}: str = "#{attrdef.name}"; break;
+EOS
+      end
+      fd.write <<EOS
+        }
+        break;
+EOS
+    end
+    fd.write <<EOS
+    }
+    if (str == NULL) {
+        sprintf(buf, "unknown(%u)", attrtype);
+        str = buf;
+    }
+    ocidump_puts(str);
+}
+
+void ocidump_read_attrval(dvoid *val, ub4 htype, ub4 attrtype, ub4 *sizep, sword status)
+{
+    switch (htype) {
+EOS
+    htypes.each do |htype, attrdefs|
+      fd.write <<EOS
+    case #{htype}:
+        switch (attrtype) {
+EOS
+      attrdefs.each do |attrdef|
+      fd.write <<EOS if attrdef.read_func
+        case #{attrdef.value}: #{attrdef.read_func}; return;
+EOS
+      end
+      fd.write <<EOS
+        }
+        break;
+EOS
+    end
+    fd.write <<EOS
+    }
+    ocidump_pointer(val);
+}
+EOS
+    fd.write <<EOS
+void ocidump_write_attrval(dvoid *val, ub4 htype, ub4 attrtype, ub4 size)
+{
+    sword status = 0;
+    switch (htype) {
+EOS
+    htypes.each do |htype, attrdefs|
+      fd.write <<EOS
+    case #{htype}:
+        switch (attrtype) {
+EOS
+      attrdefs.each do |attrdef|
+      fd.write <<EOS if attrdef.write_func
+        case #{attrdef.value}: #{attrdef.write_func}; return;
+EOS
+      end
+      fd.write <<EOS
+        }
+        break;
+EOS
+    end
+    fd.write <<EOS
+    }
+    ocidump_pointer(val);
+}
+EOS
   end
 end
 
@@ -346,5 +519,6 @@ if $0 == __FILE__
   else
     make_ocifunc_c
     make_ocidefs_c
+    make_ociattr_c
   end
 end

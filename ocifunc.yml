@@ -201,7 +201,7 @@ OCIAttrGet:
   :ret:       [sword,                       :status]
   :args:    - [const dvoid *trgthndlp,      :pointer]
             - [ub4 trghndltyp,              :htype]
-            - [dvoid *attributep,           :pointer, :out] # FIXME
+            - [dvoid *attributep,           :read_attrval, :out, trghndltyp, attrtype, sizep, ret]
             - [ub4 *sizep,                  :pointer_to_ub4, :out]
             - [ub4 attrtype,                :attrtype, trghndltyp]
             - [OCIError *errhp,             :pointer]
@@ -210,7 +210,7 @@ OCIAttrSet:
   :ret:       [sword,                       :status]
   :args:    - [dvoid *trgthndlp,            :pointer]
             - [ub4 trghndltyp,              :htype]
-            - [dvoid *attributep,           :pointer, :in] # FIXME
+            - [dvoid *attributep,           :write_attrval, :in, trghndltyp, attrtype, size]
             - [ub4 size,                    :ub4]
             - [ub4 attrtype,                :attrtype, trghndltyp]
             - [OCIError *errhp,             :pointer]

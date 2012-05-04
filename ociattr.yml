@@ -1,0 +1,481 @@
+#
+# http://docs.oracle.com/cd/E11882_01/appdev.112/e10646/ociaahan.htm
+# http://docs.oracle.com/cd/E11882_01/appdev.112/e10646/oci06des.htm
+#
+
+# Environment Handle
+OCI_HTYPE_ENV:
+  - [37,         OCI_ATTR_ALLOC_DURATION,            READ/WRITE, "OCIDuration*/OCIDuration"]
+  - [155,        OCI_ATTR_BIND_DN,                   READ/WRITE, "oratext**/oratext*"]
+  - [0x00000040, OCI_ATTR_CACHE_ARRAYFLUSH,          READ/WRITE, "boolean*/boolean"]
+  - [35,         OCI_ATTR_CACHE_MAX_SIZE,            READ/WRITE, "ub4*/ub4"]
+  - [34,         OCI_ATTR_CACHE_OPT_SIZE,            READ/WRITE, "ub4*/ub4"]
+  - [31,         OCI_ATTR_ENV_CHARSET_ID,            READ,       "ub2*"]
+  - [32,         OCI_ATTR_ENV_NCHARSET_ID,           READ,       "ub2*"]
+  - [209,        OCI_ATTR_ENV_UTF16,                 READ,       "ub1*"]
+  - [304,        OCI_ATTR_EVTCBK,                    WRITE,      "OCIEventCallback"]
+  - [305,        OCI_ATTR_EVTCTX,                    WRITE,      "void*"]
+  - [30,         OCI_ATTR_HEAPALLOC,                 READ,       "ub4*"]
+  - [158,        OCI_ATTR_LDAP_AUTH,                 READ/WRITE, "ub2*/ub2"]
+  - [156,        OCI_ATTR_LDAP_CRED,                 READ/WRITE, "oratext**/oratext*"]
+  - [159,        OCI_ATTR_LDAP_CTX,                  READ/WRITE, "oratext**/oratext*"]
+  - [153,        OCI_ATTR_LDAP_HOST,                 READ/WRITE, "oratext**/oratext*"]
+  - [154,        OCI_ATTR_LDAP_PORT,                 READ/WRITE, "ub2*/ub2"]
+  - [2,          OCI_ATTR_OBJECT,                    READ,       "boolean*"]
+  - [36,         OCI_ATTR_PINOPTION,                 READ/WRITE, "OCIPinOpt*/OCIPinOpt"]
+  - [0x00000010, OCI_ATTR_OBJECT_NEWNOTNULL,         READ/WRITE, "boolean*/boolean"]
+#  - [0x00000020, OCI_ATTR_OBJECT_DETECTCHANGE,       READ/WRITE, "boolean*/boolean"]
+  - [38,         OCI_ATTR_PIN_DURATION,              READ/WRITE, "OCIDuration*/OCIDuration"]
+  - [84,         OCI_ATTR_SHARED_HEAPALLOC,          READ,       "ub4*"]
+  - [157,        OCI_ATTR_WALL_LOC,                  READ/WRITE, "oratext**/oratext*"]
+
+# Error Handle
+OCI_HTYPE_ERROR:
+  - [74,         OCI_ATTR_DML_ROW_OFFSET,            READ,       "ub4*"]
+
+# Service Context Handle
+OCI_HTYPE_SVCCTX:
+  - [5,          OCI_ATTR_ENV,                       READ,       "OCIEnv**"]
+  - [44,         OCI_ATTR_IN_V8_MODE,                READ,       "ub1*"]
+  - [6,          OCI_ATTR_SERVER,                    READ/WRITE, "OCIServer**/OCIServer*"]
+  - [7,          OCI_ATTR_SESSION,                   READ/WRITE, "OCISession**/OCISession*"]
+  - [421,        OCI_ATTR_STMTCACHE_CBK,             READ/WRITE, :function_pointer]
+  - [176,        OCI_ATTR_STMTCACHESIZE,             READ/WRITE, "ub4*/ub4"]
+  - [8,          OCI_ATTR_TRANS,                     READ/WRITE, "OCITrans**/OCITrans*"]
+
+# Server Handle
+OCI_HTYPE_SERVER:
+  - [399,        OCI_ATTR_DBDOMAIN,                  READ,       "oratext**"]
+  - [391,        OCI_ATTR_DBNAME,                    READ,       "oratext**"]
+  - [392,        OCI_ATTR_INSTNAME,                  READ,       "oratext**"]
+  - [394,        OCI_ATTR_INSTSTARTTIME,             READ,       "OCIDateTime**"]
+  - [393,        OCI_ATTR_SERVICENAME,               READ,       "oratext**"]
+  - [307,        OCI_ATTR_ACCESS_BANNER,             READ,       "oratext**"]
+  - [5,          OCI_ATTR_ENV,                       READ,       "OCIEnv**"]
+  - [26,         OCI_ATTR_EXTERNAL_NAME,             READ/WRITE, "oratext**/oratext*"]
+  - [43,         OCI_ATTR_FOCBK,                     READ/WRITE, "OCIFocbkStruct*"]
+  - [25,         OCI_ATTR_INTERNAL_NAME,             READ/WRITE, "oratext**/oratext*"]
+  - [44,         OCI_ATTR_IN_V8_MODE,                READ,       "ub1*"]
+  - [3,          OCI_ATTR_NONBLOCKING_MODE,          READ/WRITE, "ub1*/ub1"]
+  - [85,         OCI_ATTR_SERVER_GROUP,              READ/WRITE, "oratext**/oratext*"]
+  - [143,        OCI_ATTR_SERVER_STATUS,             READ,       "ub4*"]
+  - [405,        OCI_ATTR_TAF_ENABLED,               READ,       "boolean*"]
+  - [306,        OCI_ATTR_USER_MEMORY,               READ,       "void**"]
+
+
+# User Session Handle
+OCI_HTYPE_SESSION:
+  - [367,       OCI_ATTR_ACTION,                     WRITE,      "oratext*"]
+  - [276,       OCI_ATTR_APPCTX_ATTR,                WRITE,      "oratext*"]
+  - [274,       OCI_ATTR_APPCTX_LIST,                READ,       "OCIParam**"]
+  - [275,       OCI_ATTR_APPCTX_NAME,                WRITE,      "oratext*"]
+  - [273,       OCI_ATTR_APPCTX_SIZE,                WRITE,      "ub4"]
+  - [277,       OCI_ATTR_APPCTX_VALUE,               WRITE,      "oratext*"]
+  - [308,       OCI_ATTR_AUDIT_BANNER,               READ,       "oratext**"]
+  - [370,       OCI_ATTR_CALL_TIME,                  READ,       "ub8*"]
+  - [169,       OCI_ATTR_CERTIFICATE,                WRITE,      "ub1*"]
+  - [278,       OCI_ATTR_CLIENT_IDENTIFIER,          WRITE,      "oratext*"]
+  - [368,       OCI_ATTR_CLIENT_INFO,                WRITE,      "oratext*"]
+  - [369,       OCI_ATTR_COLLECT_CALL_TIME,          READ/WRITE, "boolean*/boolean"]
+  - [425,       OCI_ATTR_CONNECTION_CLASS,           READ/WRITE, "oratext**/oratext*"]
+  - [224,       OCI_ATTR_CURRENT_SCHEMA,             READ/WRITE, "oratext**/oratext*"]
+  - [438,       OCI_ATTR_DEFAULT_LOBPREFETCH_SIZE,   READ/WRITE, "ub4*/ub4"]
+  - [300,       OCI_ATTR_DISTINGUISHED_NAME,         WRITE,      "oratext*"]
+  - [424,       OCI_ATTR_DRIVER_NAME,                READ/WRITE, "oratext**/oratext*"]
+  - [288,       OCI_ATTR_EDITION,                    READ/WRITE, "oratext**/oratext*"]
+  - [100,       OCI_ATTR_INITIAL_CLIENT_ROLES,       WRITE,      "oratext**"]
+  - [86,        OCI_ATTR_MIGSESSION,                 READ/WRITE, "ub1*"]
+  - [366,       OCI_ATTR_MODULE,                     WRITE,      "oratext*"]
+  - [23,        OCI_ATTR_PASSWORD,                   WRITE,      "oratext*"]
+  - [416,       OCI_ATTR_PROXY_CLIENT,               WRITE,      "oratext*"]
+  - [99,        OCI_ATTR_PROXY_CREDENTIALS,          WRITE,      "OCISession*"]
+  - [426,       OCI_ATTR_PURITY,                     READ/WRITE, "ub4*/ub4"]
+  - [373,       OCI_ATTR_SESSION_STATE,              READ/WRITE, "ub1*"]
+  - [22,        OCI_ATTR_USERNAME,                   READ/WRITE, "oratext**/oratext*"]
+  - [46,        OCI_ATTR_SESSLANG,                   READ,       :undocumented] # undocumented
+
+# Administration Handle
+OCI_HTYPE_ADMIN:
+  - [389,       OCI_ATTR_ADMIN_PFILE,                READ/WRITE, "oratext**/oratext*"]
+
+# Connection Pool Handle
+OCI_HTYPE_CPOOL:
+  - [181,       OCI_ATTR_CONN_TIMEOUT,               READ/WRITE, "ub4*/ub4"]
+  - [178,       OCI_ATTR_CONN_NOWAIT,                READ/WRITE, "ub1*/ub1"]
+  - [179,       OCI_ATTR_CONN_BUSY_COUNT,            READ,       "ub4*"]
+  - [180,       OCI_ATTR_CONN_OPEN_COUNT,            READ,       "ub4*"]
+  - [183,       OCI_ATTR_CONN_MIN,                   READ,       "ub4*"]
+  - [184,       OCI_ATTR_CONN_MAX,                   READ,       "ub4*"]
+  - [185,       OCI_ATTR_CONN_INCR,                  READ,       "ub4*"]
+
+# Session Pool Handle
+OCI_HTYPE_SPOOL:
+  - [310,       OCI_ATTR_SPOOL_BUSY_COUNT,           READ,       "ub4*"]
+  - [309,       OCI_ATTR_SPOOL_GETMODE,              READ/WRITE, "ub1*/ub1"]
+  - [314,       OCI_ATTR_SPOOL_INCR,                 READ,       "ub4*"]
+  - [313,       OCI_ATTR_SPOOL_MAX,                  READ,       "ub4*"]
+  - [312,       OCI_ATTR_SPOOL_MIN,                  READ,       "ub4*"]
+  - [311,       OCI_ATTR_SPOOL_OPEN_COUNT,           READ,       "ub4*"]
+  - [460,       OCI_ATTR_SPOOL_AUTH,                 WRITE,      "OCIAuthInfo*"]
+  - [208,       OCI_ATTR_SPOOL_STMTCACHESIZE,        READ/WRITE, "ub4*/ub4"]
+  - [308,       OCI_ATTR_SPOOL_TIMEOUT,              READ/WRITE, "ub4*/ub4"]
+
+# Transaction Handle
+OCI_HTYPE_TRANS:
+  - [29,        OCI_ATTR_TRANS_NAME,                 READ/WRITE, "oratext**/oratext*"]
+  - [142,       OCI_ATTR_TRANS_TIMEOUT,              READ/WRITE, "ub4*/ub4"]
+  - [27,        OCI_ATTR_XID,                        READ/WRITE, "XID**/XID*"]
+
+# Statement Handle
+OCI_HTYPE_STMT:
+  - [190,       OCI_ATTR_BIND_COUNT,                 READ,       "ub4*"]
+  - [414,       OCI_ATTR_CHNF_REGHANDLE,             WRITE,      "OCISubscription*"]
+  - [304,       OCI_ATTR_CQ_QUERYID,                 READ,       "ub8*"]
+  - [164,       OCI_ATTR_CURRENT_POSITION,           READ,       "ub4*"]
+  - [5,         OCI_ATTR_ENV,                        READ,       "ub4*"]
+  - [448,       OCI_ATTR_FETCH_ROWID,                READ/WRITE, "boolean*/boolean"]
+  - [73,        OCI_ATTR_NUM_DML_ERRORS,             READ,       "ub4*"]
+  - [18,        OCI_ATTR_PARAM_COUNT,                READ,       "ub4*"]
+  - [129,       OCI_ATTR_PARSE_ERROR_OFFSET,         READ,       "ub2*"]
+  - [13,        OCI_ATTR_PREFETCH_MEMORY,            WRITE,      "ub4*"]
+  - [11,        OCI_ATTR_PREFETCH_ROWS,              WRITE,      "ub4*"]
+  - [9,         OCI_ATTR_ROW_COUNT,                  READ,       "ub4*"]
+  - [19,        OCI_ATTR_ROWID,                      READ,       "OCIRowid*"]
+  - [197,       OCI_ATTR_ROWS_FETCHED,               READ,       "ub4*"]
+  - [10,        OCI_ATTR_SQLFNCODE,                  READ,       "ub2*"]
+  - [144,       OCI_ATTR_STATEMENT,                  READ,       "oratext**"]
+  - [420,       OCI_ATTR_STMTCACHE_CBKCTX,           READ/WRITE, "void*"]
+  - [182,       OCI_ATTR_STMT_STATE,                 READ,       "ub4*"]
+  - [24,        OCI_ATTR_STMT_TYPE,                  READ,       "ub2*"]
+
+# Bind Handle
+OCI_HTYPE_BIND:
+  - [15,        OCI_ATTR_CHAR_COUNT,                 WRITE,      "ub4*"]
+  - [32,        OCI_ATTR_CHARSET_FORM,               READ/WRITE, "ub1*"]
+  - [31,        OCI_ATTR_CHARSET_ID,                 READ/WRITE, "ub2*"]
+  - [163,       OCI_ATTR_MAXCHAR_SIZE,               WRITE,      "sb4*"]
+  - [33,        OCI_ATTR_MAXDATA_SIZE,               READ/WRITE, "sb4*"]
+  - [17,        OCI_ATTR_PDPRC,                      WRITE,      "ub2*"]
+  - [16,        OCI_ATTR_PDSCL,                      WRITE,      "sb2*"]
+  - [42,        OCI_ATTR_ROWS_RETURNED,              READ,       "ub4*"]
+
+# Define Handle
+OCI_HTYPE_DEFINE:
+  - [15,        OCI_ATTR_CHAR_COUNT,                 WRITE,      "ub4*"]
+  - [32,        OCI_ATTR_CHARSET_FORM,               READ/WRITE, "ub1*"]
+  - [31,        OCI_ATTR_CHARSET_ID,                 READ/WRITE, "ub2*"]
+  - [440,       OCI_ATTR_LOBPREFETCH_LENGTH,         READ/WRITE, "boolean*/boolean"]
+  - [439,       OCI_ATTR_LOBPREFETCH_SIZE,           READ/WRITE, "ub4*/ub4"]
+  - [163,       OCI_ATTR_MAXCHAR_SIZE,               WRITE,      "sb4*"]
+  - [17,        OCI_ATTR_PDPRC,                      WRITE,      "ub2*"]
+  - [16,        OCI_ATTR_PDSCL,                      WRITE,      "sb2*"]
+
+# Describe Handle
+OCI_HTYPE_DESCRIBE:
+  - [124,       OCI_ATTR_PARAM,                      READ,       "ub4*"]
+  - [18,        OCI_ATTR_PARAM_COUNT,                READ,       "ub4*"]
+
+# Parameter Descriptor
+OCI_DTYPE_PARAM:
+  - [271,       OCI_ATTR_AUTOCOMMIT_DDL,              READ,       "ub1*"]
+  - [115,       OCI_ATTR_CACHE,                       READ,       "oranumber*"]
+  - [268,       OCI_ATTR_CATALOG_LOCATION,            READ,       "ub1*"]
+  - [32,        OCI_ATTR_CHARSET_FORM,                READ,       "ub1*"]
+  - [31,        OCI_ATTR_CHARSET_ID,                  READ/WRITE, "ub2*"]
+  - [286,       OCI_ATTR_CHAR_SIZE,                   READ,       "ub2*"]
+  - [285,       OCI_ATTR_CHAR_USED,                   READ,       "ub1*"]
+  - [105,       OCI_ATTR_CLUSTERED,                   READ,       "ub1*"]
+  - [227,       OCI_ATTR_COLLECTION_ELEMENT,          READ,       "void**"]
+  - [217,       OCI_ATTR_COLLECTION_TYPECODE,         READ,       "OCITypeCode*"]
+  - [343,       OCI_ATTR_COMMENT,                     READ,       "oratext**"]
+  - [342,       OCI_ATTR_CONDITION,                   READ,       "oratext**"]
+  - [266,       OCI_ATTR_CURSOR_COMMIT_BEHAVIOR,      READ,       "ub1*"]
+  - [1,         OCI_ATTR_DATA_SIZE,                   READ/WRITE, "ub2*"]
+  - [2,         OCI_ATTR_DATA_TYPE,                   READ/WRITE, "ub2*"]
+  - [132,       OCI_ATTR_DURATION,                    READ,       "OCIDuration*"]
+  - [235,       OCI_ATTR_ENCAPSULATION,               READ,       "OCITypeEncap*"]
+  - [347,       OCI_ATTR_EVALUATION_FUNCTION,         READ,       "oratext**"]
+  - [346,       OCI_ATTR_EVAL_CONTEXT_NAME,           READ,       "oratext**"]
+  - [345,       OCI_ATTR_EVAL_CONTEXT_OWNER,          READ,       "oratext**"]
+  - [16,        OCI_ATTR_FSPRECISION,                 READ,       "ub1*"]
+  - [212,       OCI_ATTR_HAS_DEFAULT,                 READ,       "ub1*"]
+  - [226,       OCI_ATTR_HAS_FILE,                    READ,       "ub1*"]
+  - [225,       OCI_ATTR_HAS_LOB,                     READ,       "ub1*"]
+  - [224,       OCI_ATTR_HAS_NESTED_TABLE,            READ,       "ub1*"]
+  - [117,       OCI_ATTR_HW_MARK,                     READ,       "oranmber*"]
+  - [114,       OCI_ATTR_INCR,                        READ,       "oranumber*"]
+  - [107,       OCI_ATTR_INDEX_ONLY,                  READ,       "ub1*"]
+  - [213,       OCI_ATTR_IOMODE,                      READ,       "OCITypeParamMode*"]
+  - [241,       OCI_ATTR_IS_CONSTRUCTOR,              READ,       "ub1*"]
+  - [242,       OCI_ATTR_IS_DESTRUCTOR,               READ,       "ub1*"]
+  - [281,       OCI_ATTR_IS_FINAL_METHOD,             READ,       "ub1*"]
+  - [279,       OCI_ATTR_IS_FINAL_TYPE,               READ,       "ub1*"]
+  - [219,       OCI_ATTR_IS_INCOMPLETE_TYPE,          READ,       "ub1*"]
+  - [282,       OCI_ATTR_IS_INSTANTIABLE_METHOD,      READ,       "ub1*"]
+  - [280,       OCI_ATTR_IS_INSTANTIABLE_TYPE,        READ,       "ub1*"]
+  - [133,       OCI_ATTR_IS_INVOKER_RIGHTS,           READ,       "ub1*"]
+  - [244,       OCI_ATTR_IS_MAP,                      READ,       "ub1*"]
+  - [7,         OCI_ATTR_IS_NULL,                     READ,       "ub1*"]
+  - [243,       OCI_ATTR_IS_OPERATOR,                 READ,       "ub1*"]
+  - [245,       OCI_ATTR_IS_ORDER,                    READ,       "ub1*"]
+  - [283,       OCI_ATTR_IS_OVERRIDING_METHOD,        READ,       "ub1*"]
+  - [221,       OCI_ATTR_IS_PREDEFINED_TYPE,          READ,       "ub1*"]
+  - [246,       OCI_ATTR_IS_RNDS,                     READ,       "ub1*"]
+  - [247,       OCI_ATTR_IS_RNPS,                     READ,       "ub1*"]
+  - [236,       OCI_ATTR_IS_SELFISH,                  READ,       "ub1*"]
+  - [258,       OCI_ATTR_IS_SUBTYPE,                  READ,       "ub1*"]
+  - [223,       OCI_ATTR_IS_SYSTEM_GENERATED_TYPE,    READ,       "ub1*"]
+  - [220,       OCI_ATTR_IS_SYSTEM_TYPE,              READ,       "ub1*"]
+  - [130,       OCI_ATTR_IS_TEMPORARY,                READ,       "ub1*"]
+  - [222,       OCI_ATTR_IS_TRANSIENT_TYPE,           READ,       "ub1*"]
+  - [131,       OCI_ATTR_IS_TYPED,                    READ,       "ub1*"]
+  - [248,       OCI_ATTR_IS_WNDS,                     READ,       "ub1*"]
+  - [249,       OCI_ATTR_IS_WNPS,                     READ,       "ub1*"]
+  - [211,       OCI_ATTR_LEVEL,                       READ,       "ub2*"]
+  - [17,        OCI_ATTR_LFPRECISION,                 READ,       "ub1*"]
+  - [111,       OCI_ATTR_LINK,                        READ,       "oratext**"]
+  - [351,       OCI_ATTR_LIST_ACTION_CONTEXT,         READ,       "void**"]
+  - [108,       OCI_ATTR_LIST_ARGUMENTS,              READ,       "void**"]
+  - [103,       OCI_ATTR_LIST_COLUMNS,                READ,       "void**"]
+  - [261,       OCI_ATTR_LIST_OBJECTS,                READ,       "oratext**"]
+  - [263,       OCI_ATTR_LIST_SCHEMAS,                READ,       "ub1*"]
+  - [109,       OCI_ATTR_LIST_SUBPROGRAMS,            READ,       "void**"]
+  - [352,       OCI_ATTR_LIST_TABLE_ALIASES,          READ,       "void**"]
+  - [229,       OCI_ATTR_LIST_TYPE_ATTRS,             READ,       "void**"]
+  - [231,       OCI_ATTR_LIST_TYPE_METHODS,           READ,       "void**"]
+  - [353,       OCI_ATTR_LIST_VARIABLE_TYPES,         READ,       "void**"]
+  - [272,       OCI_ATTR_LOCKING_MODE,                READ,       "ub1*"]
+  - [232,       OCI_ATTR_MAP_METHOD,                  READ,       "void**"]
+  - [113,       OCI_ATTR_MAX,                         READ,       "oranumber*"]
+  - [267,       OCI_ATTR_MAX_CATALOG_NAMELEN,         READ,       "ub1*"]
+  - [265,       OCI_ATTR_MAX_COLUMN_LEN,              READ,       "ub4*"]
+  - [264,       OCI_ATTR_MAX_PROC_LEN,                READ,       "ub4*"]
+  - [112,       OCI_ATTR_MIN,                         READ,       "oranumber*"]
+  - [4,         OCI_ATTR_NAME,                        READ/WRITE, "oratext**/oratext*"]
+  - [262,       OCI_ATTR_NCHARSET_ID,                 READ,       "ub2*"]
+  - [270,       OCI_ATTR_NOWAIT_SUPPORT,              READ,       "ub1*"]
+  - [102,       OCI_ATTR_NUM_COLS,                    READ,       "ub2*"]
+  - [234,       OCI_ATTR_NUM_ELEMS,                   READ,       "ub4*"]
+  - [121,       OCI_ATTR_NUM_PARAMS,                  READ,       "ub2*"]
+  - [228,       OCI_ATTR_NUM_TYPE_ATTRS,              READ,       "ub2*"]
+  - [230,       OCI_ATTR_NUM_TYPE_METHODS,            READ,       "ub2*"]
+  - [122,       OCI_ATTR_OBJID,                       READ,       "ub4*"]
+  - [136,       OCI_ATTR_OBJ_ID,                      READ,       "ub4*"]
+  - [134,       OCI_ATTR_OBJ_NAME,                    READ,       "oratext**"]
+  - [135,       OCI_ATTR_OBJ_SCHEMA,                  READ,       "oratext**"]
+  - [116,       OCI_ATTR_ORDER,                       READ,       "ub1*"]
+  - [233,       OCI_ATTR_ORDER_METHOD,                READ,       "void**"]
+  - [125,       OCI_ATTR_OVERLOAD_ID,                 READ,       "ub2*"]
+  - [106,       OCI_ATTR_PARTITIONED,                 READ,       "ub1*"]
+  - [11,        OCI_ATTR_POSITION,                    READ,       "ub2*"]
+  - [5,         OCI_ATTR_PRECISION,                   READ/WRITE, "ub1* or sb2*"]
+  - [123,       OCI_ATTR_PTYPE,                       READ,       "ub1*"]
+  - [214,       OCI_ATTR_RADIX,                       READ,       "ub1*"]
+  - [104,       OCI_ATTR_RDBA,                        READ,       "ub4*"]
+  - [110,       OCI_ATTR_REF_TDO,                     READ,       "OCIRef**"]
+  - [269,       OCI_ATTR_SAVEPOINT_SUPPORT,           READ,       "ub1*"]
+  - [6,         OCI_ATTR_SCALE,                       READ/WRITE, "sb1*"]
+  - [9,         OCI_ATTR_SCHEMA_NAME,                 READ,       "oratext**"]
+  - [10,        OCI_ATTR_SUB_NAME,                    READ,       "oratext**"]
+  - [260,       OCI_ATTR_SUPERTYPE_NAME,              READ,       "oratext**"]
+  - [259,       OCI_ATTR_SUPERTYPE_SCHEMA_NAME,       READ,       "oratext**"]
+  - [126,       OCI_ATTR_TABLESPACE,                  READ,       "word*"]
+  - [356,       OCI_ATTR_TABLE_NAME,                  READ,       "oratext**"]
+  - [119,       OCI_ATTR_TIMESTAMP,                   READ,       "oradate*"]
+  - [216,       OCI_ATTR_TYPECODE,                    READ,       "OCITypeCode*"]
+  - [8,         OCI_ATTR_TYPE_NAME,                   READ,       "oratext**"]
+  - [344,       OCI_ATTR_VALUE,                       READ,       "OCIAnyData**"]
+  - [350,       OCI_ATTR_VAR_METHOD_FUNCTION,         READ,       "oratext**"]
+  - [349,       OCI_ATTR_VAR_VALUE_FUNCTION,          READ,       "oratext**"]
+  - [218,       OCI_ATTR_VERSION,                     READ,       "oratext**"]
+  - [75,        OCI_ATTR_DATEFORMAT,                  READ/WRITE, "oratext**/oratext*"]
+  - [187,       OCI_ATTR_DIRPATH_OID,                 READ/WRITE, "ub1*"]
+  - [194,       OCI_ATTR_DIRPATH_SID,                 READ/WRITE, "ub1*"]
+  - [3,         OCI_ATTR_DISP_SIZE,                   READ,       "ub4*"] # undocumented
+
+# LOB Locator
+OCI_DTYPE_LOB:
+  - [45,        OCI_ATTR_LOBEMPTY,                    WRITE,      "ub4*"]
+
+# Complex Object Retrieval Handle
+OCI_HTYPE_COMPLEXOBJECT:
+  - [52,         OCI_ATTR_COMPLEXOBJECT_LEVEL,       WRITE,      "ub4*"]
+  - [53,         OCI_ATTR_COMPLEXOBJECT_COLL_OUTOFLINE, WRITE,   "ub1*"]
+
+# Complex Object Retrieval Descriptor
+OCI_DTYPE_COMPLEXOBJECTCOMP:
+  - [50,         OCI_ATTR_COMPLEXOBJECTCOMP_TYPE,    WRITE,      "void*"]
+  - [51,         OCI_ATTR_COMPLEXOBJECTCOMP_TYPE_LEVEL, WRITE,   "ub4*"]
+
+# OCIAQEnqOptions Descriptor Attributes
+OCI_DTYPE_AQENQ_OPTIONS: 
+  - [407,        OCI_ATTR_MSG_DELIVERY_MODE,         WRITE,      "ub2"]
+  - [48,         OCI_ATTR_RELATIVE_MSGID,            READ/WRITE, "OCIRaw*"]
+  - [49,         OCI_ATTR_SEQUENCE_DEVIATION,        READ/WRITE, "ub4"]
+  - [196,        OCI_ATTR_TRANSFORMATION,            READ/WRITE, "oratext**/oratext*"]
+  - [47,         OCI_ATTR_VISIBILITY,                READ/WRITE, "ub4"]
+
+# OCIAQDeqOptions Descriptor
+OCI_DTYPE_AQDEQ_OPTIONS:
+  - [50,         OCI_ATTR_CONSUMER_NAME,             READ/WRITE, "oratext**/oratext*"]
+  - [58,         OCI_ATTR_CORRELATION,               READ/WRITE, "oratext**/oratext*"]
+  - [51,         OCI_ATTR_DEQ_MODE,                  READ/WRITE, "ub4"]
+  - [54,         OCI_ATTR_DEQ_MSGID,                 READ/WRITE, "OCIRaw*"]
+  - [146,        OCI_ATTR_DEQCOND,                   READ/WRITE, "oratext**/oratext*"]
+  - [407,        OCI_ATTR_MSG_DELIVERY_MODE,         WRITE,      "ub2"]
+  - [52,         OCI_ATTR_NAVIGATION,                READ/WRITE, "ub4"]
+  - [196,        OCI_ATTR_TRANSFORMATION,            READ/WRITE, "oratext**/oratext*"]
+  - [47,         OCI_ATTR_VISIBILITY,                READ/WRITE, "ub4"]
+  - [53,         OCI_ATTR_WAIT,                      READ/WRITE, "ub4"]
+
+# OCIAQMsgProperties Descriptor
+OCI_DTYPE_AQMSG_PROPERTIES:
+  - [59,         OCI_ATTR_ATTEMPTS,                  READ,       "sb4"]
+  - [58,         OCI_ATTR_CORRELATION,               READ/WRITE, "oratext**/oratext*"]
+  - [56,         OCI_ATTR_DELAY,                     READ/WRITE, "sb4"]
+  - [62,         OCI_ATTR_ENQ_TIME,                  READ,       "OCIDate*"]
+  - [61,         OCI_ATTR_EXCEPTION_QUEUE,           READ/WRITE, "oratext**/oratext*"]
+  - [57,         OCI_ATTR_EXPIRATION,                READ/WRITE, "sb4"]
+  - [407,        OCI_ATTR_MSG_DELIVERY_MODE,         READ,       "ub2"]
+  - [63,         OCI_ATTR_MSG_STATE,                 READ,       "ub4"]
+  - [69,         OCI_ATTR_ORIGINAL_MSGID,            READ/WRITE, "OCIRaw*"]
+  - [55,         OCI_ATTR_PRIORITY,                  READ/WRITE, "sb4"]
+  - [60,         OCI_ATTR_RECIPIENT_LIST,            WRITE,      "OCIAQAgent**"]
+  - [68,         OCI_ATTR_SENDER_ID,                 READ/WRITE, "OCIAgent*"]
+  - [365,        OCI_ATTR_TRANSACTION_NO,            READ,       "oratext**"]
+
+# OCIAQAgent Descriptor
+OCI_DTYPE_AQAGENT:
+  - [65,         OCI_ATTR_AGENT_ADDRESS,             READ/WRITE, "oratext**/oratext*"]
+  - [64,         OCI_ATTR_AGENT_NAME,                READ/WRITE, "oratext**/oratext*"]
+  - [66,         OCI_ATTR_AGENT_PROTOCOL,            READ/WRITE, "ub1*"]
+
+# OCIServerDNs Descriptor
+OCI_DTYPE_SRVDN:
+  - [161,        OCI_ATTR_DN_COUNT,                  READ,       "ub2*"]
+  - [162,        OCI_ATTR_SERVER_DN,                 READ/WRITE, "oratext**/oratext*"]
+
+# Subscription Handle
+OCI_HTYPE_SUBSCRIPTION:
+  - [160,        OCI_ATTR_SERVER_DNS,                READ/WRITE, "OCIServerDNs*"]
+  - [95,         OCI_ATTR_SUBSCR_CALLBACK,           READ/WRITE, :function_pointer]
+  - [229,        OCI_ATTR_SUBSCR_CQ_QOSFLAGS,        WRITE,      "ub4*"]
+  - [96,         OCI_ATTR_SUBSCR_CTX,                READ/WRITE, "void*"]
+  - [452,        OCI_ATTR_SUBSCR_IPADDR,             READ/WRITE, "oratext**/oratext*"]
+  - [94,         OCI_ATTR_SUBSCR_NAME,               READ/WRITE, "oratext**/oratext*"]
+  - [98,         OCI_ATTR_SUBSCR_NAMESPACE,          READ/WRITE, "ub4*"]
+  - [231,        OCI_ATTR_SUBSCR_NTFN_GROUPING_CLASS, READ/WRITE, "ub1*"]
+  - [235,        OCI_ATTR_SUBSCR_NTFN_GROUPING_REPEAT_COUNT, READ/WRITE, "sb4*"]
+  - [234,        OCI_ATTR_SUBSCR_NTFN_GROUPING_START_TIME, READ/WRITE, "OCIDateTime*/OCIDateTime**"]
+  - [233,        OCI_ATTR_SUBSCR_NTFN_GROUPING_TYPE,  READ/WRITE, "ub1*"]
+  - [232,        OCI_ATTR_SUBSCR_NTFN_GROUPING_VALUE, READ/WRITE, "ub4*"]
+  - [97,         OCI_ATTR_SUBSCR_PAYLOAD,            READ/WRITE, "ub1*"]
+  - [390,        OCI_ATTR_SUBSCR_PORTNO,             READ/WRITE, "ub4*"]
+  - [225,        OCI_ATTR_SUBSCR_QOSFLAGS,           READ/WRITE, "ub4*"]
+  - [148,        OCI_ATTR_SUBSCR_RECPT,              READ/WRITE, "oratext**/oratext*"]
+  - [195,        OCI_ATTR_SUBSCR_RECPTPRES,          READ/WRITE, "ub4"]
+  - [149,        OCI_ATTR_SUBSCR_RECPTPROTO,         READ/WRITE, "ub4*"]
+  - [227,        OCI_ATTR_SUBSCR_TIMEOUT,            READ/WRITE, "ub4*"]
+
+# Continuous Query Notification
+OCI_HTYPE_SUBSCRIPTION:
+  - [404,        OCI_ATTR_CHNF_CHANGELAG,            WRITE,      "ub4*"]
+  - [403,        OCI_ATTR_CHNF_OPERATIONS,           WRITE,      "ub4*"]
+  - [402,        OCI_ATTR_CHNF_ROWIDS,               WRITE,      "boolean*"]
+  - [401,        OCI_ATTR_CHNF_TABLENAMES,           READ,       "OCIColl**"]
+
+# Continuous Query Notification Descriptor
+OCI_DTYPE_CHDES:
+  - [405,        OCI_ATTR_CHDES_DBNAME,              READ,       "oratext**"]
+  - [406,        OCI_ATTR_CHDES_NFYTYPE,             READ,       "ub4*"]
+  - [413,        OCI_ATTR_CHDES_ROW_OPFLAGS,         READ,       "ub4*"]
+  - [412,        OCI_ATTR_CHDES_ROW_ROWID,           READ,       "oratext**"]
+  - [408,        OCI_ATTR_CHDES_TABLE_CHANGES,       READ,       "OCIColl**"]
+  - [409,        OCI_ATTR_CHDES_TABLE_NAME,          READ,       "oratext**"]
+  - [410,        OCI_ATTR_CHDES_TABLE_OPFLAGS,       READ,       "ub4*"]
+  - [411,        OCI_ATTR_CHDES_TABLE_ROW_CHANGES,   READ,       "OCIColl**"]
+
+# Notification Descriptor
+OCI_DTYPE_AQNFY_DESCRIPTOR:
+  - [237,        OCI_ATTR_AQ_NTFN_GROUPING_COUNT,    READ,       "ub4*"]
+  - [236,        OCI_ATTR_AQ_NTFN_GROUPING_ MSGID_ARRAY, READ,   "OCIColl**"]
+  - [50,         OCI_ATTR_CONSUMER_NAME,             READ,       "oratext**"]
+  - [72,         OCI_ATTR_MSG_PROP,                  READ,       "OCIAQMsgProperties**"]
+  - [406,        OCI_ATTR_NFY_FLAGS,                 READ,       "ub4*"]
+  - [71,         OCI_ATTR_NFY_MSGID,                 READ,       "OCIRaw*"]
+  - [70,         OCI_ATTR_QUEUE_NAME,                READ,       "oratext**"]
+
+# Invalidated Query
+OCI_DTYPE_CQDES: 
+  - [422,        OCI_ATTR_CQDES_OPERATION,           READ,       "ub4*"]
+  - [424,        OCI_ATTR_CQDES_QUERYID,             READ,       "ub8*"]
+  - [423,        OCI_ATTR_CQDES_TABLE_CHANGES,       READ,       "OCIColl*"]
+
+# Direct Path Context Handle (OCIDirPathCtx)
+OCI_HTYPE_DIRPATH_CTX:
+  - [77,         OCI_ATTR_BUF_SIZE,                  READ/WRITE, "ub4*/ub4*"]
+  - [31,         OCI_ATTR_CHARSET_ID,                READ/WRITE, "ub2*/ub2*"]
+  - [75,         OCI_ATTR_DATEFORMAT,                READ/WRITE, "oratext**/oratext*"]
+  - [307,        OCI_ATTR_DIRPATH_DCACHE_DISABLE,    READ/WRITE, "ub1*/ub1*"]
+  - [306,        OCI_ATTR_DIRPATH_DCACHE_HITS,       READ,       "ub4*"]
+  - [305,        OCI_ATTR_DIRPATH_DCACHE_MISSES,     READ,       "ub4*"]
+  - [303,        OCI_ATTR_DIRPATH_DCACHE_NUM,        READ,       "ub4*"]
+  - [304,        OCI_ATTR_DIRPATH_DCACHE_SIZE,       READ/WRITE, "ub4*/ub4*"]
+  - [138,        OCI_ATTR_DIRPATH_INDEX_MAINT_METHOD, READ/WRITE, "ub1*/ub1*"]
+  - [78,         OCI_ATTR_DIRPATH_MODE,              READ/WRITE, "ub1*/ub1*"]
+  - [2013,       OCI_ATTR_DIRPATH_NO_INDEX_ERRORS,   READ/WRITE, "ub1*/ub1*"]
+  - [79,         OCI_ATTR_DIRPATH_NOLOG,             READ/WRITE, "ub1*/ub1*"]
+  - [206,        OCI_ATTR_DIRPATH_OBJ_CONSTR,        READ/WRITE, "oratext**/oratext*"]
+  - [80,         OCI_ATTR_DIRPATH_PARALLEL,          READ/WRITE, "ub1*/ub1*"]
+  - [145,        OCI_ATTR_DIRPATH_SKIPINDEX_METHOD,  READ/WRITE, "ub1*/ub1*"]
+  - [103,        OCI_ATTR_LIST_COLUMNS,              READ,       "OCIParam**"]
+  - [4,          OCI_ATTR_NAME,                      READ/WRITE, "oratext**/oratext*"]
+  - [102,        OCI_ATTR_NUM_COLS,                  READ/WRITE, "ub2*/ub2*"]
+  - [81,         OCI_ATTR_NUM_ROWS,                  READ/WRITE, "ub2*/ub2*"]
+  - [9,          OCI_ATTR_SCHEMA_NAME,               READ/WRITE, "oratext**/oratext*"]
+  - [11,         OCI_ATTR_SUB_NAME,                  READ/WRITE, "oratext**/oratext*"]
+
+# Direct Path Function Context Handle (OCIDirPathFuncCtx)
+OCI_HTYPE_DIRPATH_FN_CTX:
+  - [150,        OCI_ATTR_DIRPATH_EXPR_TYPE,         READ/WRITE, "ub1*/ub1*"]
+  - [103,        OCI_ATTR_LIST_COLUMNS,              READ,       "OCIParam**"]
+  - [4,          OCI_ATTR_NAME,                      READ/WRITE, "oratext**/oratext*"]
+  - [102,        OCI_ATTR_NUM_COLS,                  READ/WRITE, "ub2*"]
+  - [81,         OCI_ATTR_NUM_ROWS,                  READ,       "ub4*"]
+
+# Direct Path Function Column Array Handle (OCIDirPathColArray)
+OCI_HTYPE_DIRPATH_COLUMN_ARRAY:
+  - [82,         OCI_ATTR_COL_COUNT,                 READ,       "ub2*"]
+  - [102,        OCI_ATTR_NUM_COLS,                  READ,       "ub2*"]
+  - [81,         OCI_ATTR_NUM_ROWS,                  READ,       "ub4*"]
+  - [9,          OCI_ATTR_ROW_COUNT,                 READ,       "ub4*"]
+
+# Direct Path Stream Handle (OCIDirPathStream)
+OCI_HTYPE_DIRPATH_STREAM:
+  - [76,         OCI_ATTR_BUF_ADDR,                  READ,       "ub1**"]
+  - [77,         OCI_ATTR_BUF_SIZE,                  READ,       "ub4*"]
+  - [9,          OCI_ATTR_ROW_COUNT,                 READ,       "ub4*"]
+  - [83,         OCI_ATTR_STREAM_OFFSET,             READ,       "ub4*"]
+
+# Process Handle Attributes
+OCI_HTYPE_PROC:
+  - [90,         OCI_ATTR_MEMPOOL_APPNAME,           READ/WRITE, "oratext**/oratext*"]
+  - [91,         OCI_ATTR_MEMPOOL_HOMENAME,          READ/WRITE, "oratext**/oratext*"]
+  - [89,         OCI_ATTR_MEMPOOL_INSTNAME,          READ/WRITE, "oratext**/oratext*"]
+  - [88,         OCI_ATTR_MEMPOOL_SIZE,              READ/WRITE, "ub4*"]
+  - [92,         OCI_ATTR_PROC_MODE,                 READ,       "ub4*"]
+
+# Event Handle
+OCI_HTYPE_EVENT:
+  - [399,        OCI_ATTR_DBDOMAIN,                  READ,       "oratext**"]
+  - [391,        OCI_ATTR_DBNAME,                    READ,       "oratext**"]
+  - [400,        OCI_ATTR_EVENTTYPE,                 READ,       "ub4*"]
+  - [401,        OCI_ATTR_HA_SOURCE,                 READ,       "ub4*"]
+  - [403,        OCI_ATTR_HA_SRVFIRST,               READ,       "OCIServer**"]
+  - [404,        OCI_ATTR_HA_SRVNEXT,                READ,       "OCIServer**"]
+  - [402,        OCI_ATTR_HA_STATUS,                 READ,       "ub4*"]
+  - [395,        OCI_ATTR_HA_TIMESTAMP,              READ,       "OCIDateTime**"]
+  - [390,        OCI_ATTR_HOSTNAME,                  READ,       "oratext**"]
+  - [392,        OCI_ATTR_INSTNAME,                  READ,       "oratext**"]
+  - [394,        OCI_ATTR_INSTSTARTTIME,             READ,       "OCIDateTime**"]
+  - [393,        OCI_ATTR_SERVICENAME,               READ,       "oratext**"]

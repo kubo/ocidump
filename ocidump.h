@@ -126,6 +126,11 @@ typedef struct {
     unsigned int *flags;
 } ocidump_hook_t;
 
+/* ociattr.c */
+void ocidump_attrtype(ub4 attrtype, ub4 htype);
+void ocidump_read_attrval(dvoid *val, ub4 htype, ub4 attrtype, ub4 *sizep, sword status);
+void ocidump_write_attrval(dvoid *val, ub4 htype, ub4 attrtype, ub4 size);
+
 /* ocifunc.c */
 extern ocidump_hook_t ocidump_hooks[];
 extern int ocidump_hook_cnt;
@@ -171,7 +176,6 @@ void ocidump_sb8(const sb8 ul);
 #define ocidump_sb8(val) ocidump_long(val)
 #endif
 void ocidump_hex(const unsigned long ul);
-void ocidump_attrtype(ub4 attrtype, ub4 htype);
 void ocidump_string(const text *str);
 void ocidump_string_with_length(const text *str, ub4 len);
 void ocidump_string_with_maxlen(const text *str, ub4 len);
@@ -212,6 +216,7 @@ void ocidump_array_of_OCINumber(const OCINumber **val, const ub4 array_size, swo
 void ocidump_array_of_string_with_length(text **str, ub4 *len, const ub4 array_size, sword status);
 void ocidump_array_of_const_string_with_length(const text **str, const ub4 *len, const ub4 array_size, sword status);
 void ocidump_array_of_string_with_ub1length(text **str, ub1 *len, const ub4 array_size, sword status);
+void ocidump_array_of_null_terminated_string(text **str, const ub4 array_size, sword status);
 
 /* win32.c */
 #ifdef _WIN32

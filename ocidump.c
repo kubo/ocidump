@@ -292,14 +292,6 @@ void ocidump_function_pointer(void *addr)
     }
 }
 
-void ocidump_attrtype(ub4 attrtype, ub4 htype)
-{
-    if (htype >= OCI_DTYPE_FIRST && ocidump_dtypeattr(attrtype) == 0) {
-        return;
-    }
-    ocidump_htypeattr(attrtype);
-}
-
 void ocidump_long(const signed long sl)
 {
     char buf[OCIDUMP_SHORT_BUF_SIZE];
@@ -590,7 +582,26 @@ void ocidump_array_of_const_string_with_length(const text **str, const ub4 *len,
 
 void ocidump_array_of_string_with_ub1length(text **str, ub1 *len, const ub4 array_size, sword status)
 {
-    if (str == NULL || len == NULL) {
+    if (str == NULL) {
+        ocidump_puts("(nil)");
+    } else if (len == NULL || status != 0) {
+        ocidump_puts("[skip]");
+    } else {
+        ub4 idx;
+        putc_unlocked('[', ocidump_logfp);
+        for (idx = 0; idx < array_size; idx++) {
+            if (idx != 0) {
+                putc_unlocked(',', ocidump_logfp);
+            }
+            ocidump_string_with_length(str[idx], len[idx]);
+        }
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+void ocidump_array_of_null_terminated_string(text **str, const ub4 array_size, sword status)
+{
+    if (str == NULL) {
         ocidump_puts("(nil)");
     } else if (status != 0) {
         ocidump_puts("[skip]");
@@ -601,7 +612,7 @@ void ocidump_array_of_string_with_ub1length(text **str, ub1 *len, const ub4 arra
             if (idx != 0) {
                 putc_unlocked(',', ocidump_logfp);
             }
-            ocidump_string_with_length(str[idx], len[idx]);
+            ocidump_string(str[idx]);
         }
         putc_unlocked(']', ocidump_logfp);
     }
