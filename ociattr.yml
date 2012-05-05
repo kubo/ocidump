@@ -11,7 +11,7 @@ OCI_HTYPE_ENV:
   - [35,         OCI_ATTR_CACHE_MAX_SIZE,            READ/WRITE, "ub4*/ub4"]
   - [34,         OCI_ATTR_CACHE_OPT_SIZE,            READ/WRITE, "ub4*/ub4"]
   - [31,         OCI_ATTR_ENV_CHARSET_ID,            READ,       "ub2*"]
-  - [32,         OCI_ATTR_ENV_NCHARSET_ID,           READ,       "ub2*"]
+  - [262,        OCI_ATTR_ENV_NCHARSET_ID,           READ,       "ub2*"]
   - [209,        OCI_ATTR_ENV_UTF16,                 READ,       "ub1*"]
   - [304,        OCI_ATTR_EVTCBK,                    WRITE,      "OCIEventCallback"]
   - [305,        OCI_ATTR_EVTCTX,                    WRITE,      "void*"]
@@ -24,7 +24,7 @@ OCI_HTYPE_ENV:
   - [2,          OCI_ATTR_OBJECT,                    READ,       "boolean*"]
   - [36,         OCI_ATTR_PINOPTION,                 READ/WRITE, "OCIPinOpt*/OCIPinOpt"]
   - [0x00000010, OCI_ATTR_OBJECT_NEWNOTNULL,         READ/WRITE, "boolean*/boolean"]
-#  - [0x00000020, OCI_ATTR_OBJECT_DETECTCHANGE,       READ/WRITE, "boolean*/boolean"]
+  - [0x00000020, OCI_ATTR_OBJECT_DETECTCHANGE,       READ/WRITE, "boolean*/boolean"]
   - [38,         OCI_ATTR_PIN_DURATION,              READ/WRITE, "OCIDuration*/OCIDuration"]
   - [84,         OCI_ATTR_SHARED_HEAPALLOC,          READ,       "ub4*"]
   - [157,        OCI_ATTR_WALL_LOC,                  READ/WRITE, "oratext**/oratext*"]
@@ -234,7 +234,8 @@ OCI_DTYPE_PARAM:
   - [211,       OCI_ATTR_LEVEL,                       READ,       "ub2*"]
   - [17,        OCI_ATTR_LFPRECISION,                 READ,       "ub1*"]
   - [111,       OCI_ATTR_LINK,                        READ,       "oratext**"]
-  - [351,       OCI_ATTR_LIST_ACTION_CONTEXT,         READ,       "void**"]
+  # OCI_ATTR_LIST_ACTION_CONTEXT is typo of OCI_ATTR_ACTION_CONTEXT?
+  - [351,       OCI_ATTR_ACTION_CONTEXT,              READ,       "void**"]
   - [108,       OCI_ATTR_LIST_ARGUMENTS,              READ,       "void**"]
   - [103,       OCI_ATTR_LIST_COLUMNS,                READ,       "void**"]
   - [261,       OCI_ATTR_LIST_OBJECTS,                READ,       "oratext**"]
@@ -398,7 +399,7 @@ OCI_DTYPE_CHDES:
 # Notification Descriptor
 OCI_DTYPE_AQNFY_DESCRIPTOR:
   - [237,        OCI_ATTR_AQ_NTFN_GROUPING_COUNT,    READ,       "ub4*"]
-  - [236,        OCI_ATTR_AQ_NTFN_GROUPING_ MSGID_ARRAY, READ,   "OCIColl**"]
+  - [236,        OCI_ATTR_AQ_NTFN_GROUPING_MSGID_ARRAY, READ,    "OCIColl**"]
   - [50,         OCI_ATTR_CONSUMER_NAME,             READ,       "oratext**"]
   - [72,         OCI_ATTR_MSG_PROP,                  READ,       "OCIAQMsgProperties**"]
   - [406,        OCI_ATTR_NFY_FLAGS,                 READ,       "ub4*"]
@@ -433,7 +434,7 @@ OCI_HTYPE_DIRPATH_CTX:
   - [102,        OCI_ATTR_NUM_COLS,                  READ/WRITE, "ub2*/ub2*"]
   - [81,         OCI_ATTR_NUM_ROWS,                  READ/WRITE, "ub2*/ub2*"]
   - [9,          OCI_ATTR_SCHEMA_NAME,               READ/WRITE, "oratext**/oratext*"]
-  - [11,         OCI_ATTR_SUB_NAME,                  READ/WRITE, "oratext**/oratext*"]
+  - [10,         OCI_ATTR_SUB_NAME,                  READ/WRITE, "oratext**/oratext*"]
 
 # Direct Path Function Context Handle (OCIDirPathFuncCtx)
 OCI_HTYPE_DIRPATH_FN_CTX:
@@ -463,7 +464,7 @@ OCI_HTYPE_PROC:
   - [91,         OCI_ATTR_MEMPOOL_HOMENAME,          READ/WRITE, "oratext**/oratext*"]
   - [89,         OCI_ATTR_MEMPOOL_INSTNAME,          READ/WRITE, "oratext**/oratext*"]
   - [88,         OCI_ATTR_MEMPOOL_SIZE,              READ/WRITE, "ub4*"]
-  - [92,         OCI_ATTR_PROC_MODE,                 READ,       "ub4*"]
+#  - [??,         OCI_ATTR_PROC_MODE,                 READ,       "ub4*"]
 
 # Event Handle
 OCI_HTYPE_EVENT:

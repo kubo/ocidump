@@ -22,7 +22,7 @@ OBJS = ocidump.o ocifunc.o ocidefs.o ociattr.o oranumber_util.o
 
 .PHONY : clean check_defs
 
-libocidump.so: $(OBJS)
+libocidump.so: $(OBJS) ocidump.map
 	$(LD_SHARED) $(LDFLAGS) -o libocidump.so $(OBJS)
 
 ocidump.o: ocidump.c ocidump.h ocidefs.h oranumber_util.h
@@ -30,7 +30,7 @@ ocifunc.o: ocifunc.c ocidump.h ocidefs.h
 ocidefs.o: ocidefs.c ocidump.h ocidefs.h
 oranumber_util.o: oranumber_util.c oranumber_util.h
 
-ocifunc.c ocidefs.c ocidefs.h ociattr.c: mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
+ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map: mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
 	ruby mkocifunc.rb
 
 clean:

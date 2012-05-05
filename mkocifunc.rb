@@ -320,25 +320,36 @@ class AttrDef
 
   def type_to_func(type, is_read)
     case type
-    when "ub1*":      "ocidump_pointer_to_ub1(val)"
-    when "sb1*":      "ocidump_pointer_to_sb1(val)"
-    when "ub2*":      "ocidump_pointer_to_ub2(val)"
-    when "sb2*":      "ocidump_pointer_to_sb2(val)"
-    when "ub4*":      "ocidump_pointer_to_ub4(val)"
-    when "sb4*":      "ocidump_pointer_to_sb4(val)"
-    when "ub8*":      "ocidump_pointer_to_ub8(val)"
-    when "sb8*":      "ocidump_pointer_to_sb8(val)"
-    when "word*":     "ocidump_pointer_to_sword(val)"
-    when "oratext*":  "ocidump_string_with_length(val, size)"
-    when "oratext**": if is_read
-                        "ocidump_pointer_to_string_with_length(val, sizep, status)"
-                      else
-                        # OCI_ATTR_INITIAL_CLIENT_ROLES
-                        "ocidump_array_of_null_terminated_string(val, size, status)"
-                      end
+    when "ub1*"
+      "ocidump_pointer_to_ub1(val)"
+    when "sb1*"
+      "ocidump_pointer_to_sb1(val)"
+    when "ub2*"
+      "ocidump_pointer_to_ub2(val)"
+    when "sb2*"
+      "ocidump_pointer_to_sb2(val)"
+    when "ub4*"
+      "ocidump_pointer_to_ub4(val)"
+    when "sb4*"
+      "ocidump_pointer_to_sb4(val)"
+    when "ub8*"
+      "ocidump_pointer_to_ub8(val)"
+    when "sb8*"
+      "ocidump_pointer_to_sb8(val)"
+    when "word*"
+      "ocidump_pointer_to_sword(val)"
+    when "oratext*"
+      "ocidump_string_with_length(val, size)"
+    when "oratext**"
+      if is_read
+        "ocidump_pointer_to_string_with_length(val, sizep, status)"
+      else
+        # OCI_ATTR_INITIAL_CLIENT_ROLES
+        "ocidump_array_of_null_terminated_string(val, size, status)"
+      end
     when "OCIServer*", "OCISession*", "OCIAuthInfo*", "OCIRaw*", "OCIRowid*", "OCIColl*"
       "ocidump_pointer(val)"
-    when "OCIServer**", "OCIServer**", "OCIEnv**", "void**", "OCIColl**"
+    when "OCIServer**", "OCISession**", "OCIEnv**", "void**", "OCIColl**"
       "ocidump_pointer_to_pointer(val)"
     when :function_pointer, "OCIEventCallback", "OCIFocbkStruct*"
       "ocidump_function_pointer(val)"
@@ -458,6 +469,12 @@ def check_defs
   typedefs.sort! do |a, b|
     a.name <=> b.name
   end
+  attrdefs = []
+  YAML.load(open(File.dirname(__FILE__) + '/ociattr.yml')).each do |htype, attrs|
+    attrs.each do |attr|
+      attrdefs << AttrDef.new(*attr)
+    end
+  end
 
   open('check_defs.c', 'w') do |fd|
     fd.write <<EOS
@@ -485,6 +502,11 @@ EOS
 EOS
         end
       end
+    end
+    attrdefs.each do |attrdef|
+      fd.write <<EOS
+    {#{attrdef.value}, #{attrdef.name}, "#{attrdef.name}"},
+EOS
     end
     fd.write <<EOS
 };

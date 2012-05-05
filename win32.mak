@@ -14,7 +14,7 @@ WIN32_TRAMPOLINE_VC_OBJ = win32_trampoline_vc32.obj
 
 
 OBJS = ocidump.obj ocifunc.obj ocidefs.obj ociattr.obj oranumber_util.obj win32.obj win32_trampoline.obj $(WIN32_TRAMPOLINE_VC_OBJ)
-MKOCIFUNC_FILES = ocifunc.c ocidefs.c ocidefs.h ociattr.c 
+MKOCIFUNC_FILES = ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map
 WIN32_TRAMPOLINE_FILES = win32_trampoline.c win32_trampoline_vc32.asm win32_trampoline_vc64.asm
 
 all: ocidump.dll oci.dll
