@@ -85,6 +85,7 @@ void *dlsym(void *map, const char *name)
 int ocidump_hide_string = 0;
 int ocidump_is_initialized;
 FILE *ocidump_logfp;
+pthread_key_t ocidump_tls_key;
 
 static unsigned int log_flags = 0;
 
@@ -95,6 +96,11 @@ static void ocidump_do_init(void)
     if (ocidump_is_initialized) {
         return;
     }
+#if defined(_WIN32)
+    ocidump_tls_key = TlsAlloc();
+#else
+    pthread_key_create(&ocidump_tls_key, NULL);
+#endif
     val = getenv("OCIDUMP_HIDE_STRING");
     if (val != NULL) {
         ocidump_hide_string = atoi(val);

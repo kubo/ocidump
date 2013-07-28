@@ -21,6 +21,7 @@ static unsigned int <%=f.name%>_flags = OCIDUMP_HOOK_EXIT;
 
 <%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.join(', ')%>)
 {
+    size_t call_level;
 <%  local_vars.each do |var|
 %>    <%=var%>;
 <%  end
@@ -30,8 +31,11 @@ static unsigned int <%=f.name%>_flags = OCIDUMP_HOOK_EXIT;
 %>    if (!ocidump_is_initialized) {
         ocidump_init();
     }
+    call_level = (size_t)pthread_getspecific(ocidump_tls_key);
+    pthread_setspecific(ocidump_tls_key, (void*)(call_level + 1));
     <%=f.ret.type != 'void' ? "ret = " : ""%><%=f.name%>_orig(<%=f.args.collect {|arg| arg.name}.join(', ')%>);
-    if (<%=f.name%>_flags & OCIDUMP_HOOK_EXIT) {
+    pthread_setspecific(ocidump_tls_key, (void*)call_level);
+    if (call_level == 0 && (<%=f.name%>_flags & OCIDUMP_HOOK_EXIT)) {
 <%  if f.after_call
 %>        <%=f.after_call.gsub("\n", "\n        ").gsub(/ +$/, '')%>
 <%  end

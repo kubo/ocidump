@@ -4,6 +4,11 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#define pthread_key_t DWORD
+#define pthread_getspecific TlsGetValue
+#define pthread_setspecific TlsSetValue
+#else
+#include <pthread.h>
 #endif
 
 typedef unsigned char ub1;
@@ -139,6 +144,7 @@ extern int ocidump_hook_cnt;
 extern int ocidump_hide_string;
 extern int ocidump_is_initialized;
 extern FILE *ocidump_logfp;
+extern pthread_key_t ocidump_tls_key;
 void ocidump_init(void);
 void ocidump_log_start(const char *funcname);
 void ocidump_log_end(void);
