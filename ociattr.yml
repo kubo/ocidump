@@ -39,7 +39,7 @@ OCI_HTYPE_SVCCTX:
   - [44,         OCI_ATTR_IN_V8_MODE,                READ,       "ub1*"]
   - [6,          OCI_ATTR_SERVER,                    READ/WRITE, "OCIServer**/OCIServer*"]
   - [7,          OCI_ATTR_SESSION,                   READ/WRITE, "OCISession**/OCISession*"]
-  - [421,        OCI_ATTR_STMTCACHE_CBK,             READ/WRITE, :function_pointer]
+  - [421,        OCI_ATTR_STMTCACHE_CBK,             READ/WRITE, ":function_pointer"]
   - [176,        OCI_ATTR_STMTCACHESIZE,             READ/WRITE, "ub4*/ub4"]
   - [8,          OCI_ATTR_TRANS,                     READ/WRITE, "OCITrans**/OCITrans*"]
 
@@ -92,7 +92,7 @@ OCI_HTYPE_SESSION:
   - [426,       OCI_ATTR_PURITY,                     READ/WRITE, "ub4*/ub4"]
   - [373,       OCI_ATTR_SESSION_STATE,              READ/WRITE, "ub1*"]
   - [22,        OCI_ATTR_USERNAME,                   READ/WRITE, "oratext**/oratext*"]
-  - [46,        OCI_ATTR_SESSLANG,                   READ,       :undocumented] # undocumented
+  - [46,        OCI_ATTR_SESSLANG,                   READ,       ":undocumented"] # undocumented
 
 # Administration Handle
 OCI_HTYPE_ADMIN:
@@ -359,7 +359,7 @@ OCI_DTYPE_SRVDN:
 # Subscription Handle
 OCI_HTYPE_SUBSCRIPTION:
   - [160,        OCI_ATTR_SERVER_DNS,                READ/WRITE, "OCIServerDNs*"]
-  - [95,         OCI_ATTR_SUBSCR_CALLBACK,           READ/WRITE, :function_pointer]
+  - [95,         OCI_ATTR_SUBSCR_CALLBACK,           READ/WRITE, ":function_pointer"]
   - [229,        OCI_ATTR_SUBSCR_CQ_QOSFLAGS,        WRITE,      "ub4*"]
   - [96,         OCI_ATTR_SUBSCR_CTX,                READ/WRITE, "void*"]
   - [452,        OCI_ATTR_SUBSCR_IPADDR,             READ/WRITE, "oratext**/oratext*"]

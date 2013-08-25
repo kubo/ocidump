@@ -108,15 +108,17 @@ OCIUcb:
 
 OCILockOpt:
   :type: :enum
-  :format: %d
-  :values: - [1,     OCI_LOCK_NONE]
+  :format: "%d"
+  :values:
+           - [1,     OCI_LOCK_NONE]
            - [2,     OCI_LOCK_X]
            - [3,     OCI_LOCK_X_NOWAIT]
 
 OCIObjectEvent:
   :type: :enum
-  :format: %d
-  :values: - [1,     OCI_OBJECTEVENT_BEFORE_FLUSH]
+  :format: "%d"
+  :values:
+           - [1,     OCI_OBJECTEVENT_BEFORE_FLUSH]
            - [2,     OCI_OBJECTEVENT_AFTER_FLUSH]
            - [3,     OCI_OBJECTEVENT_BEFORE_REFRESH]
            - [4,     OCI_OBJECTEVENT_AFTER_REFRESH]
@@ -127,40 +129,46 @@ OCIObjectEvent:
 
 OCIObjectProperty:
   :type: :enum
-  :format: %d
-  :values: - [1,     OCI_OBJECTPROP_DIRTIED]
+  :format: "%d"
+  :values:
+           - [1,     OCI_OBJECTPROP_DIRTIED]
            - [2,     OCI_OBJECTPROP_LOADED]
            - [3,     OCI_OBJECTPROP_LOCKED]
 
 OCIPinOpt:
   :type: :enum
-  :format: %d
-  :values: - [1,     OCI_PIN_DEFAULT]
+  :format: "%d"
+  :values:
+           - [1,     OCI_PIN_DEFAULT]
            - [3,     OCI_PIN_ANY]
            - [4,     OCI_PIN_RECENT]
            - [5,     OCI_PIN_LATEST]
 
 OCIRefreshOpt:
   :type: :enum
-  :format: %d
-  :values: - [1,     OCI_REFRESH_LOADED]
+  :format: "%d"
+  :values:
+           - [1,     OCI_REFRESH_LOADED]
 
 OCITypeEncap:
   :type: :enum
-  :format: %d
-  :values: - [0,     OCI_TYPEENCAP_PRIVATE]
+  :format: "%d"
+  :values:
+           - [0,     OCI_TYPEENCAP_PRIVATE]
            - [1,     OCI_TYPEENCAP_PUBLIC]
 
 OCITypeGetOpt:
   :type: :enum
-  :format: %d
-  :values: - [0,     OCI_TYPEGET_HEADER]
+  :format: "%d"
+  :values:
+           - [0,     OCI_TYPEGET_HEADER]
            - [1,     OCI_TYPEGET_ALL]
 
 OCITypeMethodFlag:
   :type: :enum
   :format: 0x%04x
-  :values: - [0x0001, OCI_TYPEMETHOD_INLINE]
+  :values:
+           - [0x0001, OCI_TYPEMETHOD_INLINE]
            - [0x0002, OCI_TYPEMETHOD_CONSTANT]
            - [0x0004, OCI_TYPEMETHOD_VIRTUAL]
            - [0x0008, OCI_TYPEMETHOD_CONSTRUCTOR]
@@ -179,8 +187,9 @@ OCITypeMethodFlag:
 
 OCITypeParamMode:
   :type: :enum
-  :format: %d
-  :values: - [0,      OCI_TYPEPARAM_IN]
+  :format: "%d"
+  :values:
+           - [0,      OCI_TYPEPARAM_IN]
            - [1,      OCI_TYPEPARAM_OUT]
            - [2,      OCI_TYPEPARAM_INOUT]
            - [3,      OCI_TYPEPARAM_BYREF]
@@ -190,15 +199,17 @@ OCITypeParamMode:
 LobBufferingFlushFlag:
   :type: :macro
   :datatype: ub4
-  :format: %u
-  :values: - [1,      OCI_LOB_BUFFER_FREE]
+  :format: "%u"
+  :values:
+           - [1,      OCI_LOB_BUFFER_FREE]
            - [2,      OCI_LOB_BUFFER_NOFREE]
 
 LobOpenMode:
   :type: :macro
   :datatype: ub1
-  :format: %u
-  :values: - [1,      OCI_LOB_READONLY]
+  :format: "%u"
+  :values:
+           - [1,      OCI_LOB_READONLY]
            - [2,      OCI_LOB_READWRITE]
            - [3,      OCI_LOB_WRITEONLY]
            - [4,      OCI_LOB_APPENDONLY]
@@ -208,23 +219,26 @@ LobOpenMode:
 LobType:
   :type: :macro
   :datatype: ub1
-  :format: %u
-  :values: - [1,      OCI_TEMP_BLOB]
+  :format: "%u"
+  :values:
+           - [1,      OCI_TEMP_BLOB]
            - [2,      OCI_TEMP_CLOB]
 
 OCICredentialType:
   :type: :macro
   :datatype: ub4
-  :format: %u
-  :values: - [1,      OCI_CRED_RDBMS]
+  :format: "%u"
+  :values:
+           - [1,      OCI_CRED_RDBMS]
            - [2,      OCI_CRED_EXT]
            - [3,      OCI_CRED_PROXY]
 
 OCIDuration:
   :type: :macro
   :datatype: OCIDuration
-  :format: %u
-  :values: - [0xFFFF, OCI_DURATION_INVALID]
+  :format: "%u"
+  :values:
+           - [0xFFFF, OCI_DURATION_INVALID]
            #- [10,     OCI_DURATION_BEGIN]
            - [9,      OCI_DURATION_NULL]
            - [8,      OCI_DURATION_DEFAULT]
@@ -241,7 +255,8 @@ OCIFetchOption:
   :type: :macro
   :datatype: ub2
   :format: 0x%x
-  :values: - [0x00000001, OCI_FETCH_CURRENT]
+  :values:
+           - [0x00000001, OCI_FETCH_CURRENT]
            - [0x00000002, OCI_FETCH_NEXT]
            - [0x00000004, OCI_FETCH_FIRST]
            - [0x00000008, OCI_FETCH_LAST]
@@ -252,8 +267,9 @@ OCIFetchOption:
 OCIInd:
   :type: :macro
   :datatype: OCIInd
-  :format: %d
-  :values: - [0,      OCI_IND_NOTNULL]
+  :format: "%d"
+  :values:
+           - [0,      OCI_IND_NOTNULL]
            - [-1,     OCI_IND_NULL]
            - [-2,     OCI_IND_BADNULL]
            - [-3,     OCI_IND_NOTNULLABLE]
@@ -261,8 +277,9 @@ OCIInd:
 OCILogon2Mode:
   :type: :macro
   :datatype: ub4
-  :format: %u
-  :values: - [0x0001, OCI_LOGON2_SPOOL]
+  :format: "%u"
+  :values:
+           - [0x0001, OCI_LOGON2_SPOOL]
            - [0x0200, OCI_LOGON2_CPOOL]
            - [0x0004, OCI_LOGON2_STMTCACHE]
            - [0x0008, OCI_LOGON2_PROXY]
@@ -270,8 +287,9 @@ OCILogon2Mode:
 OCIObjectPropId:
   :type: :macro
   :datatype: OCIObjectPropId
-  :format: %u
-  :values: - [1,      OCI_OBJECTPROP_LIFETIME]
+  :format: "%u"
+  :values:
+           - [1,      OCI_OBJECTPROP_LIFETIME]
            - [2,      OCI_OBJECTPROP_SCHEMA]
            - [3,      OCI_OBJECTPROP_TABLE]
            - [4,      OCI_OBJECTPROP_PIN_DURATION]
@@ -283,8 +301,9 @@ OCIObjectPropId:
 OCITypeCode:
   :type: :macro
   :datatype: OCITypeCode
-  :format: %u
-  :values: - [0,      OCI_TYPECODE_NONE]
+  :format: "%u"
+  :values:
+           - [0,      OCI_TYPECODE_NONE]
            - [1,      OCI_TYPECODE_VARCHAR]
            - [2,      OCI_TYPECODE_NUMBER]
            - [3,      OCI_TYPECODE_INTEGER]
@@ -339,8 +358,9 @@ OCITypeCode:
 OCI_PIECE:
   :type: macro
   :datatype: ub1
-  :format: %u
-  :values: - [0,      OCI_ONE_PIECE]
+  :format: "%u"
+  :values:
+           - [0,      OCI_ONE_PIECE]
            - [1,      OCI_FIRST_PIECE]
            - [2,      OCI_NEXT_PIECE]
            - [3,      OCI_LAST_PIECE]
@@ -348,16 +368,18 @@ OCI_PIECE:
 OCI_SYNTAX:
   :type: macro
   :datatype: ub4
-  :format: %u
-  :values: - [2,      OCI_V7_SYNTAX]
+  :format: "%u"
+  :values:
+           - [2,      OCI_V7_SYNTAX]
            - [3,      OCI_V8_SYNTAX]
            - [1,      OCI_NTV_SYNTAX]
 
 SQLCS:
   :type: macro
   :datatype: ub1
-  :format: %u
-  :values: - [1,      SQLCS_IMPLICIT]
+  :format: "%u"
+  :values:
+           - [1,      SQLCS_IMPLICIT]
            - [2,      SQLCS_NCHAR]
            - [3,      SQLCS_EXPLICIT]
            - [4,      SQLCS_FLEXIBLE]
@@ -366,8 +388,9 @@ SQLCS:
 SQLT:
   :type: :macro
   :datatype: ub2
-  :format: %u
-  :values: - [1,      SQLT_CHR]
+  :format: "%u"
+  :values:
+           - [1,      SQLT_CHR]
            - [2,      SQLT_NUM]
            - [3,      SQLT_INT]
            - [4,      SQLT_FLT]
@@ -419,8 +442,9 @@ SQLT:
 status:
   :type: :macro
   :datatype: sword
-  :format: %d
-  :values: - [0,     OCI_SUCCESS]
+  :format: "%d"
+  :values:
+           - [0,     OCI_SUCCESS]
            - [1,     OCI_SUCCESS_WITH_INFO]
            - [100,   OCI_NO_DATA]
            - [-1,    OCI_ERROR]
@@ -431,8 +455,9 @@ status:
 htype:
   :type: :macro
   :datatype: ub4
-  :format: %u
-  :values: - [1,     OCI_HTYPE_ENV]
+  :format: "%u"
+  :values:
+           - [1,     OCI_HTYPE_ENV]
            - [2,     OCI_HTYPE_ERROR]
            - [3,     OCI_HTYPE_SVCCTX]
            - [4,     OCI_HTYPE_STMT]

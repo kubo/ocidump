@@ -1,10 +1,6 @@
 require 'erb'
 require 'yaml'
 
-if defined? YAML::ENGINE
-  YAML::ENGINE.yamler = 'syck'
-end
-
 class ArgDef
   attr_reader :type
   attr_reader :name
@@ -101,9 +97,30 @@ class FuncDef
   end
 end
 
+def fix_yaml_data(data)
+  case data
+  when Hash
+    data.each do |key, val|
+      data[key] = fix_yaml_data(val)
+    end
+  when Array
+    data.each_with_index do |val, idx|
+      data[idx] = fix_yaml_data(val)
+    end
+  when /^:/ # a string which starts with ':'
+    data[1..-1].intern # convert it to symbol.
+  else
+    data
+  end
+end
+
+def load_yaml(filename)
+  fix_yaml_data(YAML.load(open(File.dirname(__FILE__) + '/' + filename)))
+end
+
 def make_ocifunc_c
   funcs = []
-  YAML.load(open(File.dirname(__FILE__) + '/ocifunc.yml')).each do |key, val|
+  load_yaml('ocifunc.yml').each do |key, val|
     funcs << FuncDef.new(key, val)
   end
   funcs.sort! do |a, b|
@@ -161,7 +178,7 @@ end
 def make_ocidefs_c
   typedefs = []
   htype_values = nil
-  YAML.load(open(File.dirname(__FILE__) + '/ocidefs.yml')).each do |key, val|
+  load_yaml('ocidefs.yml').each do |key, val|
     typedefs << TypeDef.new(key, val)
     htype_values = val[:values] if key == 'htype'
   end
@@ -367,7 +384,7 @@ end
 
 def make_ociattr_c
   htypes = []
-  YAML.load(open(File.dirname(__FILE__) + '/ociattr.yml')).each do |htype, attrs|
+  load_yaml('ociattr.yml').each do |htype, attrs|
     attrdefs = []
     attrs.each do |attr|
       attrdefs << AttrDef.new(*attr)
@@ -470,14 +487,14 @@ end
 
 def check_defs
   typedefs = []
-  YAML.load(open(File.dirname(__FILE__) + '/ocidefs.yml')).each do |key, val|
+  load_yaml('ocidefs.yml').each do |key, val|
     typedefs << TypeDef.new(key, val)
   end
   typedefs.sort! do |a, b|
     a.name <=> b.name
   end
   attrdefs = []
-  YAML.load(open(File.dirname(__FILE__) + '/ociattr.yml')).each do |htype, attrs|
+  load_yaml('ociattr.yml').each do |htype, attrs|
     attrs.each do |attr|
       attrdefs << AttrDef.new(*attr)
     end
