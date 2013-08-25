@@ -254,8 +254,16 @@ EOS
 int ocidump_#{typedef.name}(#{arg})
 {
     const char *str = NULL;
+EOS
+      if typedef.format
+        fd.write <<EOS
+    char buf[OCIDUMP_SHORT_BUF_SIZE];
+EOS
+      fd.write <<EOS
+
     switch (val) {
 EOS
+      end
       typedef.values.each do |val|
         fd.write <<EOS
     case #{val[0]}: str = "#{val[1]}"; break;
@@ -267,7 +275,6 @@ EOS
 EOS
       if typedef.format
         fd.write <<EOS
-        char buf[OCIDUMP_SHORT_BUF_SIZE];
         sprintf(buf, "#{typedef.format}", val);
         str = buf;
 EOS
