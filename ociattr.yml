@@ -100,8 +100,8 @@ OCI_HTYPE_ADMIN:
 
 # Connection Pool Handle
 OCI_HTYPE_CPOOL:
-  - [181,       OCI_ATTR_CONN_TIMEOUT,               READ/WRITE, "ub4*/ub4"]
-  - [178,       OCI_ATTR_CONN_NOWAIT,                READ/WRITE, "ub1*/ub1"]
+  - [181,       OCI_ATTR_CONN_TIMEOUT,               READ/WRITE, "ub4*"]
+  - [178,       OCI_ATTR_CONN_NOWAIT,                READ/WRITE, "ub1*"]
   - [179,       OCI_ATTR_CONN_BUSY_COUNT,            READ,       "ub4*"]
   - [180,       OCI_ATTR_CONN_OPEN_COUNT,            READ,       "ub4*"]
   - [183,       OCI_ATTR_CONN_MIN,                   READ,       "ub4*"]
@@ -202,7 +202,7 @@ OCI_DTYPE_PARAM:
   - [226,       OCI_ATTR_HAS_FILE,                    READ,       "ub1*"]
   - [225,       OCI_ATTR_HAS_LOB,                     READ,       "ub1*"]
   - [224,       OCI_ATTR_HAS_NESTED_TABLE,            READ,       "ub1*"]
-  - [117,       OCI_ATTR_HW_MARK,                     READ,       "oranmber*"]
+  - [117,       OCI_ATTR_HW_MARK,                     READ,       "oranumber*"]
   - [114,       OCI_ATTR_INCR,                        READ,       "oranumber*"]
   - [107,       OCI_ATTR_INDEX_ONLY,                  READ,       "ub1*"]
   - [213,       OCI_ATTR_IOMODE,                      READ,       "OCITypeParamMode*"]

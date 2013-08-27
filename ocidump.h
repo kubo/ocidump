@@ -187,12 +187,15 @@ void ocidump_string_with_length(const text *str, ub4 len);
 void ocidump_string_with_maxlen(const text *str, ub4 len);
 void ocidump_OCIDate(const OCIDate *date);
 void ocidump_OCINumber(const OCINumber *num);
+void ocidump_raw_OCINumber(const void *addr, ub4 size);
 
 void ocidump_pointer_to_null_indicator(void *ind, OCITypeCode tc, int is_input);
 void ocidump_pointer_or_pointer_to_pointer(void *val, int is_pointer);
 void ocidump_pointer_to_int_with_length(const void *val, uword length, uword flag);
 void ocidump_pointer_to_real_with_length(const void *val, uword length, ub4 cnt, sword status);
 void ocidump_pointer_to_string_with_length(text **str, ub4 *len, sword status);
+void ocidump_pointer_to_raw_OCINumber(const void **addr, ub4 size, sword status);
+void ocidump_pointer_to_attr_precision(const void *ptr);
 
 void ocidump_pointer_to_ub1(const ub1 *val);
 void ocidump_pointer_to_sb1(const sb1 *val);
@@ -209,6 +212,8 @@ void ocidump_pointer_to_boolean(const boolean *val);
 void ocidump_pointer_to_OCIDuration(const OCIDuration *dur);
 void ocidump_pointer_to_OCIInd(const OCIInd *val);
 void ocidump_pointer_to_OCITypeCode(const OCITypeCode *tc);
+void ocidump_pointer_to_OCITypeEncap(const OCITypeEncap *val);
+void ocidump_pointer_to_OCITypeParamMode(const enum OCITypeParamMode *val);
 void ocidump_pointer_to_OCI_PIECE(const ub1 *val);
 void ocidump_pointer_to_SQLT(const OCITypeCode *val);
 void ocidump_pointer_to_htype(const ub4 *val);

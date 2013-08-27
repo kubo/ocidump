@@ -354,6 +354,37 @@ void ocidump_OCINumber(const OCINumber *num)
     }
 }
 
+void ocidump_raw_OCINumber(const void *addr, ub4 size)
+{
+    if (addr == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+        OCINumber num;
+
+        memset(&num, 0, sizeof(num));
+        num.OCINumberPart[0] = size;
+        if (size > sizeof(num.OCINumberPart) - 1) {
+            size = sizeof(num.OCINumberPart) - 1;
+        }
+        memcpy(&num.OCINumberPart[1], addr, size);
+        ocidump_OCINumber(&num);
+    }
+}
+
+void ocidump_pointer_to_attr_precision(const void *ptr)
+{
+    if (ptr == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+	union {
+		ub1 explicit;
+		ub2 implicit;
+	} val;
+	memcpy(&val, ptr, 2);
+	fprintf(ocidump_logfp, "[%d(explicit) or %d(implicit)]", val.explicit, val.implicit);
+    }
+}
+
 void ocidump_pointer_to_null_indicator(void *ind, OCITypeCode tc, int is_input)
 {
     if (ind == NULL) {
@@ -504,6 +535,19 @@ void ocidump_pointer_to_string_with_length(text **str, ub4 *len, sword status)
     }
 }
 
+void ocidump_pointer_to_raw_OCINumber(const void **addr, ub4 size, sword status)
+{
+    if (addr == NULL) {
+        ocidump_puts("(nil)");
+    } else if (status != 0) {
+        ocidump_puts("[skip]");
+    } else {
+        putc_unlocked('[', ocidump_logfp);
+        ocidump_raw_OCINumber(*addr, size);
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
 #define DECLARE_POINTER_TO_TYPE_FUNC(x, y) \
 void ocidump_pointer_to_##x(const y *val) \
 { \
@@ -531,6 +575,8 @@ DECLARE_POINTER_TO_TYPE_FUNC(boolean, boolean)
 DECLARE_POINTER_TO_TYPE_FUNC(OCIDuration, OCIDuration)
 DECLARE_POINTER_TO_TYPE_FUNC(OCIInd, OCIInd)
 DECLARE_POINTER_TO_TYPE_FUNC(OCITypeCode, OCITypeCode)
+DECLARE_POINTER_TO_TYPE_FUNC(OCITypeEncap, OCITypeEncap)
+DECLARE_POINTER_TO_TYPE_FUNC(OCITypeParamMode, enum OCITypeParamMode)
 DECLARE_POINTER_TO_TYPE_FUNC(OCI_PIECE, ub1)
 DECLARE_POINTER_TO_TYPE_FUNC(SQLT, OCITypeCode)
 DECLARE_POINTER_TO_TYPE_FUNC(htype, ub4)

@@ -362,6 +362,18 @@ class AttrDef
       "ocidump_pointer_to_sb8(val)"
     when "word*"
       "ocidump_pointer_to_sword(val)"
+    when "ub1* or sb2*"
+      "ocidump_pointer_to_attr_precision(val)"
+    when "boolean*"
+      "ocidump_pointer_to_boolean(val)"
+    when "OCIDuration*"
+      "ocidump_pointer_to_OCIDuration(val)"
+    when "OCITypeCode*"
+      "ocidump_pointer_to_OCITypeCode(val)"
+    when "OCITypeEncap*"
+      "ocidump_pointer_to_OCITypeEncap(val)"
+    when "OCITypeParamMode*"
+      "ocidump_pointer_to_OCITypeParamMode(val)"
     when "oratext*"
       "ocidump_string_with_length(val, size)"
     when "oratext**"
@@ -373,11 +385,18 @@ class AttrDef
       end
     when "OCIServer*", "OCISession*", "OCIAuthInfo*", "OCIRaw*", "OCIRowid*", "OCIColl*"
       "ocidump_pointer(val)"
-    when "OCIServer**", "OCISession**", "OCIEnv**", "void**", "OCIColl**"
+    when "OCIServer**", "OCISession**", "OCIEnv**", "void**", "OCIColl**", "OCIRef**"
       "ocidump_pointer_to_pointer(val)"
     when :function_pointer, "OCIEventCallback", "OCIFocbkStruct*"
       "ocidump_function_pointer(val)"
-    else nil
+    when "oranumber*"
+      if is_read
+        "ocidump_pointer_to_raw_OCINumber(val, status ? 0 : *sizep, status)"
+      else
+        "ocidump_pointer_to_raw_OCINumber(val, size, 0)"
+      end
+    else
+      "fprintf(ocidump_logfp, \"%p(unsupported:%s)\", val, \"#{type}\")"
     end
   end
 end
