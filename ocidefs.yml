@@ -355,6 +355,15 @@ OCITypeCode:
 #           - [SQLT_REC     OCI_TYPECODE_RECORD]
 #           - [SQLT_BOL     OCI_TYPECODE_BOOLEAN]
 
+OCI_OTYPE:
+  :type : macro
+  :datatype: ub1
+  :format: "%u"
+  :values:
+           - [1,      OCI_OTYPE_NAME]
+           - [2,      OCI_OTYPE_REF]
+           - [3,      OCI_OTYPE_PTR]
+
 OCI_PIECE:
   :type: macro
   :datatype: ub1
@@ -364,6 +373,37 @@ OCI_PIECE:
            - [1,      OCI_FIRST_PIECE]
            - [2,      OCI_NEXT_PIECE]
            - [3,      OCI_LAST_PIECE]
+
+OCI_PTYPE:
+  :type: macro
+  :datatype: ub1
+  :format: "%u"
+  :values:
+           - [0,      OCI_PTYPE_UNK]
+           - [1,      OCI_PTYPE_TABLE]
+           - [2,      OCI_PTYPE_VIEW]
+           - [3,      OCI_PTYPE_PROC]
+           - [4,      OCI_PTYPE_FUNC]
+           - [5,      OCI_PTYPE_PKG]
+           - [6,      OCI_PTYPE_TYPE]
+           - [7,      OCI_PTYPE_SYN]
+           - [8,      OCI_PTYPE_SEQ]
+           - [9,      OCI_PTYPE_COL]
+           - [10,     OCI_PTYPE_ARG]
+           - [11,     OCI_PTYPE_LIST]
+           - [12,     OCI_PTYPE_TYPE_ATTR]
+           - [13,     OCI_PTYPE_TYPE_COLL]
+           - [14,     OCI_PTYPE_TYPE_METHOD]
+           - [15,     OCI_PTYPE_TYPE_ARG]
+           - [16,     OCI_PTYPE_TYPE_RESULT]
+           - [17,     OCI_PTYPE_SCHEMA]
+           - [18,     OCI_PTYPE_DATABASE]
+           - [19,     OCI_PTYPE_RULE]
+           - [20,     OCI_PTYPE_RULE_SET]
+           - [21,     OCI_PTYPE_EVALUATION_CONTEXT]
+           - [22,     OCI_PTYPE_TABLE_ALIAS]
+           - [23,     OCI_PTYPE_VARIABLE_TYPE]
+           - [24,     OCI_PTYPE_NAME_VALUE]
 
 OCI_SYNTAX:
   :type: macro

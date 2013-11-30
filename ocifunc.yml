@@ -844,9 +844,9 @@ OCIDescribeAny:
   :args:
        - [OCISvcCtx *svchp,            ":pointer"]
        - [OCIError *errhp,             ":pointer"]
-       - [dvoid *objptr,               ":pointer"]
+       - [dvoid *objptr,               ":pointer_to_desc_obj", ":in", objnm_len, objptr_typ]
        - [ub4 objnm_len,               ":ub4"]
-       - [ub1 objptr_typ,              ":ub1"]
+       - [ub1 objptr_typ,              ":OCI_OTYPE"]
        - [ub1 info_level,              ":ub1"]
        - [ub1 objtyp,                  ":ub1"]
        - [OCIDescribe *dschp,          ":pointer"]

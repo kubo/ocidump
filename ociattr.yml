@@ -92,7 +92,7 @@ OCI_HTYPE_SESSION:
   - [426,       OCI_ATTR_PURITY,                     READ/WRITE, "ub4*/ub4"]
   - [373,       OCI_ATTR_SESSION_STATE,              READ/WRITE, "ub1*"]
   - [22,        OCI_ATTR_USERNAME,                   READ/WRITE, "oratext**/oratext*"]
-  - [46,        OCI_ATTR_SESSLANG,                   READ,       ":undocumented"] # undocumented
+  - [46,        OCI_ATTR_SESSLANG,                   READ,       "void**"]
 
 # Administration Handle
 OCI_HTYPE_ADMIN:
@@ -172,15 +172,16 @@ OCI_HTYPE_DEFINE:
 
 # Describe Handle
 OCI_HTYPE_DESCRIBE:
-  - [124,       OCI_ATTR_PARAM,                      READ,       "ub4*"]
+  - [124,       OCI_ATTR_PARAM,                      READ,       "void**"]
   - [18,        OCI_ATTR_PARAM_COUNT,                READ,       "ub4*"]
+  - [250,       OCI_ATTR_DESC_PUBLIC,                WRITE,      "ub4*"] # the type is not written.
 
 # Parameter Descriptor
 OCI_DTYPE_PARAM:
   - [271,       OCI_ATTR_AUTOCOMMIT_DDL,              READ,       "ub1*"]
   - [115,       OCI_ATTR_CACHE,                       READ,       "oranumber*"]
   - [268,       OCI_ATTR_CATALOG_LOCATION,            READ,       "ub1*"]
-  - [32,        OCI_ATTR_CHARSET_FORM,                READ,       "ub1*"]
+  - [32,        OCI_ATTR_CHARSET_FORM,                READ,       "ub1*(csfrm)"]
   - [31,        OCI_ATTR_CHARSET_ID,                  READ/WRITE, "ub2*"]
   - [286,       OCI_ATTR_CHAR_SIZE,                   READ,       "ub2*"]
   - [285,       OCI_ATTR_CHAR_USED,                   READ,       "ub1*"]
@@ -270,7 +271,7 @@ OCI_DTYPE_PARAM:
   - [106,       OCI_ATTR_PARTITIONED,                 READ,       "ub1*"]
   - [11,        OCI_ATTR_POSITION,                    READ,       "ub2*"]
   - [5,         OCI_ATTR_PRECISION,                   READ/WRITE, "ub1* or sb2*"]
-  - [123,       OCI_ATTR_PTYPE,                       READ,       "ub1*"]
+  - [123,       OCI_ATTR_PTYPE,                       READ,       "ub1*(ptype)"]
   - [214,       OCI_ATTR_RADIX,                       READ,       "ub1*"]
   - [104,       OCI_ATTR_RDBA,                        READ,       "ub4*"]
   - [110,       OCI_ATTR_REF_TDO,                     READ,       "OCIRef**"]

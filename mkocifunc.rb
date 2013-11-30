@@ -346,6 +346,10 @@ class AttrDef
     case type
     when "ub1*"
       "ocidump_pointer_to_ub1(val)"
+    when "ub1*(csfrm)"
+      "ocidump_pointer_to_SQLCS(val)"
+    when "ub1*(ptype)"
+      "ocidump_pointer_to_OCI_PTYPE(val)"
     when "sb1*"
       "ocidump_pointer_to_sb1(val)"
     when "ub2*"

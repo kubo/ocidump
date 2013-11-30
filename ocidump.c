@@ -548,6 +548,17 @@ void ocidump_pointer_to_raw_OCINumber(const void **addr, ub4 size, sword status)
     }
 }
 
+void ocidump_pointer_to_desc_obj(const void *objptr, ub4 objnm_len, ub1 objptr_typ)
+{
+    if (objptr == NULL) {
+        ocidump_puts("(nil)");
+    } else if (objptr_typ == 1 /* OCI_OTYPE_NAME */) {
+    	ocidump_string_with_length(objptr, objnm_len);
+    } else {
+    	ocidump_pointer(objptr);
+    }
+}
+
 #define DECLARE_POINTER_TO_TYPE_FUNC(x, y) \
 void ocidump_pointer_to_##x(const y *val) \
 { \
@@ -578,6 +589,7 @@ DECLARE_POINTER_TO_TYPE_FUNC(OCITypeCode, OCITypeCode)
 DECLARE_POINTER_TO_TYPE_FUNC(OCITypeEncap, OCITypeEncap)
 DECLARE_POINTER_TO_TYPE_FUNC(OCITypeParamMode, enum OCITypeParamMode)
 DECLARE_POINTER_TO_TYPE_FUNC(OCI_PIECE, ub1)
+DECLARE_POINTER_TO_TYPE_FUNC(OCI_PTYPE, ub1)
 DECLARE_POINTER_TO_TYPE_FUNC(SQLT, OCITypeCode)
 DECLARE_POINTER_TO_TYPE_FUNC(htype, ub4)
 DECLARE_POINTER_TO_TYPE_FUNC(SQLCS, ub1)
