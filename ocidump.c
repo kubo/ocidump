@@ -376,12 +376,12 @@ void ocidump_pointer_to_attr_precision(const void *ptr)
     if (ptr == NULL) {
         ocidump_puts("(nil)");
     } else {
-	union {
-		ub1 explicit;
-		ub2 implicit;
-	} val;
-	memcpy(&val, ptr, 2);
-	fprintf(ocidump_logfp, "[%d(explicit) or %d(implicit)]", val.explicit, val.implicit);
+        union {
+            ub1 explicit;
+            ub2 implicit;
+        } val;
+        memcpy(&val, ptr, 2);
+        fprintf(ocidump_logfp, "[%d(explicit) or %d(implicit)]", val.explicit, val.implicit);
     }
 }
 
@@ -553,9 +553,9 @@ void ocidump_pointer_to_desc_obj(const void *objptr, ub4 objnm_len, ub1 objptr_t
     if (objptr == NULL) {
         ocidump_puts("(nil)");
     } else if (objptr_typ == 1 /* OCI_OTYPE_NAME */) {
-    	ocidump_string_with_length(objptr, objnm_len);
+        ocidump_string_with_length(objptr, objnm_len);
     } else {
-    	ocidump_pointer(objptr);
+        ocidump_pointer(objptr);
     }
 }
 
