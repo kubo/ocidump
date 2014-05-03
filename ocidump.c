@@ -559,6 +559,23 @@ void ocidump_pointer_to_desc_obj(const void *objptr, ub4 objnm_len, ub1 objptr_t
     }
 }
 
+void ocidump_pointer_to_version_number(const ub4 *val)
+{
+    if (val == NULL) {
+        ocidump_puts("(nil)");
+    } else {
+        char buf[64];
+        sprintf(buf,
+                "[0x%x(%d.%d.%d.%d.%d)]", *val,
+                (*val & 0xFF000000) >> 24,
+                (*val & 0x00F00000) >> 20,
+                (*val & 0x000FF000) >> 12,
+                (*val & 0x00000F00) >> 8,
+                (*val & 0x000000FF) >> 0);
+        ocidump_puts(buf);
+    }
+}
+
 #define DECLARE_POINTER_TO_TYPE_FUNC(x, y) \
 void ocidump_pointer_to_##x(const y *val) \
 { \

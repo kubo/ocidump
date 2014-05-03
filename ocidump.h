@@ -197,6 +197,7 @@ void ocidump_pointer_to_string_with_length(text **str, ub4 *len, sword status);
 void ocidump_pointer_to_raw_OCINumber(const void **addr, ub4 size, sword status);
 void ocidump_pointer_to_attr_precision(const void *ptr);
 void ocidump_pointer_to_desc_obj(const void *objptr, ub4 objnm_len, ub1 objptr_typ);
+void ocidump_pointer_to_version_number(const ub4 *val);
 
 void ocidump_pointer_to_ub1(const ub1 *val);
 void ocidump_pointer_to_sb1(const sb1 *val);

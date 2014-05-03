@@ -2561,7 +2561,7 @@ OCIServerRelease:
        - [OraText *bufp,               ":string_with_maxlen", ":out", bufsz]
        - [ub4 bufsz,                   ":ub4"]
        - [ub1 hndltype,                ":htype"]
-       - [ub4 *version,                ":pointer_to_ub4", ":out"]
+       - [ub4 *version,                ":pointer_to_version_number", ":out"]
 
 OCIServerVersion:
   :ret:  [sword,                       ":status"]
