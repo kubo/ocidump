@@ -351,9 +351,9 @@ OCITypeCode:
            - [287,    OCI_TYPECODE_NVARCHAR2]
            - [288,    OCI_TYPECODE_NCLOB]
            - [320,    OCI_TYPECODE_OTMLAST]
-#           - [SQLT_TAB     OCI_TYPECODE_ITABLE]
-#           - [SQLT_REC     OCI_TYPECODE_RECORD]
-#           - [SQLT_BOL     OCI_TYPECODE_BOOLEAN]
+           - [251,    OCI_TYPECODE_ITABLE]
+           - [250,    OCI_TYPECODE_RECORD]
+           - [252,    OCI_TYPECODE_BOOLEAN]
 
 OCI_OTYPE:
   :type : macro
@@ -610,6 +610,9 @@ SQLT:
            - [190,    SQLT_INTERVAL_DS]
            - [232,    SQLT_TIMESTAMP_LTZ]
            - [241,    SQLT_PNTY]
+           - [250,    SQLT_REC]
+           - [251,    SQLT_TAB]
+           - [252,    SQLT_BOL]
 
 status:
   :type: :macro

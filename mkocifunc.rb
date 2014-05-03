@@ -350,6 +350,8 @@ class AttrDef
       "ocidump_pointer_to_SQLCS(val)"
     when "ub1*(ptype)"
       "ocidump_pointer_to_OCI_PTYPE(val)"
+    when "ub1*(array)"
+      "ocidump_array_of_ub1(val, sizep ? *sizep : 0, status)"
     when "sb1*"
       "ocidump_pointer_to_sb1(val)"
     when "ub2*"
@@ -381,7 +383,11 @@ class AttrDef
     when "OCITypeParamMode*"
       "ocidump_pointer_to_OCITypeParamMode(val)"
     when "oratext*"
-      "ocidump_string_with_length(val, size)"
+      if is_read
+        "ocidump_string_with_length(val, status ? 0 : (sizep ? *sizep : 0))"
+      else
+        "ocidump_string_with_length(val, size)"
+      end
     when "oratext**"
       if is_read
         "ocidump_pointer_to_string_with_length(val, sizep, status)"

@@ -268,6 +268,24 @@ OCIBindByName:
        - [ub4 *curelep,                ":pointer"]
        - [ub4 mode,                    ":ub4_hex"]
 
+OCIBindByName2:
+  :ret:  [sword,                       ":status"]
+  :args:
+       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIBind **bindp,             ":pointer_to_pointer", ":out"]
+       - [OCIError *errhp,             ":pointer"]
+       - [const OraText *placeholder,  ":string_with_length", ":in", placeh_len]
+       - [sb4 placeh_len,              ":sb4"]
+       - [void  *valuep,               ":pointer"]
+       - [sb8 value_sz,                ":sb8"]
+       - [ub2 dty,                     ":SQLT"]
+       - [void  *indp,                 ":pointer"]
+       - [ub4 *alenp,                 ":pointer"]
+       - [ub2 *rcodep,                 ":pointer"]
+       - [ub4 maxarr_len,              ":ub4"]
+       - [ub4 *curelep,                ":pointer"]
+       - [ub4 mode,                    ":ub4_hex"]
+
 OCIBindByPos:
   :ret:  [sword,                       ":status"]
   :args:
@@ -280,6 +298,23 @@ OCIBindByPos:
        - [ub2 dty,                     ":SQLT"]
        - [dvoid *indp,                 ":pointer"]
        - [ub2 *alenp,                  ":pointer"]
+       - [ub2 *rcodep,                 ":pointer"]
+       - [ub4 maxarr_len,              ":ub4"]
+       - [ub4 *curelep,                ":pointer"]
+       - [ub4 mode,                    ":ub4_hex"]
+
+OCIBindByPos2:
+  :ret:  [sword,                       ":status"]
+  :args:
+       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIBind **bindp,             ":pointer_to_pointer", ":out"]
+       - [OCIError *errhp,             ":pointer"]
+       - [ub4 position,                ":ub4"]
+       - [void *valuep,                ":pointer"]
+       - [sb8 value_sz,                ":ub4"]
+       - [ub2 dty,                     ":SQLT"]
+       - [void  *indp,                 ":pointer"]
+       - [ub4 *alenp,                  ":pointer"]
        - [ub2 *rcodep,                 ":pointer"]
        - [ub4 maxarr_len,              ":ub4"]
        - [ub4 *curelep,                ":pointer"]
@@ -817,6 +852,21 @@ OCIDefineByPos:
        - [ub2 dty,                     ":SQLT"]
        - [dvoid *indp,                 ":pointer"]
        - [ub2 *rlenp,                  ":pointer"]
+       - [ub2 *rcodep,                 ":pointer"]
+       - [ub4 mode,                    ":ub4_hex"]
+
+OCIDefineByPos2:
+  :ret:  [sword,                       ":status"]
+  :args:
+       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIDefine **defnp,           ":pointer_to_pointer", ":out"]
+       - [OCIError *errhp,             ":pointer"]
+       - [ub4 position,                ":ub4"]
+       - [void *valuep,                ":pointer"]
+       - [sb8 value_sz,                ":sb8"]
+       - [ub2 dty,                     ":SQLT"]
+       - [void *indp,                  ":pointer"]
+       - [ub4 *rlenp,                  ":pointer"]
        - [ub2 *rcodep,                 ":pointer"]
        - [ub4 mode,                    ":ub4_hex"]
 
@@ -2716,6 +2766,16 @@ OCIStmtGetPieceInfo:
        - [ub4 *idxp,                   ":pointer_to_ub4", ":out"]
        - [ub1 *piecep,                 ":pointer_to_OCI_PIECE", ":out"]
 
+OCIStmtGetNextResult:
+  :ret:  [sword,                       ":status"]
+  :args:
+       - [OCIStmt *stmthp,             ":pointer"]
+       - [OCIError *errhp,             ":pointer"]
+       - [void **result,               ":pointer_to_pointer", ":out"]
+       - [ub4 *rtype,                  ":pointer_to_ub4", ":out"]
+       - [ub4 mode,                    ":ub4_hex"]
+
+
 OCIStmtPrepare:
   :ret:  [sword,                       ":status"]
   :args:
@@ -2907,6 +2967,21 @@ OCITypeArrayByName:
        - [OCITypeGetOpt get_option,    ":OCITypeGetOpt"]
        - ["OCIType *tdo[]",            ":array_of_pointer", ":out", array_len, ret]
 
+OCITypeArrayByFullName:
+  :ret:  [sword,                       ":status"]
+  :args:
+       - [OCIEnv *env,                 ":pointer"]
+       - [OCIError *err,               ":pointer"]
+       - [const OCISvcCtx *svc,        ":pointer"]
+       - [ub4 array_len,               ":ub4"]
+       - ["const oratext *full_type_name[]", ":array_of_const_string_with_length", ":in", full_type_name_length, array_len, 0]
+       - ["ub4 full_type_name_length[]", ":array_of_ub4", ":in", array_len, 0]
+       - ["const oratext *version_name[]", ":array_of_const_string_with_length", ":in", version_name_length, array_len, 0]
+       - ["ub4 version_name_length[]",   ":array_of_ub4", ":in", array_len, 0]
+       - [OCIDuration pin_duration,    ":OCIDuration"]
+       - [OCITypeGetOpt get_option,    ":OCITypeGetOpt"]
+       - [OCIType **tdo,               ":array_of_pointer", ":out", array_len, ret]
+
 OCITypeArrayByRef:
   :ret:  [sword,                       ":status"]
   :args:
@@ -2964,6 +3039,20 @@ OCITypeByName:
        - [ub4 t_length,                ":ub4"]
        - [const oratext *version_name, ":string_with_length", ":in", v_length]
        - [ub4 v_length,                ":ub4"]
+       - [OCIDuration pin_duration,    ":OCIDuration"]
+       - [OCITypeGetOpt get_option,    ":OCITypeGetOpt"]
+       - [OCIType **tdo,               ":pointer_to_pointer", ":out"]
+
+OCITypeByFullName:
+  :ret:  [sword,                       ":status"]
+  :args:
+       - [OCIEnv *env,                 ":pointer"]
+       - [OCIError *err,               ":pointer"]
+       - [const OCISvcCtx *svc,        ":pointer"]
+       - [const oratext *full_type_name, ":string_with_length", ":in", full_type_name_length]
+       - [ub4 full_type_name_length,   ":ub4"]
+       - [const oratext *version_name, ":string_with_length", ":in", version_name_length]
+       - [ub4 version_name_length,     ":ub4"]
        - [OCIDuration pin_duration,    ":OCIDuration"]
        - [OCITypeGetOpt get_option,    ":OCITypeGetOpt"]
        - [OCIType **tdo,               ":pointer_to_pointer", ":out"]
@@ -3214,6 +3303,14 @@ OCITypeMethods:
        - [const OCIType *tdo,          ":pointer"]
 
 OCITypeName:
+  :ret:  [oratext *,                   ":string_with_length", ":out", "*n_length"]
+  :args:
+       - [OCIEnv *env,                 ":pointer"]
+       - [OCIError *err,               ":pointer"]
+       - [const OCIType *tdo,          ":pointer"]
+       - [ub4 *n_length,               ":pointer_to_ub4", ":out"]
+
+OCITypePackage:
   :ret:  [oratext *,                   ":string_with_length", ":out", "*n_length"]
   :args:
        - [OCIEnv *env,                 ":pointer"]
