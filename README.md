@@ -1,7 +1,7 @@
 Oracle OCI Dumper
 =================
 
-What's is this.
+What is this.
 ---------------
 
 Tracing utility to monitor Oracle OCI function calls.
