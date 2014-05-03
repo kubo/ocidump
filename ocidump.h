@@ -220,6 +220,7 @@ void ocidump_pointer_to_OCI_PTYPE(const ub1 *val);
 void ocidump_pointer_to_SQLT(const OCITypeCode *val);
 void ocidump_pointer_to_htype(const ub4 *val);
 void ocidump_pointer_to_SQLCS(const ub1 *val);
+void ocidump_pointer_to_SQLFNCODE(const ub2 *val);
 void ocidump_pointer_to_pointer(const void **ptr);
 
 void ocidump_array_of_pointer(const void **val, const ub4 array_size, sword status);

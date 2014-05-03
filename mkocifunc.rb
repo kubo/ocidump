@@ -354,6 +354,8 @@ class AttrDef
       "ocidump_pointer_to_sb1(val)"
     when "ub2*"
       "ocidump_pointer_to_ub2(val)"
+    when "ub2*(sqlfncode)"
+      "ocidump_pointer_to_SQLFNCODE(val)"
     when "sb2*"
       "ocidump_pointer_to_sb2(val)"
     when "ub4*"

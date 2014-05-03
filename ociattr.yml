@@ -142,7 +142,7 @@ OCI_HTYPE_STMT:
   - [9,         OCI_ATTR_ROW_COUNT,                  READ,       "ub4*"]
   - [19,        OCI_ATTR_ROWID,                      READ,       "OCIRowid*"]
   - [197,       OCI_ATTR_ROWS_FETCHED,               READ,       "ub4*"]
-  - [10,        OCI_ATTR_SQLFNCODE,                  READ,       "ub2*"]
+  - [10,        OCI_ATTR_SQLFNCODE,                  READ,       "ub2*(sqlfncode)"]
   - [144,       OCI_ATTR_STATEMENT,                  READ,       "oratext**"]
   - [420,       OCI_ATTR_STMTCACHE_CBKCTX,           READ/WRITE, "void*"]
   - [182,       OCI_ATTR_STMT_STATE,                 READ,       "ub4*"]
