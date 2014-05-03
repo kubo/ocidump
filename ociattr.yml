@@ -151,7 +151,7 @@ OCI_HTYPE_STMT:
 # Bind Handle
 OCI_HTYPE_BIND:
   - [15,        OCI_ATTR_CHAR_COUNT,                 WRITE,      "ub4*"]
-  - [32,        OCI_ATTR_CHARSET_FORM,               READ/WRITE, "ub1*"]
+  - [32,        OCI_ATTR_CHARSET_FORM,               READ/WRITE, "ub1*(csfrm)"]
   - [31,        OCI_ATTR_CHARSET_ID,                 READ/WRITE, "ub2*"]
   - [163,       OCI_ATTR_MAXCHAR_SIZE,               WRITE,      "sb4*"]
   - [33,        OCI_ATTR_MAXDATA_SIZE,               READ/WRITE, "sb4*"]
@@ -162,7 +162,7 @@ OCI_HTYPE_BIND:
 # Define Handle
 OCI_HTYPE_DEFINE:
   - [15,        OCI_ATTR_CHAR_COUNT,                 WRITE,      "ub4*"]
-  - [32,        OCI_ATTR_CHARSET_FORM,               READ/WRITE, "ub1*"]
+  - [32,        OCI_ATTR_CHARSET_FORM,               READ/WRITE, "ub1*(csfrm)"]
   - [31,        OCI_ATTR_CHARSET_ID,                 READ/WRITE, "ub2*"]
   - [440,       OCI_ATTR_LOBPREFETCH_LENGTH,         READ/WRITE, "boolean*/boolean"]
   - [439,       OCI_ATTR_LOBPREFETCH_SIZE,           READ/WRITE, "ub4*/ub4"]
