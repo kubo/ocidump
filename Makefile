@@ -1,7 +1,7 @@
 ORACLE_INC = /opt/instantclient_11_2/sdk/include
 
 ## Linux
-CC = gcc
+CC = gcc -g
 CFLAGS = -pthread -fPIC -D_GNU_SOURCE -Wall
 LD_SHARED = $(CC) -shared
 LDFLAGS = -pthread -Wl,--version-script,ocidump.map -ldl
@@ -18,17 +18,18 @@ LDFLAGS = -pthread -Wl,--version-script,ocidump.map -ldl
 #LD_SHARED = $(CC) -G
 #LDFLAGS = -Wl,-M,ocidump.map
 
-OBJS = ocidump.o ocifunc.o ocidefs.o ociattr.o oranumber_util.o
+OBJS = ocidump.o ocifunc.o ocidefs.o ociattr.o oranumber_util.o ocihandle.o
 
 .PHONY : clean check_defs
 
 libocidump.so: $(OBJS) ocidump.map
 	$(LD_SHARED) $(LDFLAGS) -o libocidump.so $(OBJS) -ldl
 
-ocidump.o: ocidump.c ocidump.h ocidefs.h oranumber_util.h
+ocidump.o: ocidump.c ocidump.h ocidefs.h oranumber_util.h ocihandle.h
 ocifunc.o: ocifunc.c ocidump.h ocidefs.h
 ocidefs.o: ocidefs.c ocidump.h ocidefs.h
 oranumber_util.o: oranumber_util.c oranumber_util.h
+ocihandle.o: ocihandle.c ocidump.h ocihandle.h
 
 ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map: oranumber_util.o mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
 	ruby mkocifunc.rb

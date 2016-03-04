@@ -16,6 +16,7 @@
 #include <string.h>
 #include "ocidump.h"
 #include "oranumber_util.h"
+#include "ocihandle.h"
 
 #ifndef _WIN32
 static pthread_once_t init_once = {PTHREAD_ONCE_INIT};
@@ -94,6 +95,7 @@ void *dlsym(void *map, const char *name)
 #define OUT_OF_MEMORY_MSG "... out of memory ..."
 
 int ocidump_hide_string = 0;
+int ocidump_trace_handle = 0;
 int ocidump_is_initialized;
 FILE *ocidump_logfp;
 pthread_key_t ocidump_tls_key;
@@ -115,6 +117,10 @@ static void ocidump_do_init(void)
     val = getenv("OCIDUMP_HIDE_STRING");
     if (val != NULL) {
         ocidump_hide_string = atoi(val);
+    }
+    val = getenv("OCIDUMP_TRACE_HANDLE");
+    if (val != NULL) {
+        ocidump_trace_handle = atoi(val);
     }
     val = getenv("OCIDUMP_LOGFILE");
     if (val != NULL) {
@@ -152,6 +158,9 @@ static void ocidump_do_init(void)
     }
 #ifdef _WIN32
     ocidump_init_win32();
+    if (ocidump_trace_handle) {
+        ocihandle_init();
+    }
 #else
     {
         int i;
@@ -714,5 +723,70 @@ void ocidump_array_of_null_terminated_string(text **str, const ub4 array_size, s
             ocidump_string(str[idx]);
         }
         putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+void ocidump_OCIEnv(const OCIEnv *envhp)
+{
+    ocidump_ocihandle(envhp, OCI_HTYPE_ENV, 0, 0);
+}
+
+void ocidump_OCIError(const OCIError *errhp)
+{
+    ocidump_ocihandle(errhp, OCI_HTYPE_ERROR, 0, 0);
+}
+
+void ocidump_OCISvcCtx(const OCISvcCtx *svchp)
+{
+    ocidump_ocihandle(svchp, OCI_HTYPE_SVCCTX, 0, 0);
+}
+
+void ocidump_OCIServer(const OCIServer *srvhp)
+{
+    ocidump_ocihandle(srvhp, OCI_HTYPE_SERVER, 0, 0);
+}
+
+void ocidump_OCISession(const OCISession *seshp)
+{
+    ocidump_ocihandle(seshp, OCI_HTYPE_SESSION, 0, 0);
+}
+
+void ocidump_OCIDateTime(const OCIDateTime *dttm)
+{
+    ocidump_ocihandle(dttm, OCI_DTYPE_TIMESTAMP, OCI_DTYPE_TIMESTAMP_TZ, OCI_DTYPE_TIMESTAMP_LTZ);
+}
+
+void ocidump_OCIInterval(const OCIInterval *intvl)
+{
+    ocidump_ocihandle(intvl, OCI_DTYPE_INTERVAL_YM, OCI_DTYPE_INTERVAL_DS, 0);
+}
+
+void ocidump_ocihandle(const void *hndl, ub4 type, ub4 type2, ub4 type3)
+{
+    ocihandle_print(hndl, type, type2, type3, ocihandle_find(hndl));
+}
+
+void ocidump_pointer_to_ocihandle(const void **hndlp, ub4 type, const void *parent, sword status)
+{
+    if (hndlp == NULL) {
+        ocidump_puts("(nil)");
+    } else if (status != 0) {
+        ocidump_puts("[skip]");
+    } else {
+        const void *addr = *hndlp;
+        const ocihandle_t *hndl = ocihandle_add(addr, type, parent);
+
+        putc_unlocked('[', ocidump_logfp);
+        ocihandle_print(addr, type, 0, 0, hndl);
+        putc_unlocked(']', ocidump_logfp);
+    }
+}
+
+void ocidump_ocihandle_free(const void *addr, ub4 type)
+{
+    const ocihandle_t *hndl = ocihandle_find(addr);
+    ocihandle_print(addr, type, 0, 0, hndl);
+    if (hndl != NULL) {
+        ocihandle_del(hndl);
     }
 }

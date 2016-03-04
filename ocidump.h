@@ -142,6 +142,7 @@ extern int ocidump_hook_cnt;
 
 /* ocidump.c */
 extern int ocidump_hide_string;
+extern int ocidump_trace_handle;
 extern int ocidump_is_initialized;
 extern FILE *ocidump_logfp;
 extern pthread_key_t ocidump_tls_key;
@@ -232,6 +233,18 @@ void ocidump_array_of_string_with_length(text **str, ub4 *len, const ub4 array_s
 void ocidump_array_of_const_string_with_length(const text **str, const ub4 *len, const ub4 array_size, sword status);
 void ocidump_array_of_string_with_ub1length(text **str, ub1 *len, const ub4 array_size, sword status);
 void ocidump_array_of_null_terminated_string(text **str, const ub4 array_size, sword status);
+
+void ocidump_OCIEnv(const OCIEnv *envhp);
+void ocidump_OCIError(const OCIError *errhp);
+void ocidump_OCISvcCtx(const OCISvcCtx *svchp);
+void ocidump_OCIServer(const OCIServer *srvhp);
+void ocidump_OCISession(const OCISession *seshp);
+void ocidump_OCIDateTime(const OCIDateTime *dttm);
+void ocidump_OCIInterval(const OCIInterval *intvl);
+
+void ocidump_ocihandle(const void *hndl, ub4 type, ub4 type2, ub4 type3);
+void ocidump_pointer_to_ocihandle(const void **hndl, ub4 type, const void *parent, sword status);
+void ocidump_ocihandle_free(const void *hndl, ub4 type);
 
 /* win32.c */
 #ifdef _WIN32

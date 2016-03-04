@@ -28,8 +28,17 @@ class ArgDef
     case @fmt
     when String
       "ocidump_log(0, \"#{@fmt}\", #{fmt_arg})"
-    when :pointer_to_pointer, :array_of_pointer
+    when :pointer_to_pointer, :array_of_pointer, :pointer_to_ocihandle
       "ocidump_%s((const void **)%s)" % [@fmt, @args.join(', ')]
+    when :ocihandle
+      case @args.size
+      when 2
+        "ocidump_ocihandle(%s, 0, 0)" % [@args.join(', ')]
+      when 3
+        "ocidump_ocihandle(%s, 0)" % [@args.join(', ')]
+      when 4
+        "ocidump_ocihandle(%s)" % [@args.join(', ')]
+      end
     when Symbol
       "ocidump_%s(%s)" % [@fmt, @args.join(', ')]
     end
@@ -54,8 +63,10 @@ class FuncDef
     @name = key
     @ret = ArgDef.new(val[:ret], 0)
     @args = []
-    val[:args].each_with_index do |arg, idx|
-      args << ArgDef.new(arg, idx + 1)
+    if val[:args]
+      val[:args].each_with_index do |arg, idx|
+        args << ArgDef.new(arg, idx + 1)
+      end
     end
     @before_call = val[:before_call]
     @after_call = val[:after_call]

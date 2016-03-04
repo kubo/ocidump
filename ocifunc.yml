@@ -1,8 +1,8 @@
 OCIAnyDataAccess:
   :ret:  [sword,                         ":status"]
   :args:
-       - ["OCISvcCtx *svchp",            ":pointer"]
-       - ["OCIError *errhp",             ":pointer"]
+       - ["OCISvcCtx *svchp",            ":OCISvcCtx"]
+       - ["OCIError *errhp",             ":OCIError"]
        - ["OCIAnyData *sdata",           ":pointer"]
        - ["OCITypeCode tc",              ":OCITypeCode"]
        - ["OCIType *type",               ":pointer"]
@@ -13,8 +13,8 @@ OCIAnyDataAccess:
 OCIAnyDataAttrGet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
        - [OCITypeCode tc,              ":OCITypeCode"]
        - [OCIType *type,               ":pointer"]
@@ -26,8 +26,8 @@ OCIAnyDataAttrGet:
 OCIAnyDataAttrSet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
        - [OCITypeCode tc,              ":OCITypeCode"]
        - [OCIType *type,               ":pointer"]
@@ -39,8 +39,8 @@ OCIAnyDataAttrSet:
 OCIAnyDataBeginCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCITypeCode tc,              ":OCITypeCode"]
        - [OCIType *type,               ":pointer"]
        - [OCIDuration dur,             ":OCIDuration"]
@@ -49,8 +49,8 @@ OCIAnyDataBeginCreate:
 OCIAnyDataCollAddElem:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
        - [OCITypeCode tc,              ":OCITypeCode"]
        - [OCIType *type,               ":pointer"]
@@ -63,8 +63,8 @@ OCIAnyDataCollAddElem:
 OCIAnyDataCollGetElem:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
        - [OCITypeCode tc,              ":OCITypeCode"]
        - [OCIType *type,               ":pointer"]
@@ -76,8 +76,8 @@ OCIAnyDataCollGetElem:
 OCIAnyDataConvert:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCITypeCode tc,              ":OCITypeCode"]
        - [OCIType *type,               ":pointer"]
        - [OCIDuration dur,             ":OCIDuration"]
@@ -89,30 +89,30 @@ OCIAnyDataConvert:
 OCIAnyDataDestroy:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
 
 OCIAnyDataEndCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
 
 OCIAnyDataGetCurrAttrNum:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
        - [ub4 *attrnum,                ":pointer_to_ub4", ":out"]
 
 OCIAnyDataGetType:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
        - [OCITypeCode *tc,             ":pointer_to_OCITypeCode", ":out"]
        - [OCIType **type,              ":pointer_to_pointer", ":out"]
@@ -120,24 +120,24 @@ OCIAnyDataGetType:
 OCIAnyDataIsNull:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyData *sdata,           ":pointer"]
        - [boolean *isnull,             ":pointer_to_boolean", ":out"]
 
 OCIAnyDataSetAddInstance:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyDataSet *data_set,     ":pointer"]
        - [OCIAnyData **data,           ":pointer_to_pointer", ":inout"]
 
 OCIAnyDataSetBeginCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCITypeCode typecode,        ":OCITypeCode"]
        - [const OCIType *type,         ":pointer"]
        - [OCIDuration dur,             ":OCIDuration"]
@@ -146,38 +146,38 @@ OCIAnyDataSetBeginCreate:
 OCIAnyDataSetDestroy:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyDataSet *data_set,     ":pointer"]
 
 OCIAnyDataSetEndCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyDataSet *data_set,     ":pointer"]
 
 OCIAnyDataSetGetCount:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyDataSet *data_set,     ":pointer"]
        - [ub4 *count,                  ":pointer_to_ub4", ":out"]
 
 OCIAnyDataSetGetInstance:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyDataSet *data_set,     ":pointer"]
        - [OCIAnyData **data,           ":pointer_to_pointer", ":inout"]
 
 OCIAnyDataSetGetType:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAnyDataSet *data_set,     ":pointer"]
        - [OCITypeCode *tc,             ":pointer_to_OCITypeCode", ":out"]
        - [OCIType **type,              ":pointer_to_pointer", ":out"]
@@ -185,29 +185,29 @@ OCIAnyDataSetGetType:
 OCIAppCtxClearAll:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *sesshndl,              ":pointer"]
+       - [void *sesshndl,              ":OCISession"]
        - [void *nsptr,                 ":string_with_length", ":in", nsptrlen]
        - [ub4 nsptrlen,                ":ub4"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 mode,                    ":ub4_hex"]
 
 OCIAppCtxSet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *sesshndl,              ":pointer"]
+       - [void *sesshndl,              ":OCISession"]
        - [void *nsptr,                 ":string_with_length", ":in", nsptrlen]
        - [ub4 nsptrlen,                ":ub4"]
        - [void *attrptr,               ":string_with_length", ":in", attrptrlen]
        - [ub4 attrptrlen,              ":ub4"]
        - [void *valueptr,              ":string_with_length", ":in", valueptrlen]
        - [ub4 valueptrlen,             ":ub4"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 mode,                    ":ub4_hex"]
 
 OCIArrayDescriptorAlloc:
   :ret:  [sword,                       ":status"]
   :args:
-       - [const void *parenth,         ":pointer"]
+       - [const void *parenth,         ":OCIEnv"]
        - [void **descpp,               ":array_of_pointer", ":out", array_size, ret]
        - [const ub4 type,              ":htype"]
        - [ub4 array_size,              ":ub4"]
@@ -223,28 +223,28 @@ OCIArrayDescriptorFree:
 OCIAttrGet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [const dvoid *trgthndlp,      ":pointer"]
+       - [const dvoid *trgthndlp,      ":ocihandle", ":in", trghndltyp]
        - [ub4 trghndltyp,              ":htype"]
        - [dvoid *attributep,           ":read_attrval", ":out", trghndltyp, attrtype, sizep, ret]
        - [ub4 *sizep,                  ":pointer_to_ub4", ":out"]
        - [ub4 attrtype,                ":attrtype", trghndltyp]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCIAttrSet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *trgthndlp,            ":pointer"]
+       - [dvoid *trgthndlp,            ":ocihandle", ":in", trghndltyp]
        - [ub4 trghndltyp,              ":htype"]
        - [dvoid *attributep,           ":write_attrval", ":in", trghndltyp, attrtype, size]
        - [ub4 size,                    ":ub4"]
        - [ub4 attrtype,                ":attrtype", trghndltyp]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCIBindArrayOfStruct:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCIBind *bindp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 pvskip,                  ":ub4"]
        - [ub4 indskip,                 ":ub4"]
        - [ub4 alskip,                  ":ub4"]
@@ -253,9 +253,9 @@ OCIBindArrayOfStruct:
 OCIBindByName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
        - [OCIBind **bindp,             ":pointer_to_pointer", ":out"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [const text *placeholder,     ":string_with_length", ":in", placeh_len]
        - [sb4 placeh_len,              ":sb4"]
        - [dvoid *valuep,               ":pointer"]
@@ -271,9 +271,9 @@ OCIBindByName:
 OCIBindByName2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
        - [OCIBind **bindp,             ":pointer_to_pointer", ":out"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [const OraText *placeholder,  ":string_with_length", ":in", placeh_len]
        - [sb4 placeh_len,              ":sb4"]
        - [void  *valuep,               ":pointer"]
@@ -289,9 +289,9 @@ OCIBindByName2:
 OCIBindByPos:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
        - [OCIBind **bindp,             ":pointer_to_pointer", ":out"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 position,                ":ub4"]
        - [dvoid *valuep,               ":pointer"]
        - [sb4 value_sz,                ":ub4"]
@@ -306,9 +306,9 @@ OCIBindByPos:
 OCIBindByPos2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
        - [OCIBind **bindp,             ":pointer_to_pointer", ":out"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 position,                ":ub4"]
        - [void *valuep,                ":pointer"]
        - [sb8 value_sz,                ":ub4"]
@@ -324,7 +324,7 @@ OCIBindDynamic:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCIBind *bindp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [void *ictxp,                 ":pointer"]
        - [OCICallbackInBind icbfp,     ":function_pointer"]
        - [void *octxp,                 ":pointer"]
@@ -334,7 +334,7 @@ OCIBindObject:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCIBind *bindp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [const OCIType *type,         ":pointer"]
        - [dvoid **pgvpp,               ":pointer"]
        - [ub4 *pvszsp,                 ":pointer"]
@@ -344,15 +344,15 @@ OCIBindObject:
 OCIBreak:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *hndlp,                ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [dvoid *hndlp,                ":ocihandle", ":in", OCI_HTYPE_SVCCTX, OCI_HTYPE_SERVER]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCICacheFlush:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [void *context,               ":pointer"]
        - ["OCIRef *(*get)(void *context, ub1 *last)", ":function_pointer"]
        - [OCIRef **ref,                ":pointer_to_pointer", ":inout"]
@@ -360,9 +360,9 @@ OCICacheFlush:
 OCICacheFlushRefresh:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [void *context,               ":pointer"]
        - ["OCIRef *(*get)(void *context, ub1 *last)", ":function_pointer"]
        - [OCIRef **ref,                ":pointer_to_pointer", ":inout"]
@@ -370,16 +370,16 @@ OCICacheFlushRefresh:
 OCICacheFree:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
 
 OCICacheGetObjects:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [OCIObjectProperty property,  ":OCIObjectProperty"]
        - [void *client_context,        ":pointer"]
        - ["void (*client_callback)(void *client_context, void *object)", ":function_pointer"]
@@ -387,9 +387,9 @@ OCICacheGetObjects:
 OCICacheRefresh:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [OCIRefreshOpt option,        ":OCIRefreshOpt"]
        - [void *context,               ":pointer"]
        - ["OCIRef *(*get)(void *context)", ":function_pointer"]
@@ -398,8 +398,8 @@ OCICacheRefresh:
 OCICacheRegister:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIObjectEvent event,        ":OCIObjectEvent"]
        - [void *client_context,        ":pointer"]
        - ["void (*client_callback)(void *client_context, OCIObjectEvent event, void *object)", ":function_pointer"]
@@ -407,21 +407,21 @@ OCICacheRegister:
 OCICacheUnmark:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
 
 OCICacheUnpin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
 
 OCICharSetConversionIsReplacementUsed:
   :ret:  [boolean,                     ":boolean"]
   :args:
-       - [void *envhp,                 ":pointer"]
+       - [void *envhp,                 ":ocihandle", ":in", OCI_HTYPE_ENV, OCI_HTYPE_SESSION]
 
 OCIClientVersion:
   :ret:  [void]
@@ -435,8 +435,8 @@ OCIClientVersion:
 OCICollAppend:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const dvoid *elem,           ":pointer"]
        - [const dvoid *elemind,        ":pointer"]
        - [OCIColl *coll,               ":pointer"]
@@ -444,16 +444,16 @@ OCICollAppend:
 OCICollAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIColl *rhs,          ":pointer"]
        - [OCIColl *lhs,                ":pointer"]
 
 OCICollAssignElem:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 index,                   ":sb4"]
        - [const dvoid *elem,           ":pointer"]
        - [const dvoid *elemind,        ":pointer"]
@@ -462,8 +462,8 @@ OCICollAssignElem:
 OCICollGetElem:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIColl *coll,         ":pointer"]
        - [sb4 index,                   ":sb4"]
        - [boolean *exists,             ":pointer_to_boolean", ":out"]
@@ -473,8 +473,8 @@ OCICollGetElem:
 OCICollGetElemArray:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIColl *coll,         ":pointer"]
        - [sb4 index,                   ":sb4"]
        - [boolean *exists,             ":pointer_to_boolean", ":out"]
@@ -485,38 +485,38 @@ OCICollGetElemArray:
 OCICollIsLocator:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIColl *coll,         ":pointer"]
        - [boolean *result,             ":pointer_to_boolean", ":out"]
 
 OCICollMax:
   :ret:  [sb4,                         ":sb4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIColl *coll,         ":pointer"]
 
 OCICollSize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIColl *coll,         ":pointer"]
        - [sb4 *size,                   ":pointer_to_sb4", ":out"]
 
 OCICollTrim:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 trim_num,                ":sb4"]
        - [OCIColl *coll,               ":pointer"]
 
 OCIConnectionPoolCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCICPool *poolhp,            ":pointer"]
        - [OraText **poolName,          ":pointer_to_string_with_length", ":out", (ub4*)poolNameLen, ret]
        - [sb4 *poolNameLen,            ":pointer_to_sb4", ":out"]
@@ -535,22 +535,22 @@ OCIConnectionPoolDestroy:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCICPool *poolhp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 mode,                    ":ub4_hex"]
 
 OCIDBShutdown:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAdmin *admhp,             ":pointer"]
        - [ub4 mode,                    ":ub4_hex"]
 
 OCIDBStartup:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIAdmin *admhp,             ":pointer"]
        - [ub4 mode,                    ":ub4_hex"]
        - [ub4 flags,                   ":ub4_hex"]
@@ -558,7 +558,7 @@ OCIDBStartup:
 OCIDateAddDays:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date,         ":OCIDate", ":in"]
        - [sb4 num_days,                ":sb4"]
        - [OCIDate *result,             ":OCIDate", ":out"]
@@ -566,7 +566,7 @@ OCIDateAddDays:
 OCIDateAddMonths:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date,         ":OCIDate", ":in"]
        - [sb4 num_months,              ":sb4"]
        - [OCIDate *result,             ":OCIDate", ":out"]
@@ -574,21 +574,21 @@ OCIDateAddMonths:
 OCIDateAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *from,         ":OCIDate", ":in"]
        - [OCIDate *to,                 ":OCIDate", ":out"]
 
 OCIDateCheck:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date,         ":OCIDate", ":in"]
        - [uword *valid,                ":pointer_to_uword", ":out"]
 
 OCIDateCompare:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date1,        ":OCIDate", ":in"]
        - [const OCIDate *date2,        ":OCIDate", ":in"]
        - [sword *result,               ":pointer_to_sword", ":out"]
@@ -596,7 +596,7 @@ OCIDateCompare:
 OCIDateDaysBetween:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date1,        ":OCIDate", ":in"]
        - [const OCIDate *date2,        ":OCIDate", ":in"]
        - [sb4 *num_days,               ":pointer_to_sb4", ":out"]
@@ -604,7 +604,7 @@ OCIDateDaysBetween:
 OCIDateFromText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const oratext *date_str,     ":string_with_length", ":in", d_str_length]
        - [ub4 d_str_length,            ":ub4"]
        - [const oratext *fmt,          ":string_with_length", ":in", fmt_length]
@@ -616,14 +616,14 @@ OCIDateFromText:
 OCIDateLastDay:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date,         ":OCIDate", ":in"]
        - [OCIDate *last_day,           ":OCIDate", ":out"]
 
 OCIDateNextDay:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date,         ":OCIDate", ":in"]
        - [const oratext *day_p,        ":string_with_length", ":in", day_length]
        - [ub4 day_length,              ":ub4"]
@@ -632,40 +632,40 @@ OCIDateNextDay:
 OCIDateSysDate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIDate *sys_date,           ":OCIDate", ":out"]
 
 OCIDateTimeAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *from,     ":pointer"]
-       - [OCIDateTime *to,             ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *from,     ":OCIDateTime"]
+       - [OCIDateTime *to,             ":OCIDateTime"]
 
 OCIDateTimeCheck:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *date,     ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *date,     ":OCIDateTime"]
        - [ub4 *valid,                  ":pointer_to_ub4", ":out"]
 
 OCIDateTimeCompare:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *date1,    ":pointer"]
-       - [const OCIDateTime *date2,    ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *date1,    ":OCIDateTime"]
+       - [const OCIDateTime *date2,    ":OCIDateTime"]
        - [sword *result,               ":pointer_to_sword", ":out"]
 
 OCIDateTimeConstruct:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIDateTime *datetime,       ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIDateTime *datetime,       ":OCIDateTime"]
        - [sb2 yr,                      ":sb2"]
        - [ub1 mnth,                    ":ub1"]
        - [ub1 dy,                      ":ub1"]
@@ -679,42 +679,42 @@ OCIDateTimeConstruct:
 OCIDateTimeConvert:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIDateTime *indate,         ":pointer"]
-       - [OCIDateTime *outdate,        ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIDateTime *indate,         ":OCIDateTime"]
+       - [OCIDateTime *outdate,        ":OCIDateTime"]
 
 OCIDateTimeFromArray:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [ub1 *inarray,                ":array_of_ub1", ":in", len, 0]
        - [ub4 len,                     ":ub4"]
        - [ub1 type,                    ":SQLT"]
-       - [OCIDateTime *datetime,       ":pointer"]
-       - [const OCIInterval *reftz,    ":pointer"]
+       - [OCIDateTime *datetime,       ":OCIDateTime"]
+       - [const OCIInterval *reftz,    ":OCIInterval"]
        - [ub1 fsprec,                  ":ub1"]
 
 OCIDateTimeFromText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [const OraText *date_str,     ":string_with_length", ":in", dstr_length]
        - [size_t dstr_length,          ":size_t"]
        - [const OraText *fmt,          ":string_with_length", ":in", fmt_length]
        - [ub1 fmt_length,              ":ub1"]
        - [const OraText *lang_name,    ":string_with_length", ":in", lang_length]
        - [size_t lang_length,          ":size_t"]
-       - [OCIDateTime *date,           ":pointer"]
+       - [OCIDateTime *date,           ":OCIDateTime"]
 
 OCIDateTimeGetDate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *date,     ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *date,     ":OCIDateTime"]
        - [sb2 *yr,                     ":pointer_to_sb2", ":out"]
        - [ub1 *mnth,                   ":pointer_to_ub1", ":out"]
        - [ub1 *dy,                     ":pointer_to_ub1", ":out"]
@@ -722,9 +722,9 @@ OCIDateTimeGetDate:
 OCIDateTimeGetTime:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIDateTime *datetime,       ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIDateTime *datetime,       ":OCIDateTime"]
        - [ub1 *hr,                     ":pointer_to_ub1"]
        - [ub1 *mm,                     ":pointer_to_ub1"]
        - [ub1 *ss,                     ":pointer_to_ub1"]
@@ -733,62 +733,62 @@ OCIDateTimeGetTime:
 OCIDateTimeGetTimeZoneName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *datetime, ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *datetime, ":OCIDateTime"]
        - [ub1 *buf,                    ":string_with_length", ":out", "ret ? 0 : *buflen"]
        - [ub4 *buflen,                 ":pointer_to_ub4", ":inout"]
 
 OCIDateTimeGetTimeZoneOffset:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *datetime, ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *datetime, ":OCIDateTime"]
        - [sb1 *hr,                     ":pointer_to_sb1", ":out"]
        - [sb1 *mm,                     ":pointer_to_sb1", ":out"]
 
 OCIDateTimeIntervalAdd:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIDateTime *datetime,       ":pointer"]
-       - [OCIInterval *inter,          ":pointer"]
-       - [OCIDateTime *outdatetime,    ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIDateTime *datetime,       ":OCIDateTime"]
+       - [OCIInterval *inter,          ":OCIInterval"]
+       - [OCIDateTime *outdatetime,    ":OCIDateTime"]
 
 OCIDateTimeIntervalSub:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIDateTime *datetime,       ":pointer"]
-       - [OCIInterval *inter,          ":pointer"]
-       - [OCIDateTime *outdatetime,    ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIDateTime *datetime,       ":OCIDateTime"]
+       - [OCIInterval *inter,          ":OCIInterval"]
+       - [OCIDateTime *outdatetime,    ":OCIDateTime"]
 
 OCIDateTimeSubtract:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIDateTime *indate1,        ":pointer"]
-       - [OCIDateTime *indate2,        ":pointer"]
-       - [OCIInterval *inter,          ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIDateTime *indate1,        ":OCIDateTime"]
+       - [OCIDateTime *indate2,        ":OCIDateTime"]
+       - [OCIInterval *inter,          ":OCIInterval"]
 
 OCIDateTimeSysTimeStamp:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIDateTime *sys_date,       ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIDateTime *sys_date,       ":OCIDateTime"]
 
 OCIDateTimeToArray:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *datetime, ":pointer"]
-       - [const OCIInterval *reftz,    ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *datetime, ":OCIDateTime"]
+       - [const OCIInterval *reftz,    ":OCIInterval"]
        - [ub1 *outarray,               ":array_of_ub1", ":out", "len ? *len : 0", ret]
        - [ub4 *len,                    ":pointer_to_ub4", ":out"]
        - [ub1 fsprec,                  ":ub1"]
@@ -796,9 +796,9 @@ OCIDateTimeToArray:
 OCIDateTimeToText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIDateTime *date,     ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIDateTime *date,     ":OCIDateTime"]
        - [const OraText *fmt,          ":string_with_length", ":in", fmt_length]
        - [ub1 fmt_length,              ":ub1"]
        - [ub1 fsprec,                  ":ub1"]
@@ -810,7 +810,7 @@ OCIDateTimeToText:
 OCIDateToText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date,         ":OCIDate", ":in"]
        - [const oratext *fmt,          ":string_with_length", ":in", fmt_length]
        - [ub1 fmt_length,              ":ub1"]
@@ -822,7 +822,7 @@ OCIDateToText:
 OCIDateZoneToZone:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIDate *date1,        ":OCIDate", ":in"]
        - [const oratext *zon1,         ":string_with_length", ":in", zon1_length]
        - [ub4 zon1_length,             ":ub4"]
@@ -834,7 +834,7 @@ OCIDefineArrayOfStruct:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCIDefine *defnp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 pvskip,                  ":ub4"]
        - [ub4 indskip,                 ":ub4"]
        - [ub4 rlskip,                  ":ub4"]
@@ -843,9 +843,9 @@ OCIDefineArrayOfStruct:
 OCIDefineByPos:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
        - [OCIDefine **defnp,           ":pointer_to_pointer", ":out"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 position,                ":ub4"]
        - [dvoid *valuep,               ":pointer"]
        - [sb4 value_sz,                ":sb4"]
@@ -858,9 +858,9 @@ OCIDefineByPos:
 OCIDefineByPos2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
        - [OCIDefine **defnp,           ":pointer_to_pointer", ":out"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 position,                ":ub4"]
        - [void *valuep,                ":pointer"]
        - [sb8 value_sz,                ":sb8"]
@@ -874,7 +874,7 @@ OCIDefineDynamic:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCIDefine *defnp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [void  *octxp,                ":pointer"]
        - [OCICallbackDefine ocbfp,     ":function_pointer"]
 
@@ -882,7 +882,7 @@ OCIDefineObject:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCIDefine *defnp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [const OCIType *type,         ":pointer"]
        - [dvoid **pgvpp,               ":pointer"]
        - [ub4 *pvszsp,                 ":pointer"]
@@ -892,8 +892,8 @@ OCIDefineObject:
 OCIDescribeAny:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [dvoid *objptr,               ":pointer_to_desc_obj", ":in", objnm_len, objptr_typ]
        - [ub4 objnm_len,               ":ub4"]
        - [ub1 objptr_typ,              ":OCI_OTYPE"]
@@ -905,7 +905,7 @@ OCIDescriptorAlloc:
   :ret:  [sword,                       ":status"]
   :args:
        - [const dvoid *parenth,        ":pointer"]
-       - [dvoid **descpp,              ":pointer_to_pointer", ":out"]
+       - [dvoid **descpp,              ":pointer_to_ocihandle", ":out", type, parenth, ret]
        - [const ub4 type,              ":htype"]
        - [const size_t xtramem_sz,     ":size_t"]
        - [dvoid **usrmempp,            ":pointer_to_pointer", ":out"]
@@ -913,38 +913,38 @@ OCIDescriptorAlloc:
 OCIDescriptorFree:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *descp,                ":pointer"]
+       - [dvoid *descp,                ":ocihandle_free", ":in", type]
        - [const ub4 type,              ":htype"]
 
 OCIDurationBegin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [OCIDuration parent,          ":OCIDuration"]
        - [OCIDuration *dur,            ":pointer_to_OCIDuration", ":out"]
 
 OCIDurationEnd:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [OCIDuration duration,        ":OCIDuration"]
 
 OCIDurationGetParent:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIDuration duration,        ":OCIDuration"]
        - [OCIDuration *parent,         ":pointer_to_OCIDuration", ":out"]
 
 OCIEnvCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv **envp,               ":pointer_to_pointer", ":out"]
+       - [OCIEnv **envp,               ":pointer_to_ocihandle", ":out", OCI_HTYPE_ENV, "NULL", ret]
        - [ub4 mode,                    ":ub4_hex"]
        - [dvoid *ctxp,                 ":pointer"]
        - ["dvoid *(*malocfp)(dvoid *ctxp, size_t size)", ":function_pointer"]
@@ -956,7 +956,7 @@ OCIEnvCreate:
 OCIEnvInit:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv **envp,               ":pointer_to_pointer", ":out"]
+       - [OCIEnv **envp,               ":pointer_to_ocihandle", ":out", OCI_HTYPE_ENV, "NULL", ret]
        - [ub4 mode,                    ":ub4_hex"]
        - [size_t xtramem_sz,           ":size_t"]
        - [dvoid **usrmempp,            ":pointer_to_pointer", ":out"]
@@ -964,7 +964,7 @@ OCIEnvInit:
 OCIEnvNlsCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv **envhpp,             ":pointer_to_pointer", ":out"]
+       - [OCIEnv **envhpp,             ":pointer_to_ocihandle", ":out", OCI_HTYPE_ENV, "NULL", ret]
        - [ub4 mode,                    ":ub4_hex"]
        - [void *ctxp,                  ":pointer"]
        - ["void *(*malocfp)(void *ctxp, size_t size)", ":function_pointer"]
@@ -978,7 +978,7 @@ OCIEnvNlsCreate:
 OCIErrorGet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *hndlp,                ":pointer"]
+       - [dvoid *hndlp,                ":ocihandle", ":in", OCI_HTYPE_ERROR, OCI_HTYPE_ENV]
        - [ub4 recordno,                ":ub4"]
        - [text *sqlstate,              ":string", ":out"]
        - [sb4 *errcodep,               ":pointer_to_sb4", ":out"]
@@ -989,7 +989,7 @@ OCIErrorGet:
 OCIFEnvCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv **envp,               ":pointer_to_pointer", ":out"]
+       - [OCIEnv **envp,               ":pointer_to_ocihandle", ":out", OCI_HTYPE_ENV, "NULL", ret]
        - [ub4 mode,                    ":ub4_hex"]
        - [void *ctxp,                  ":pointer"]
        - ["void *(*malocfp)(void  *ctxp, size_t size)", ":function_pointer"]
@@ -1002,8 +1002,8 @@ OCIFEnvCreate:
 OCIHandleAlloc:
   :ret:  [sword,                       ":status"]
   :args:
-       - [const dvoid *parenth,        ":pointer"]
-       - [dvoid **hndlpp,              ":pointer_to_pointer", ":out"]
+       - [const dvoid *parenth,        ":OCIEnv"]
+       - [dvoid **hndlpp,              ":pointer_to_ocihandle", ":out", type, parenth, ret]
        - [const ub4 type,              ":htype"]
        - [const size_t xtramem_sz,     ":size_t"]
        - [dvoid **usrmempp,            ":pointer_to_pointer", ":out"]
@@ -1011,7 +1011,7 @@ OCIHandleAlloc:
 OCIHandleFree:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *hndlp,                ":pointer"]
+       - [dvoid *hndlp,                ":ocihandle_free", ":in", type]
        - [const ub4 type,              ":htype"]
 
 OCIInitialize:
@@ -1026,146 +1026,146 @@ OCIInitialize:
 OCIIntervalAdd:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIInterval *addend1,        ":pointer"]
-       - [OCIInterval *addend2,        ":pointer"]
-       - [OCIInterval *result,         ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIInterval *addend1,        ":OCIInterval"]
+       - [OCIInterval *addend2,        ":OCIInterval"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIInterval *ininter,  ":pointer"]
-       - [OCIInterval *outinter,       ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIInterval *ininter,  ":OCIInterval"]
+       - [OCIInterval *outinter,       ":OCIInterval"]
 
 OCIIntervalCheck:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIInterval *interval, ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIInterval *interval, ":OCIInterval"]
        - [ub4 *valid,                  ":pointer_to_ub4", ":out"]
 
 OCIIntervalCompare:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIInterval *inter1,         ":pointer"]
-       - [OCIInterval *inter2,         ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIInterval *inter1,         ":OCIInterval"]
+       - [OCIInterval *inter2,         ":OCIInterval"]
        - [sword *result,               ":pointer_to_sword", ":out"]
 
 OCIIntervalDivide:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIInterval *dividend,       ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIInterval *dividend,       ":OCIInterval"]
        - [OCINumber *divisor,          ":OCINumber", ":in"]
-       - [OCIInterval *result,         ":pointer"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalFromNumber:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIInterval *inter,          ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIInterval *inter,          ":OCIInterval"]
        - [OCINumber *number,           ":OCINumber", ":in"]
 
 OCIIntervalFromTZ:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [const oratext *inpstring,    ":string_with_length", ":in", str_len]
        - [size_t str_len,              ":size_t"]
-       - [OCIInterval *result,         ":pointer"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalFromText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [const OraText *inpstr,       ":string_with_length", ":in", str_len]
        - [size_t str_len,              ":size_t"]
-       - [OCIInterval *result,         ":pointer"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalGetDaySecond:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 *dy,                     ":pointer_to_sb4", ":out"]
        - [sb4 *hr,                     ":pointer_to_sb4", ":out"]
        - [sb4 *mm,                     ":pointer_to_sb4", ":out"]
        - [sb4 *ss,                     ":pointer_to_sb4", ":out"]
        - [sb4 *fsec,                   ":pointer_to_sb4", ":out"]
-       - [const OCIInterval *result,   ":pointer"]
+       - [const OCIInterval *result,   ":OCIInterval"]
 
 OCIIntervalGetYearMonth:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 *yr,                     ":pointer_to_sb4", ":out"]
        - [sb4 *mnth,                   ":pointer_to_sb4", ":out"]
-       - [const OCIInterval *result,   ":pointer"]
+       - [const OCIInterval *result,   ":OCIInterval"]
 
 OCIIntervalMultiply:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIInterval *inter,    ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIInterval *inter,    ":OCIInterval"]
        - [OCINumber *nfactor,          ":OCINumber"]
-       - [OCIInterval *result,         ":pointer"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalSetDaySecond:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 dy,                      ":sb4"]
        - [sb4 hr,                      ":sb4"]
        - [sb4 mm,                      ":sb4"]
        - [sb4 ss,                      ":sb4"]
        - [sb4 fsec,                    ":sb4"]
-       - [OCIInterval *result,         ":pointer"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalSetYearMonth:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 yr,                      ":sb4"]
        - [sb4 mnth,                    ":sb4"]
-       - [OCIInterval *result,         ":pointer"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalSubtract:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCIInterval *minuend,        ":pointer"]
-       - [OCIInterval *subtrahend,     ":pointer"]
-       - [OCIInterval *result,         ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [OCIInterval *minuend,        ":OCIInterval"]
+       - [OCIInterval *subtrahend,     ":OCIInterval"]
+       - [OCIInterval *result,         ":OCIInterval"]
 
 OCIIntervalToNumber:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIInterval *inter,    ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIInterval *inter,    ":OCIInterval"]
        - [OCINumber *number,           ":OCINumber"]
 
 OCIIntervalToText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [void *hndl,                  ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCIInterval *inter,    ":pointer"]
+       - [void *hndl,                  ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCIInterval *inter,    ":OCIInterval"]
        - [ub1 lfprec,                  ":ub1"]
        - [ub1 fsprec,                  ":ub1"]
        - [OraText *buffer,             ":string_with_length", ":out", "ret ? 0 : *resultlen"]
@@ -1175,23 +1175,23 @@ OCIIntervalToText:
 OCIIterCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIColl *coll,         ":pointer"]
        - [OCIIter **itr,               ":pointer_to_pointer", ":out"]
 
 OCIIterDelete:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIIter **itr,               ":pointer_to_pointer", ":inout"]
 
 OCIIterGetCurrent:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIIter *itr,          ":pointer"]
        - [void **elem,                 ":pointer_to_pointer", ":out"]
        - [void **elemind,              ":pointer_to_pointer", ":out"]
@@ -1199,16 +1199,16 @@ OCIIterGetCurrent:
 OCIIterInit:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIColl *coll,         ":pointer"]
        - [OCIIter *itr,                ":pointer"]
 
 OCIIterNext:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIIter *itr,                ":pointer"]
        - [void **elem,                 ":pointer_to_pointer", ":out"]
        - [void **elemind,              ":pointer_to_pointer", ":out"]
@@ -1217,8 +1217,8 @@ OCIIterNext:
 OCIIterPrev:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIIter *itr,                ":pointer"]
        - [void **elem,                 ":pointer_to_pointer", ":out"]
        - [void **elemind,              ":pointer_to_pointer", ":out"]
@@ -1227,16 +1227,16 @@ OCIIterPrev:
 OCILobAppend:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *dst_locp,     ":pointer"]
-       - [OCILobLocator *src_locp,     ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *dst_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [OCILobLocator *src_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
 
 OCILobArrayRead:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 *array_iter,             ":pointer_to_ub4", ":inout"]
        - [OCILobLocator **lobp_arr,    ":pointer"]
        - [oraub8 *byte_amt_arr,        ":pointer"]
@@ -1253,8 +1253,8 @@ OCILobArrayRead:
 OCILobArrayWrite:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 *array_iter,             ":pointer_to_ub4", ":inout"]
        - [OCILobLocator **lobp_arr,    ":pointer"]
        - [oraub8 *byte_amt_arr,        ":pointer"]
@@ -1271,41 +1271,41 @@ OCILobArrayWrite:
 OCILobAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [const OCILobLocator *src_locp, ":pointer"]
-       - [OCILobLocator **dst_locpp,   ":pointer_to_pointer", ":inout"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [const OCILobLocator *src_locp, ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [OCILobLocator **dst_locpp,   ":pointer_to_ocihandle", ":inout", OCI_DTYPE_LOB, envhp, ret]
 
 OCILobCharSetForm:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [const OCILobLocator *locp,   ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [const OCILobLocator *locp,   ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub1 *csfrm,                  ":pointer_to_SQLCS", ":out"]
 
 OCILobCharSetId:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [const OCILobLocator *locp,   ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [const OCILobLocator *locp,   ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub2 *csid,                   ":pointer_to_ub2", ":out"]
 
 OCILobClose:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
 
 OCILobCopy:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *dst_locp,     ":pointer"]
-       - [OCILobLocator *src_locp,     ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *dst_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [OCILobLocator *src_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 amount,                  ":ub4"]
        - [ub4 dst_offset,              ":ub4"]
        - [ub4 src_offset,              ":ub4"]
@@ -1313,10 +1313,10 @@ OCILobCopy:
 OCILobCopy2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *dst_locp,     ":pointer"]
-       - [OCILobLocator *src_locp,     ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *dst_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [OCILobLocator *src_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 amount,               ":ub8"]
        - [oraub8 dst_offset,           ":ub8"]
        - [oraub8 src_offset,           ":ub8"]
@@ -1324,9 +1324,9 @@ OCILobCopy2:
 OCILobCreateTemporary:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub2 csid,                    ":ub2"]
        - [ub1 csfrm,                   ":SQLCS"]
        - [ub1 lobtype,                 ":LobType"]
@@ -1336,62 +1336,62 @@ OCILobCreateTemporary:
 OCILobDisableBuffering:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
 
 OCILobEnableBuffering:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
 
 OCILobErase:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 *amount,                 ":pointer_to_ub4", ":inout"]
        - [ub4 offset,                  ":ub4"]
 
 OCILobErase2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 *amount,              ":pointer_to_ub8", ":inout"]
        - [oraub8 offset,               ":ub8"]
 
 OCILobFileClose:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *filep,        ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *filep,        ":ocihandle", ":in", OCI_DTYPE_LOB]
 
 OCILobFileCloseAll:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCILobFileExists:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *filep,        ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *filep,        ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [boolean *flag,               ":pointer_to_boolean", ":out"]
 
 OCILobFileGetName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [const OCILobLocator *filep,  ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [const OCILobLocator *filep,  ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [text *dir_alias,             ":string_with_length", ":out", "ret ? 0 : *d_length"]
        - [ub2 *d_length,               ":pointer_to_ub2"]
        - [text *filename,              ":string_with_length", ":out", "ret ? 0 : *f_length"]
@@ -1400,25 +1400,25 @@ OCILobFileGetName:
 OCILobFileIsOpen:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *filep,        ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *filep,        ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [boolean *flag,               ":pointer_to_boolean", ":out"]
 
 OCILobFileOpen:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *filep,        ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *filep,        ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub1 mode,                    ":ub1"]
 
 OCILobFileSetName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator **filepp,      ":pointer_to_pointer", ":inout"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator **filepp,      ":pointer_to_ocihandle", ":inout", OCI_DTYPE_LOB, envhp, ret]
        - [const text *dir_alias,       ":string_with_length", ":in", d_length]
        - [ub2 d_length,                ":ub2"]
        - [const text *filename,        ":string_with_length", ":in", f_length]
@@ -1427,32 +1427,32 @@ OCILobFileSetName:
 OCILobFlushBuffer:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 flag,                    ":LobBufferingFlushFlag"]
 
 OCILobFreeTemporary:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
 
 OCILobGetChunkSize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 *chunksizep,             ":pointer_to_ub4", ":out"]
 
 OCILobGetContentType:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *lobp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *lobp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oratext *contenttypep,       ":string_with_length", ":out", "ret ? 0 : *contenttypelenp"]
        - [ub4 *contenttypelenp,        ":pointer_to_ub4", ":inout"]
        - [ub4 mode,                    ":ub4"]
@@ -1460,9 +1460,9 @@ OCILobGetContentType:
 OCILobGetDeduplicateRegions:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [OCILobRegion *regp,          ":pointer"]
        - [ub4 *count,                  ":pointer_to_ub4", ":inout"]
        - [ub1 piece,                   ":ub1"]
@@ -1472,25 +1472,25 @@ OCILobGetDeduplicateRegions:
 OCILobGetLength:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 *lenp,                   ":pointer_to_ub4", ":out"]
 
 OCILobGetLength2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 *lenp,                ":pointer_to_ub8", ":out"]
 
 OCILobGetOptions:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *lobp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *lobp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 optypes,                 ":ub4"]
        - [void *optionsp,              ":pointer_to_ub4", ":out"]
        - [ub4 *optionslenp,            ":pointer_to_ub4", ":out"]
@@ -1499,42 +1499,42 @@ OCILobGetOptions:
 OCILobGetStorageLimit:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *lobp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *lobp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 *limitp,              ":pointer_to_ub8", ":out"]
 
 OCILobIsEqual:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [const OCILobLocator *x,      ":pointer"]
-       - [const OCILobLocator *y,      ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [const OCILobLocator *x,      ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [const OCILobLocator *y,      ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [boolean *is_equal,           ":pointer_to_boolean", ":out"]
 
 OCILobIsOpen:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [boolean *flag,               ":pointer_to_boolean", ":out"]
 
 OCILobIsTemporary:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [boolean *is_temporary,       ":pointer_to_boolean", ":out"]
 
 OCILobLoadFromFile:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *dst_locp,     ":pointer"]
-       - [OCILobLocator *src_filep,    ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *dst_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [OCILobLocator *src_filep,    ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 amount,                  ":ub4"]
        - [ub4 dst_offset,              ":ub4"]
        - [ub4 src_offset,              ":ub4"]
@@ -1542,10 +1542,10 @@ OCILobLoadFromFile:
 OCILobLoadFromFile2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *dst_locp,     ":pointer"]
-       - [OCILobLocator *src_filep,    ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *dst_locp,     ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [OCILobLocator *src_filep,    ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 amount,               ":ub8"]
        - [oraub8 dst_offset,           ":ub8"]
        - [oraub8 src_offset,           ":ub8"]
@@ -1553,33 +1553,33 @@ OCILobLoadFromFile2:
 OCILobLocatorAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [const OCILobLocator *src_locp, ":pointer"]
-       - [OCILobLocator **dst_locpp,   ":pointer_to_pointer", ":inout"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [const OCILobLocator *src_locp, ":ocihandle", ":in", OCI_DTYPE_LOB]
+       - [OCILobLocator **dst_locpp,   ":pointer_to_ocihandle", ":inout", OCI_DTYPE_LOB, svchp, ret]
 
 OCILobLocatorIsInit:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [const OCILobLocator *locp,   ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [const OCILobLocator *locp,   ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [boolean *is_initialized,     ":pointer_to_boolean", ":out"]
 
 OCILobOpen:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub1 mode,                    ":LobOpenMode"]
 
 OCILobRead:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 *amtp,                   ":pointer_to_ub4", ":inout"]
        - [ub4 offset,                  ":ub4"]
        - [dvoid *bufp,                 ":pointer"]
@@ -1592,9 +1592,9 @@ OCILobRead:
 OCILobRead2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 *byte_amtp,           ":pointer_to_ub8", ":inout"]
        - [oraub8 *char_amtp,           ":pointer_to_ub8", ":inout"]
        - [oraub8 offset,               ":ub8"]
@@ -1609,9 +1609,9 @@ OCILobRead2:
 OCILobSetContentType:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *lobp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *lobp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [const oratext *contenttypep, ":string_with_length", ":in", contenttypelen]
        - [ub4 contenttypelen,          ":ub4"]
        - [ub4 mode,                    ":ub4"]
@@ -1619,9 +1619,9 @@ OCILobSetContentType:
 OCILobSetOptions:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *lobp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *lobp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 optypes,                 ":ub4"]
        - [void *optionsp,              ":pointer_to_ub4"]
        - [ub4 optionslen,              ":ub4"]
@@ -1630,25 +1630,25 @@ OCILobSetOptions:
 OCILobTrim:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 newlen,                  ":ub4"]
 
 OCILobTrim2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 newlen,               ":ub8"]
 
 OCILobWrite:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 *amtp,                   ":pointer_to_ub4", ":inout"]
        - [ub4 offset,                  ":ub4"]
        - [dvoid *bufp,                 ":pointer"]
@@ -1662,9 +1662,9 @@ OCILobWrite:
 OCILobWrite2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *locp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *locp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 *byte_amtp,           ":pointer_to_ub8", ":inout"]
        - [oraub8 *char_amtp,           ":pointer_to_ub8", ":inout"]
        - [oraub8 offset,               ":ub8"]
@@ -1679,9 +1679,9 @@ OCILobWrite2:
 OCILobWriteAppend:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *lobp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *lobp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [ub4 *amtp,                   ":pointer_to_ub4", ":inout"]
        - [void *bufp,                  ":pointer"]
        - [ub4 bufl,                    ":ub4"]
@@ -1694,9 +1694,9 @@ OCILobWriteAppend:
 OCILobWriteAppend2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCILobLocator *lobp,         ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCILobLocator *lobp,         ":ocihandle", ":in", OCI_DTYPE_LOB]
        - [oraub8 *byte_amtp,           ":pointer_to_ub8", ":inout"]
        - [oraub8 *char_amtp,           ":pointer_to_ub8", ":inout"]
        - [void  *bufp,                 ":pointer"]
@@ -1710,15 +1710,15 @@ OCILobWriteAppend2:
 OCILogoff:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCILogon:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCISvcCtx **svchp,           ":pointer_to_pointer", ":out"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCISvcCtx **svchp,           ":pointer_to_ocihandle", ":out", OCI_HTYPE_SVCCTX, envhp, ret]
        - [const text *username,        ":string_with_length", ":in", uname_len]
        - [ub4 uname_len,               ":ub4"]
        - [const text *password,        ":string_with_length", ":in", passwd_len]
@@ -1729,9 +1729,9 @@ OCILogon:
 OCILogon2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCISvcCtx **svchp,           ":pointer_to_pointer", ":out"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCISvcCtx **svchp,           ":pointer_to_ocihandle", ":out", OCI_HTYPE_SVCCTX, envhp, ret]
        - [const text *username,        ":string_with_length", ":in", uname_len]
        - [ub4 uname_len,               ":ub4"]
        - [const text *password,        ":string_with_length", ":in", passwd_len]
@@ -1744,7 +1744,7 @@ OCIMessageClose:
   :ret:  [sword,                       ":status"]
   :args:
        - [void  *envhp,                ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIMsg *msghp,               ":pointer"]
 
 OCIMessageGet:
@@ -1758,8 +1758,8 @@ OCIMessageGet:
 OCIMessageOpen:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *envhp,                ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [dvoid *envhp,                ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIMsg **msghp,              ":pointer_to_pointer", ":out"]
        - [const OraText *product,      ":string"]
        - [const OraText *facility,     ":string"]
@@ -1768,7 +1768,7 @@ OCIMessageOpen:
 OCINlsCharSetIdToName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *envhp,                ":pointer"]
+       - [dvoid *envhp,                ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
        - [oratext *buf,                ":string_with_maxlen", ":out", "ret ? 0 : buflen"]
        - [size_t buflen,               ":size_t"]
        - [ub2 id,                      ":ub2"]
@@ -1776,20 +1776,20 @@ OCINlsCharSetIdToName:
 OCINlsCharSetNameToId:
   :ret:  [ub2,                         ":ub2"]
   :args:
-       - [dvoid *envhp,                ":pointer"]
+       - [dvoid *envhp,                ":ocihandle", ":in", OCI_HTYPE_SESSION, OCI_HTYPE_ENV]
        - [const oratext *name,         ":string", ":in"]
 
 OCINumberAbs:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberAdd:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number1,    ":OCINumber", ":in"]
        - [const OCINumber *number2,    ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -1797,28 +1797,28 @@ OCINumberAdd:
 OCINumberArcCos:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberArcSin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberArcTan:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberArcTan2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number1,    ":OCINumber", ":in"]
        - [const OCINumber *number2,    ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -1826,21 +1826,21 @@ OCINumberArcTan2:
 OCINumberAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *from,       ":OCINumber", ":in"]
        - [OCINumber *to,               ":OCINumber", ":out"]
 
 OCINumberCeil:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberCmp:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number1,    ":OCINumber", ":in"]
        - [const OCINumber *number2,    ":OCINumber", ":in"]
        - [sword *result,               ":pointer_to_sword", ":out"]
@@ -1848,20 +1848,20 @@ OCINumberCmp:
 OCINumberCos:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberDec:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [OCINumber *number,           ":OCINumber", ":out"]
 
 OCINumberDiv:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number1,    ":OCINumber", ":in"]
        - [const OCINumber *number2,    ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -1869,21 +1869,21 @@ OCINumberDiv:
 OCINumberExp:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberFloor:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberFromInt:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const dvoid *inum,           ":pointer_to_int_with_length", ":in", inum_length, inum_s_flag]
        - [uword inum_length,           ":uword"]
        - [uword inum_s_flag,           ":uword"]
@@ -1892,7 +1892,7 @@ OCINumberFromInt:
 OCINumberFromReal:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const dvoid *rnum,           ":pointer_to_real_with_length", ":in", rnum_length, 1, 0]
        - [uword rnum_length,           ":uword"]
        - [OCINumber *number,           ":OCINumber", ":out"]
@@ -1900,7 +1900,7 @@ OCINumberFromReal:
 OCINumberFromText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const text *str,             ":string_with_length", ":in", str_length]
        - [ub4 str_length,              ":ub4"]
        - [const text *fmt,             ":string_with_length", ":in", fmt_length]
@@ -1912,34 +1912,34 @@ OCINumberFromText:
 OCINumberHypCos:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberHypSin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberHypTan:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberInc:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [OCINumber *number,           ":OCINumber", ":out"]
 
 OCINumberIntPower:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *base,       ":OCINumber", ":in"]
        - [const sword exp,             ":sword"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -1947,28 +1947,28 @@ OCINumberIntPower:
 OCINumberIsInt:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [boolean *result,             ":pointer_to_boolean", ":out"]
 
 OCINumberIsZero:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [boolean *result,             ":pointer_to_boolean", ":out"]
 
 OCINumberLn:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberLog:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *base,       ":OCINumber", ":in"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -1976,7 +1976,7 @@ OCINumberLog:
 OCINumberMod:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number1,    ":OCINumber", ":in"]
        - [const OCINumber *number2,    ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -1984,7 +1984,7 @@ OCINumberMod:
 OCINumberMul:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number1,    ":OCINumber", ":in"]
        - [const OCINumber *number2,    ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -1992,14 +1992,14 @@ OCINumberMul:
 OCINumberNeg:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberPower:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *base,       ":OCINumber", ":in"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -2007,7 +2007,7 @@ OCINumberPower:
 OCINumberPrec:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [eword nDigs,                 ":sword"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -2015,7 +2015,7 @@ OCINumberPrec:
 OCINumberRound:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [sword decplace,              ":sword"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -2023,19 +2023,19 @@ OCINumberRound:
 OCINumberSetPi:
   :ret:  [void]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [OCINumber *num,              ":OCINumber", ":out"]
 
 OCINumberSetZero:
   :ret:  [void]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [OCINumber *num,              ":OCINumber", ":out"]
 
 OCINumberShift:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [const sword nDig,            ":sword"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -2043,28 +2043,28 @@ OCINumberShift:
 OCINumberSign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [sword *result,               ":pointer_to_boolean", ":out"]
 
 OCINumberSin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberSqrt:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberSub:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number1,    ":OCINumber", ":in"]
        - [const OCINumber *number2,    ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -2072,14 +2072,14 @@ OCINumberSub:
 OCINumberTan:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [OCINumber *result,           ":OCINumber", ":out"]
 
 OCINumberToInt:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [uword rsl_length,            ":uword"]
        - [uword rsl_flag,              ":uword"]
@@ -2088,7 +2088,7 @@ OCINumberToInt:
 OCINumberToReal:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [uword rsl_length,            ":uword"]
        - [dvoid *rsl,                  ":pointer_to_real_with_length", ":out", rsl_length, 1, ret]
@@ -2096,7 +2096,7 @@ OCINumberToReal:
 OCINumberToRealArray:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber **number,    ":array_of_OCINumber", ":in", elems, 0]
        - [uword elems,                 ":uword"]
        - [uword rsl_length,            ":uword"]
@@ -2105,7 +2105,7 @@ OCINumberToRealArray:
 OCINumberToText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [const text *fmt,             ":string_with_length", ":in", fmt_length]
        - [ub4 fmt_length,              ":ub4"]
@@ -2117,7 +2117,7 @@ OCINumberToText:
 OCINumberTrunc:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIError *err,               ":pointer"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCINumber *number,     ":OCINumber", ":in"]
        - [sword decplace,              ":sword"]
        - [OCINumber *result,           ":OCINumber", ":out"]
@@ -2125,15 +2125,15 @@ OCINumberTrunc:
 OCIObjectAlwaysLatest:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectArrayPin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIRef **ref_array,          ":array_of_pointer", ":in", array_size, 0]
        - [ub4 array_size,              ":ub4"]
        - [OCIComplexObject **cor_array, ":array_of_pointer", ":in", array_size, 0]
@@ -2147,9 +2147,9 @@ OCIObjectArrayPin:
 OCIObjectCopy:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [void *source,                ":pointer"]
        - [void *null_source,           ":pointer"]
        - [void *target,                ":pointer"]
@@ -2161,38 +2161,38 @@ OCIObjectCopy:
 OCIObjectExists:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *ins,                   ":pointer"]
        - [boolean *exist,              ":pointer_to_boolean", ":out"]
 
 OCIObjectFlush:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectFlushRefresh:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectFree:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [dvoid *instance,             ":pointer"]
        - [ub2 flags,                   ":ub2"]
 
 OCIObjectGetAttr:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *instance,              ":pointer"]
        - [void *null_struct,           ":pointer"]
        - [struct OCIType *tdo,         ":pointer"]
@@ -2209,41 +2209,41 @@ OCIObjectGetAttr:
 OCIObjectGetInd:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [dvoid *instance,             ":pointer"]
        - [dvoid **null_struct,         ":pointer_to_pointer", ":out"]
 
 OCIObjectGetNewOID:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [OCISvcCtx *svc,              ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [OCISvcCtx *svc,              ":OCISvcCtx"]
        - [ub1 *oid,                    ":pointer_to_ub1", ":out"]
 
 OCIObjectGetObjectRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
        - [OCIRef *object_ref,          ":pointer"]
 
 OCIObjectGetPrimaryKeyTypeRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [void *table,                 ":pointer"]
        - [OCIRef *type_ref,            ":pointer"]
 
 OCIObjectGetProperty:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const void *obj,             ":pointer"]
        - [OCIObjectPropId propertyId,  ":OCIObjectPropId"]
        - [void *property,              ":pointer"]
@@ -2252,63 +2252,63 @@ OCIObjectGetProperty:
 OCIObjectGetTypeRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *instance,              ":pointer"]
        - [OCIRef *type_ref,            ":pointer"]
 
 OCIObjectIsDirtied:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *ins,                   ":pointer"]
        - [boolean *dirty,              ":pointer_to_boolean", ":out"]
 
 OCIObjectIsDirty:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *ins,                   ":pointer"]
        - [boolean *dirty,              ":pointer_to_boolean", ":out"]
 
 OCIObjectIsLoaded:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *ins,                   ":pointer"]
        - [boolean *load,               ":pointer_to_boolean", ":out"]
 
 OCIObjectIsLocked:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *ins,                   ":pointer"]
        - [boolean *lock,               ":pointer_to_boolean", ":out"]
 
 OCIObjectLock:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectLockNoWait:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectMakeObjectRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [void *table,                 ":pointer"]
        - [void **values,               ":array_of_pointer", ":in", array_len, 0]
        - [ub4 array_len,               ":ub4"]
@@ -2317,30 +2317,30 @@ OCIObjectMakeObjectRef:
 OCIObjectMarkDelete:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *instance,              ":pointer"]
 
 OCIObjectMarkDeleteByRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIRef *object_ref,          ":pointer"]
 
 OCIObjectMarkUpdate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectNew:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [OCITypeCode typecode,        ":OCITypeCode"]
        - [OCIType *tdo,                ":pointer"]
        - [dvoid *table,                ":pointer"]
@@ -2351,15 +2351,15 @@ OCIObjectNew:
 OCIObjectNotAlwaysLatest:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectPin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIRef *object_ref,          ":pointer"]
        - [OCIComplexObject *corhdl,    ":pointer"]
        - [OCIPinOpt pin_option,        ":OCIPinOpt"]
@@ -2370,16 +2370,16 @@ OCIObjectPin:
 OCIObjectPinCountReset:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectPinTable:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [const oratext *schema_name,  ":string_with_length", ":in", s_n_length]
        - [ub4 s_n_length,              ":ub4"]
        - [const oratext *object_name,  ":string_with_length", ":in", o_n_length]
@@ -2391,15 +2391,15 @@ OCIObjectPinTable:
 OCIObjectRefresh:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectSetAttr:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *instance,              ":pointer"]
        - [void *null_struct,           ":pointer"]
        - [struct OCIType *tdo,         ":pointer"]
@@ -2415,46 +2415,46 @@ OCIObjectSetAttr:
 OCIObjectSetData:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *obj_hdr,               ":pointer"]
        - [void *data,                  ":pointer"]
 
 OCIObjectUnmark:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [void *object,                ":pointer"]
 
 OCIObjectUnmarkByRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIRef *ref,                 ":pointer"]
 
 OCIObjectUnpin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [dvoid *object,               ":pointer"]
 
 OCIParamGet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [const dvoid *hndlp,          ":pointer"]
+       - [const dvoid *hndlp,          ":ocihandle", ":in", htype]
        - [ub4 htype,                   ":htype"]
-       - [OCIError *errhp,             ":pointer"]
-       - [dvoid **parmdpp,             ":pointer_to_pointer", ":out"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [dvoid **parmdpp,             ":pointer_to_ocihandle", ":out", OCI_DTYPE_PARAM, hndlp, ret]
        - [ub4 pos,                     ":ub4"]
 
 OCIPasswordChange:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [const OraText *user_name,    ":string_with_length", ":in", usernm_len]
        - [ub4 usernm_len,              ":ub4"]
        - [const OraText *opasswd,      ":string_with_length", ":in", opasswd_len]
@@ -2466,23 +2466,23 @@ OCIPasswordChange:
 OCIPing:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 mode,                    ":ub4"]
 
 OCIRawAllocSize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIRaw *raw,           ":pointer"]
        - [ub4 *allocsize,              ":pointer_to_ub4", ":out"]
 
 OCIRawAssignBytes:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const ub1 *rhs,              ":pointer"]
        - [ub4 rhs_len,                 ":ub4"]
        - [OCIRaw **lhs,                ":pointer_to_pointer", ":inout"]
@@ -2490,51 +2490,51 @@ OCIRawAssignBytes:
 OCIRawAssignRaw:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIRaw *rhs,           ":pointer"]
        - [OCIRaw **lhs,                ":pointer_to_pointer", ":inout"]
 
 OCIRawPtr:
   :ret:  [ub1 *,                       ":pointer"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIRaw *raw,           ":pointer"]
 
 OCIRawResize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [ub4 new_size,                ":ub4"]
        - [OCIRaw **raw,                ":pointer_to_pointer", ":inout"]
 
 OCIRawSize:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIRaw *raw,           ":pointer"]
 
 OCIRefAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIRef *source,        ":pointer"]
        - [OCIRef **target,             ":pointer_to_pointer", ":inout"]
 
 OCIRefClear:
   :ret:  [void]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [OCIRef *ref,                 ":pointer"]
 
 OCIRefFromHex:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [const oratext *hex,          ":string_with_length", ":in", length]
        - [ub4 length,                  ":ub4"]
        - [OCIRef **ref,                ":pointer_to_pointer", ":inout"]
@@ -2542,27 +2542,27 @@ OCIRefFromHex:
 OCIRefHexSize:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIRef *ref,           ":pointer"]
 
 OCIRefIsEqual:
   :ret:  [boolean,                     ":boolean"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIRef *x,             ":pointer"]
        - [const OCIRef *y,             ":pointer"]
 
 OCIRefIsNull:
   :ret:  [boolean,                     ":boolean"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIRef *ref,           ":pointer"]
 
 OCIRefToHex:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIRef *ref,           ":pointer"]
        - [oratext *hex,                ":string_with_length", ":out", "ret ? 0 : *hex_length"]
        - [ub4 *hex_length,             ":pointer_to_ub4", ":inout"]
@@ -2570,14 +2570,14 @@ OCIRefToHex:
 OCIReset:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *hndlp,                ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [dvoid *hndlp,                ":ocihandle", ":in", OCI_HTYPE_SVCCTX, OCI_HTYPE_SERVER]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCIResultSetToStmt:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCIResult *rsetdp,           ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCIRowidToChar:
   :ret:  [sword,                       ":status"]
@@ -2585,13 +2585,13 @@ OCIRowidToChar:
        - [OCIRowid *rowidDesc,         ":pointer"]
        - [OraText *outbfp,             ":string_with_length", ":out", "ret ? 0 : *outbflp"]
        - [ub2 *outbflp,                ":pointer_to_ub2", ":inout"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
 
 OCIServerAttach:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIServer *srvhp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIServer *srvhp,            ":OCIServer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [CONST text *dblink,          ":string_with_length", ":in", dblink_len]
        - [sb4 dblink_len,              ":sb4"]
        - [ub4 mode,                    ":ub4"]
@@ -2599,15 +2599,15 @@ OCIServerAttach:
 OCIServerDetach:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIServer *srvhp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIServer *srvhp,            ":OCIServer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 mode,                    ":ub4"]
 
 OCIServerRelease:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *hndlp,                ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [dvoid *hndlp,                ":ocihandle", ":in", hndltype]
+       - [OCIError *errhp,             ":OCIError"]
        - [OraText *bufp,               ":string_with_maxlen", ":out", bufsz]
        - [ub4 bufsz,                   ":ub4"]
        - [ub1 hndltype,                ":htype"]
@@ -2616,8 +2616,8 @@ OCIServerRelease:
 OCIServerVersion:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *hndlp,                ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [dvoid *hndlp,                ":ocihandle", ":in", hndltype]
+       - [OCIError *errhp,             ":OCIError"]
        - [OraText *bufp,               ":string_with_maxlen", ":out", bufsz]
        - [ub4 bufsz,                   ":ub4"]
        - [ub1 hndltype,                ":htype"]
@@ -2625,26 +2625,26 @@ OCIServerVersion:
 OCISessionBegin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCISession *usrhp,           ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCISession *usrhp,           ":OCISession"]
        - [ub4 credt,                   ":OCICredentialType"]
        - [ub4 mode,                    ":ub4"]
 
 OCISessionEnd:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCISession *usrhp,           ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCISession *usrhp,           ":OCISession"]
        - [ub4 mode,                    ":ub4"]
 
 OCISessionGet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
-       - [OCISvcCtx **svchp,           ":pointer_to_pointer", ":out"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
+       - [OCISvcCtx **svchp,           ":pointer_to_ocihandle", ":out", OCI_HTYPE_SVCCTX, envhp, ret]
        - [OCIAuthInfo *authhp,         ":pointer"]
        - [OraText *poolName,           ":string_with_length", ":in", poolName_len]
        - [ub4 poolName_len,            ":ub4"]
@@ -2658,8 +2658,8 @@ OCISessionGet:
 OCISessionPoolCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *envhp,               ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIEnv *envhp,               ":OCIEnv"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCISPool *spoolhp,           ":pointer"]
        - [OraText **poolName,          ":pointer_to_string_with_length", ":out", poolNameLen, ret]
        - [ub4 *poolNameLen,            ":pointer_to_ub4", ":out"]
@@ -2678,14 +2678,14 @@ OCISessionPoolDestroy:
   :ret:  [sword,                       ":status"]
   :args:
        - [OCISPool *spoolhp,           ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 mode,                    ":ub4_hex"]
 
 OCISessionRelease:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OraText *tag,                ":string_with_length", ":in", tag_len]
        - [ub4 tag_len,                 ":ub4"]
        - [ub4 mode,                    ":ub4_hex"]
@@ -2703,9 +2703,9 @@ OCISharedLibInit:
 OCIStmtExecute:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIStmt *stmtp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 iters,                   ":ub4"]
        - [ub4 rowoff,                  ":ub4"]
        - [const OCISnapshot *snap_in,  ":pointer"]
@@ -2715,8 +2715,8 @@ OCIStmtExecute:
 OCIStmtFetch:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 nrows,                   ":ub4"]
        - [ub2 orientation,             ":OCIFetchOption"]
        - [ub4 mode,                    ":ub4"]
@@ -2724,8 +2724,8 @@ OCIStmtFetch:
 OCIStmtFetch2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 nrows,                   ":ub4"]
        - [ub2 orientation,             ":OCIFetchOption"]
        - [sb4 scrollOffset,            ":sb4"]
@@ -2734,8 +2734,8 @@ OCIStmtFetch2:
 OCIStmtGetBindInfo:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 size,                    ":ub4"]
        - [ub4 startloc,                ":ub4"]
        - [sb4 *found,                  ":pointer_to_sb4", ":out"]
@@ -2757,8 +2757,8 @@ OCIStmtGetBindInfo:
 OCIStmtGetPieceInfo:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [dvoid **hndlpp,              ":pointer_to_pointer", ":out"]
        - [ub4 *typep,                  ":pointer_to_htype", ":out"]
        - [ub1 *in_outp,                ":pointer_to_ub1", ":out"]
@@ -2769,8 +2769,8 @@ OCIStmtGetPieceInfo:
 OCIStmtGetNextResult:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmthp,             ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIStmt *stmthp,             ":ocihandle", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [void **result,               ":pointer_to_pointer", ":out"]
        - [ub4 *rtype,                  ":pointer_to_ub4", ":out"]
        - [ub4 mode,                    ":ub4_hex"]
@@ -2779,8 +2779,8 @@ OCIStmtGetNextResult:
 OCIStmtPrepare:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [const OraText *stmt,         ":string_with_length", ":in", stmt_len]
        - [ub4 stmt_len,                ":ub4"]
        - [ub4 language,                ":OCI_SYNTAX"]
@@ -2789,9 +2789,9 @@ OCIStmtPrepare:
 OCIStmtPrepare2:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIStmt **stmtp,             ":pointer_to_pointer", ":out"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIStmt **stmtp,             ":pointer_to_ocihandle", ":out", OCI_HTYPE_STMT, svchp, ret]
+       - [OCIError *errhp,             ":OCIError"]
        - [const OraText *stmt,         ":string_with_length", ":in", stmt_len]
        - [ub4 stmt_len,                ":ub4"]
        - [const OraText *key,          ":string_with_length", ":in", key_len]
@@ -2802,8 +2802,8 @@ OCIStmtPrepare2:
 OCIStmtRelease:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIStmt *stmtp,              ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIStmt *stmtp,              ":ocihandle_free", ":in", OCI_HTYPE_STMT]
+       - [OCIError *errhp,             ":OCIError"]
        - [const OraText *key,          ":string_with_length", ":in", key_len]
        - [ub4 key_len,                 ":ub4"]
        - [ub4 mode,                    ":ub4"]
@@ -2811,9 +2811,9 @@ OCIStmtRelease:
 OCIStmtSetPieceInfo:
   :ret:  [sword,                       ":status"]
   :args:
-       - [dvoid *hndlp,                ":pointer"]
+       - [dvoid *hndlp,                ":ocihandle", ":in", type]
        - [ub4 type,                    ":htype"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCIError *errhp,             ":OCIError"]
        - [CONST dvoid *bufp,     "%p", bufp]
        - [ub4 *alenp,            "%p", alenp]
        - [ub1 piece,             "%u", piece]
@@ -2823,24 +2823,24 @@ OCIStmtSetPieceInfo:
 OCIStringAllocSize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIString *vs,         ":pointer"]
        - [ub4 *allocsize,              ":pointer_to_ub4", ":out"]
 
 OCIStringAssign:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIString *rhs,        ":pointer"]
        - [OCIString **lhs,             ":pointer_to_pointer", ":inout"]
 
 OCIStringAssignText:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const text *rhs,             ":string_with_length", rhs_len]
        - [ub4 rhs_len,                 ":ub4"]
        - [OCIString **lhs,             ":pointer_to_pointer", ":inout"]
@@ -2848,36 +2848,36 @@ OCIStringAssignText:
 OCIStringPtr:
   :ret:  [text *,                      ":pointer"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIString *vs,         ":pointer"]
 
 OCIStringResize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [ub4 new_size,                ":ub4"]
        - [OCIString **str,             ":pointer_to_pointer", ":inout"]
 
 OCIStringSize:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
        - [const OCIString *vs,         ":pointer"]
 
 OCITableDelete:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 index,                   ":sb4"]
        - [OCITable *tbl,               ":pointer"]
 
 OCITableExists:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITable *tbl,         ":pointer"]
        - [sb4 index,                   ":sb4"]
        - [boolean *exists,             ":pointer_to_boolean", ":out"]
@@ -2885,24 +2885,24 @@ OCITableExists:
 OCITableFirst:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITable *tbl,         ":pointer"]
        - [sb4 *index,                  ":pointer_to_sb4", ":out"]
 
 OCITableLast:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITable *tbl,         ":pointer"]
        - [sb4 *index,                  ":pointer_to_sb4", ":out"]
 
 OCITableNext:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 index,                   ":sb4"]
        - [const OCITable *tbl,         ":pointer"]
        - [sb4 *next_index,             ":pointer_to_sb4", ":out"]
@@ -2911,8 +2911,8 @@ OCITableNext:
 OCITablePrev:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [sb4 index,                   ":sb4"]
        - [const OCITable *tbl,         ":pointer"]
        - [sb4 *prev_index,             ":pointer_to_sb4", ":out"]
@@ -2921,30 +2921,30 @@ OCITablePrev:
 OCITableSize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITable *tbl,         ":pointer"]
        - [sb4 *size,                   ":pointer_to_sb4", ":out"]
 
 OCITransCommit:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 flags,                   ":ub4_hex"]
 
 OCITransRollback:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [ub4 flags,                   ":ub4_hex"]
 
 OCITypeAddAttr:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIType *type,               ":pointer"]
        - [const oratext *a_name,       ":string_with_length", ":in", a_length]
        - [ub4 a_length,                ":ub4"]
@@ -2953,9 +2953,9 @@ OCITypeAddAttr:
 OCITypeArrayByName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [ub4 array_len,               ":ub4"]
        - ["const oratext *schema_name[]", ":array_of_const_string_with_length", ":in", s_length, array_len, 0]
        - ["ub4 s_length[]",            ":array_of_ub4", ":in", array_len, 0]
@@ -2970,9 +2970,9 @@ OCITypeArrayByName:
 OCITypeArrayByFullName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [ub4 array_len,               ":ub4"]
        - ["const oratext *full_type_name[]", ":array_of_const_string_with_length", ":in", full_type_name_length, array_len, 0]
        - ["ub4 full_type_name_length[]", ":array_of_ub4", ":in", array_len, 0]
@@ -2985,8 +2985,8 @@ OCITypeArrayByFullName:
 OCITypeArrayByRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [ub4 array_len,               ":ub4"]
        - [const OCIRef **type_ref,     ":array_of_pointer", ":out", array_len, ret]
        - [OCIDuration pin_duration,    ":OCIDuration"]
@@ -2996,8 +2996,8 @@ OCITypeArrayByRef:
 OCITypeAttrByName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [const oratext *name,         ":string_with_length", n_length]
        - [ub4 n_length,                ":ub4"]
@@ -3006,23 +3006,23 @@ OCITypeAttrByName:
 OCITypeAttrNext:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCITypeIter *iterator_ort,   ":pointer"]
        - [OCITypeElem **elem,          ":pointer_to_pointer"]
 
 OCITypeAttrs:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
 
 OCITypeBeginCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCITypeCode tc,              ":OCITypeCode"]
        - [OCIDuration dur,             ":OCIDuration"]
        - [OCIType **type,              ":pointer_to_pointer", ":out"]
@@ -3030,9 +3030,9 @@ OCITypeBeginCreate:
 OCITypeByName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [const oratext *schema_name,  ":string_with_length", ":in", s_length]
        - [ub4 s_length,                ":ub4"]
        - [const oratext *type_name,    ":string_with_length", ":in", t_length]
@@ -3046,9 +3046,9 @@ OCITypeByName:
 OCITypeByFullName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
-       - [const OCISvcCtx *svc,        ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
+       - [const OCISvcCtx *svc,        ":OCISvcCtx"]
        - [const oratext *full_type_name, ":string_with_length", ":in", full_type_name_length]
        - [ub4 full_type_name_length,   ":ub4"]
        - [const oratext *version_name, ":string_with_length", ":in", version_name_length]
@@ -3060,8 +3060,8 @@ OCITypeByFullName:
 OCITypeByRef:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIRef *type_ref,      ":pointer"]
        - [OCIDuration pin_duration,    ":OCIDuration"]
        - [OCITypeGetOpt get_option,    ":OCITypeGetOpt"]
@@ -3070,164 +3070,164 @@ OCITypeByRef:
 OCITypeCollElem:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [OCITypeElem **element,       ":pointer_to_pointer", ":out"]
 
 OCITypeCollExtTypeCode:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [OCITypeCode *sqt_code,       ":pointer_to_SQLT", ":out"]
 
 OCITypeCollSize:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [ub4 *num_elems,              ":pointer_to_ub4", ":out"]
 
 OCITypeCollTypeCode:
   :ret:  [OCITypeCode,                 ":OCITypeCode"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
 
 OCITypeElemCharSetForm:
   :ret:  [ub2,                         ":ub2"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemCharSetID:
   :ret:  [ub2,                         ":ub2"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemDefaultValue:
   :ret:  [oratext* ,                   ":string_with_length", ":out", "*d_v_length"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
        - [ub4 *d_v_length,             ":pointer_to_ub4", ":out"]
 
 OCITypeElemExtTypeCode:
   :ret:  [OCITypeCode,                 ":OCITypeCode"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemFlags:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemLength:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemName:
   :ret:  [oratext*,                    ":string_with_length", ":out", "*n_length"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
        - [ub4 *n_length,               ":pointer_to_ub4", ":out"]
 
 OCITypeElemNumPrec:
   :ret:  [ub1,                         ":ub1"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemNumScale:
   :ret:  [sb1,                         ":sb1"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemParamMode:
   :ret:  [OCITypeParamMode,            ":OCITypeParamMode"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeElemParameterizedType:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
        - [OCIType **type_stored,       ":pointer_to_pointer", ":out"]
 
 OCITypeElemType:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
        - [OCIType **elem_tdo,          ":pointer_to_pointer", ":out"]
 
 OCITypeElemTypeCode:
   :ret:  [OCITypeCode,                 ":OCITypeCode"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeElem *elem,     ":pointer"]
 
 OCITypeEndCreate:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIType *type,               ":pointer"]
 
 OCITypeIterFree:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCITypeIter *iterator_ort,   ":pointer"]
 
 OCITypeIterNew:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIType *tdo,                ":pointer"]
        - [OCITypeIter **iterator_ort,  ":pointer_to_pointer", ":out"]
 
 OCITypeIterSet:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCIType *tdo,                ":pointer"]
        - [OCITypeIter *iterator_ort,   ":pointer"]
 
 OCITypeMethodByName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [const oratext *method_name,  ":string_with_length", ":in", m_length]
        - [ub4 m_length,                ":ub4"]
@@ -3236,54 +3236,54 @@ OCITypeMethodByName:
 OCITypeMethodEncap:
   :ret:  [OCITypeEncap,                ":OCITypeEncap"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
 
 OCITypeMethodFlags:
   :ret:  [OCITypeMethodFlag,           ":OCITypeMethodFlag"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
 
 OCITypeMethodMap:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [OCITypeMethod **mdo,         ":pointer_to_pointer", ":out"]
 
 OCITypeMethodName:
   :ret:  [oratext *,                   ":string_with_length", ":out", "*n_length"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
        - [ub4 *n_length,               ":pointer_to_ub4", ":out"]
 
 OCITypeMethodNext:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [OCITypeIter *iterator_ort,   ":pointer"]
        - [OCITypeMethod **mdo,         ":pointer_to_pointer", ":out"]
 
 OCITypeMethodOrder:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [OCITypeMethod **mdo,         ":pointer_to_pointer", ":out"]
 
 OCITypeMethodOverload:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [const oratext *method_name,  ":string_with_length", ":in", m_length]
        - [ub4 m_length,                ":ub4"]
@@ -3291,38 +3291,38 @@ OCITypeMethodOverload:
 OCITypeMethodParams:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
 
 OCITypeMethods:
   :ret:  [ub4,                         ":ub4"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
 
 OCITypeName:
   :ret:  [oratext *,                   ":string_with_length", ":out", "*n_length"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [ub4 *n_length,               ":pointer_to_ub4", ":out"]
 
 OCITypePackage:
   :ret:  [oratext *,                   ":string_with_length", ":out", "*n_length"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [ub4 *n_length,               ":pointer_to_ub4", ":out"]
 
 OCITypeParamByName:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
        - [const oratext *name,         ":string_with_length", ":in", n_length]
        - [ub4 n_length,                ":ub4"]
@@ -3331,8 +3331,8 @@ OCITypeParamByName:
 OCITypeParamByPos:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
        - [ub4 position,                ":ub4"]
        - [OCITypeElem **elem,          ":pointer_to_pointer", ":out"]
@@ -3340,8 +3340,8 @@ OCITypeParamByPos:
 OCITypeParamPos:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
        - [const oratext *name,         ":string_with_length", ":in", n_length]
        - [ub4 n_length,                ":ub4"]
@@ -3351,32 +3351,32 @@ OCITypeParamPos:
 OCITypeResult:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCITypeMethod *mdo,    ":pointer"]
        - [OCITypeElem **elem,          ":pointer_to_pointer", ":out"]
 
 OCITypeSchema:
   :ret:  [oratext*,                    ":string_with_length", ":out", "*n_length"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [ub4 *n_length,               ":pointer_to_ub4", ":out"]
 
 OCITypeSetBuiltin:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIType *type,               ":pointer"]
        - [OCIParam *builtin_info,      ":pointer"]
 
 OCITypeSetCollection:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCISvcCtx *svchp,            ":pointer"]
-       - [OCIError *errhp,             ":pointer"]
+       - [OCISvcCtx *svchp,            ":OCISvcCtx"]
+       - [OCIError *errhp,             ":OCIError"]
        - [OCIType *type,               ":pointer"]
        - [OCIParam *collelem_info,     ":pointer"]
        - [ub4 coll_count,              ":ub4"]
@@ -3384,21 +3384,21 @@ OCITypeSetCollection:
 OCITypeTypeCode:
   :ret:  [OCITypeCode,                 ":OCITypeCode"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
 
 OCITypeVTInit:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
 
 OCITypeVTInsert:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const oratext *schema_name,  ":string_with_length", ":in", s_n_length]
        - [ub4 s_n_length,              ":ub4"]
        - [const oratext *type_name,    ":string_with_length", ":in", t_n_length]
@@ -3409,8 +3409,8 @@ OCITypeVTInsert:
 OCITypeVTSelect:
   :ret:  [sword,                       ":status"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const oratext *schema_name,  ":string_with_length", ":in", s_n_length]
        - [ub4 s_n_length,              ":ub4"]
        - [const oratext *type_name,    ":string_with_length", ":in", t_n_length]
@@ -3422,7 +3422,7 @@ OCITypeVTSelect:
 OCITypeVersion:
   :ret:  [oratext*,                    ":string_with_length", ":out", "*v_length"]
   :args:
-       - [OCIEnv *env,                 ":pointer"]
-       - [OCIError *err,               ":pointer"]
+       - [OCIEnv *env,                 ":OCIEnv"]
+       - [OCIError *err,               ":OCIError"]
        - [const OCIType *tdo,          ":pointer"]
        - [ub4 *v_length,               ":pointer_to_ub4", ":out"]
