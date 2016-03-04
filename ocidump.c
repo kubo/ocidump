@@ -186,7 +186,13 @@ void ocidump_log_start(const char *funcname)
 #else /* _WIN32 */
     flockfile(ocidump_logfp);
 #if defined(__linux)
-    fprintf(ocidump_logfp, "%5ld: %s", syscall(SYS_gettid), funcname);
+    int pid = getpid();
+    int thread_id = syscall(SYS_gettid);
+    if (pid == thread_id) {
+        fprintf(ocidump_logfp, "%5d: %s", pid, funcname); /* main thread */
+    } else {
+        fprintf(ocidump_logfp, "%5d:%05d: %s", pid, thread_id, funcname);
+    }
 #elif defined(__sun)
     fprintf(ocidump_logfp, "%5u: %s", pthread_self(), funcname);
 #else
