@@ -118,6 +118,23 @@ def load_yaml(filename)
   fix_yaml_data(YAML.load(open(File.dirname(__FILE__) + '/' + filename)))
 end
 
+def get_dlsym_ver
+  # Guess the architecture from a compiled object file.
+  open("oranumber_util.o", "r") do |f|
+    return nil if f.read(4) != "\177ELF" # magic
+    f.seek(18, IO::SEEK_SET)
+    case f.read(2).unpack('v')[0] # architecture
+    when 3 # i386
+      return "GLIBC_2.0"
+    when 62 # x86_64
+      return "GLIBC_2.2.5"
+    end
+  end
+  nil
+rescue
+  nil
+end
+
 def make_ocifunc_c
   funcs = []
   load_yaml('ocifunc.yml').each do |key, val|
@@ -140,6 +157,14 @@ EOS
     fd.write(erb.result(binding))
   end
   open('ocidump.map', 'w') do |fd|
+    dlsym_ver = get_dlsym_ver()
+    fd.write <<EOS if dlsym_ver
+#{dlsym_ver} {
+	dlsym;
+};
+
+EOS
+
     fd.write <<EOS
 ocidump {
 global:
@@ -150,8 +175,11 @@ EOS
 EOS
     end
 
-    fd.write <<EOS
+    fd.write <<EOS if dlsym_ver.nil?
 	dlsym;
+EOS
+
+    fd.write <<EOS
 local:
 	*;
 };

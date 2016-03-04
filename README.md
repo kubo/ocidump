@@ -25,17 +25,15 @@ first call of OCIEnvCreate() or similar functions is not monitored on
 Windows. It is due to the timing of loading ocidump.dll into process
 memory.
 
-The downside of ocidump way is that it cannot monitor explicitly
-linked functions. Some applications try to get the entry point of a
-function and use it if it is found, otherwise do another job.
-As far as I know, the ruby-oci8 Windows binary package does it to
-use OCI functions newly added in recent Oracle versions.
+Ocidump hooks `dlsym` on linux and solaris for programs which bind
+OCI functions at runtime via `dlsym`. However I received a mail saying
+that it caused SEGV. If you have touble, add `-DDISABLE_DYSYM_HOOK`
+to `CFLAGS` in `Makefile`.
 
 Supported platforms
 -------------------
 
-Officially it supports Linux only. It may work on other Unix-like operating systems.
-Windows is supported experimentally.
+Linux, Solaris and Windows
 
 How to compile
 --------------
@@ -64,8 +62,12 @@ memory space.
 OCI function calls are dumped to the standard error by default.
 Set `OCIDUMP_LOGFILE` to log them to a file.
 
+    # UNIX
     OCIDUMP_LOGFILE=/tmp/ocidump.log
     export OCIDUMP_LOGFILE
+    
+    # Windows
+    set OCIDUMP_LOGFILE=%TEMP%\ocidump.log
 
 All supported OCI functions are dumped by default. The output may be
 verbose because it needs several function calls to issue a single SQL

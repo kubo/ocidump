@@ -21,7 +21,8 @@
 static pthread_once_t init_once = {PTHREAD_ONCE_INIT};
 #endif
 
-#if defined(__linux) || defined(__sun)
+#ifndef DISABLE_DYSYM_HOOK
+#if (defined(__linux) && (defined(__x86_64) || defined(__i386))) || defined(__sun)
 
 typedef void *(dlsym_func_t)(void *map, const char *name);
 static dlsym_func_t *dlsym_func;
@@ -35,19 +36,13 @@ void init(void) __attribute__((constructor));
 #ifdef __linux
 void init(void)
 {
-    static const char * const dlsym_versions[] = {
-        "GLIBC_2.2.5", /* x86_64 */
-        "GLIBC_2.0",   /* i386 */
-        NULL,
-    };
-    int idx;
-
-    for (idx = 0; dlsym_versions[idx] != NULL; idx++) {
-        dlsym_func = (dlsym_func_t *)dlvsym(RTLD_DEFAULT, "dlsym", dlsym_versions[idx]);
-        if (dlsym_func != NULL) {
-            break;
-        }
-    }
+#if defined(__x86_64)
+    dlsym_func = (dlsym_func_t *)dlvsym(RTLD_NEXT, "dlsym", "GLIBC_2.2.5");
+#elif defined(__i386)
+    dlsym_func = (dlsym_func_t *)dlvsym(RTLD_NEXT, "dlsym", "GLIBC_2.0");
+#else
+#error unsupported architecture
+#endif
 }
 #endif
 
@@ -68,17 +63,33 @@ static int ocidump_hook_cmp(const void *lhs, const void *rhs)
 
 void *dlsym(void *map, const char *name)
 {
-    ocidump_hook_t key, *found;
+    ocidump_hook_t key, *hook;
 
     key.name = name;
-    found = bsearch(&key, ocidump_hooks, ocidump_hook_cnt, sizeof(ocidump_hook_t), ocidump_hook_cmp);
-    if (found) {
-        return found->hook_func;
+    hook = bsearch(&key, ocidump_hooks, ocidump_hook_cnt, sizeof(ocidump_hook_t), ocidump_hook_cmp);
+    if (hook) {
+        if (*hook->orig_func == NULL) {
+            void *addr = dlsym_func(map, name);
+            if (addr == NULL) {
+                return NULL;
+            }
+            if (addr == hook->hook_func) {
+                if (map == RTLD_DEFAULT) {
+                    addr = dlsym_func(RTLD_NEXT, name);
+                }
+                if (addr == NULL || addr == hook->hook_func) {
+                    return NULL;
+                }
+            }
+            *hook->orig_func = addr;
+        }
+        return hook->hook_func;
     }
     return dlsym_func(map, name);
 }
 #define dlsym dlsym_func
 #endif
+#endif /* DISABLE_DYSYM_HOOK */
 
 #define OUT_OF_MEMORY_MSG "... out of memory ..."
 
