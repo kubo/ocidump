@@ -25,42 +25,21 @@ void ocidump_unresolved_symbol(const char *symbol_name)
 static void setup_oci_module_handle(void)
 {
     HMODULE hMod = NULL;
-    DWORD size;
-    wchar_t *env;
-    wchar_t *next_token;
-    wchar_t *path;
-    wchar_t buf[MAX_PATH];
 
     if (hModuleOCI != NULL) {
         return;
     }
     hMod = GetModuleHandle("OCI.DLL");
-    if (hMod != NULL && hMod != hThisModule) {
-        hModuleOCI = hMod;
-        return;
-    }
-
-    size = GetEnvironmentVariableW(L"PATH", NULL, 0);
-    env = malloc(sizeof(wchar_t) * size);
-    GetEnvironmentVariableW(L"PATH", env, size);
-
-    hMod = NULL;
-    for (path = wcstok_s(env, L";", &next_token); path != NULL; path = wcstok_s(NULL, L";", &next_token)) {
-        swprintf(buf, MAX_PATH, L"%s\\OCI.DLL", path);
-        hMod = LoadLibraryW(buf);
-        if (hMod != NULL) {
-            if (hMod != hThisModule) {
-                break;
-            }
-            FreeLibrary(hMod);
-            hMod = NULL;
-        }
-    }
-    if (hMod == NULL) {
+    if (hMod == hThisModule) {
+        hMod = LoadLibrary("OCI-ORIG.DLL");
+	if (hMod == NULL) {
+	  ocidump_log(0, "ERROR! Could not load library OCI-ORIG.DLL.");
+	  exit(1);
+	}
+    } else if (hMod == NULL) {
         ocidump_log(0, "ERROR! Could not load library OCI.DLL.");
         exit(1);
     }
-    free(env);
     hModuleOCI = hMod;
 }
 
