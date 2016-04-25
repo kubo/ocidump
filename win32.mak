@@ -17,10 +17,7 @@ OBJS = ocidump.obj ocifunc.obj ocidefs.obj ociattr.obj oranumber_util.obj ocihan
 MKOCIFUNC_FILES = ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map
 WIN32_TRAMPOLINE_FILES = win32_trampoline.c win32_trampoline_vc32.asm win32_trampoline_vc64.asm
 
-all: ocidump.dll oci.dll
-
-oci.dll: ocidump.dll
-	copy ocidump.dll oci.dll
+all: ocidump.dll
 
 ocidump.dll: $(OBJS) ocidump.def
 	$(LD_SHARED) $(LDFLAGS) /Feocidump.dll $(OBJS) dbghelp.lib /link /def:ocidump.def
