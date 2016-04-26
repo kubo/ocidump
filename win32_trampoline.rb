@@ -23,74 +23,57 @@ open('win32_trampoline.c', 'w') do |fd|
 #include <windows.h>
 #include "ocidump.h"
 
+trampoline_func_t trampoline_funcs[] = {
 EOS
 
   trampoline_funcs.each do |name|
     fd.write <<EOS
-FARPROC ocidump_#{name};
+    {NULL, "#{name}"},
 EOS
   end
 
   fd.write <<EOS
-
-void ocidump_init_win32_trampoline(HMODULE hMod)
-{
-EOS
-  trampoline_funcs.each do |name|
-    fd.write <<EOS
-    ocidump_#{name} = GetProcAddress(hMod, "#{name}");
-EOS
-  end
-  fd.write <<EOS
-}
+    {NULL, NULL},
+};
 EOS
 end
 
 open("win32_trampoline_vc32.asm", 'w') do |fd|
 
   fd.write <<EOS
-TITLE win32_trampoline_masm.asm
+TITLE win32_trampoline_vc32.asm
 .686P
 .model flat
 
-EXTERN	_ocidump_is_initialized:DWORD
-EXTERN	_ocidump_init:PROC
 EXTERN	_ocidump_unresolved_symbol:PROC
-EOS
-
-  trampoline_funcs.each do |name|
-    fd.write <<EOS
-EXTERN	_ocidump_#{name}:DWORD
-EOS
-  end
-
-  fd.write <<EOS
-
-.CONST
-EOS
-  trampoline_funcs.each do |name|
-    fd.write <<EOS
-#{name}_name	DB	'#{name}', 00H
-EOS
-  end
-
-  fd.write <<EOS
+EXTERN	_ocidump_init:PROC
+EXTERN	_trampoline_funcs:DWORD
 
 .CODE
+
+_call_unresolved_symbol PROC
+	sub	esp, 4
+	call	_ocidump_unresolved_symbol ; noreturn
+_call_unresolved_symbol ENDP
+
+_call_ocidump_init PROC
+	sub	esp, 4
+	push	ecx
+	push	edx
+	call	_ocidump_init
+	pop	edx
+	pop	ecx
+	pop	eax
+	jmp	DWORD PTR [_trampoline_funcs+eax*8]
+_call_ocidump_init ENDP
+
 EOS
-  trampoline_funcs.each do |name|
+
+  trampoline_funcs.each_with_index do |name, index|
     fd.write <<EOS
 _#{name} PROC
-	cmp	_ocidump_is_initialized, 0
-	jne	initialized
-	call	_ocidump_init
-initialized:
-	cmp	_ocidump_#{name}, 0
-	jne	symbol_is_resolved
-	push	OFFSET #{name}_name
-	call	_ocidump_unresolved_symbol
-symbol_is_resolved:
-	jmp	_ocidump_#{name}
+	mov	DWORD PTR [esp-4], #{index}
+	jmp	DWORD PTR [_trampoline_funcs+#{index*8}]
 _#{name} ENDP
 ;
 EOS
@@ -105,35 +88,22 @@ end
 open("win32_trampoline_vc64.asm", 'w') do |fd|
 
   fd.write <<EOS
-TITLE win32_trampoline_masm.asm
-EXTERN	ocidump_is_initialized:DWORD
-EXTERN	ocidump_init:PROC
+TITLE win32_trampoline_vc64.asm
 EXTERN	ocidump_unresolved_symbol:PROC
-EOS
+EXTERN	ocidump_init:PROC
+EXTERN	trampoline_funcs:QWORD
 
-  trampoline_funcs.each do |name|
-    fd.write <<EOS
-EXTERN	ocidump_#{name}:QWORD
-EOS
-  end
-
-  fd.write <<EOS
-
-.CONST
-EOS
-  trampoline_funcs.each do |name|
-    fd.write <<EOS
-#{name}_name	DB	'#{name}', 00H
-EOS
-  end
-
-  fd.write <<EOS
 .CODE
+
+call_unresolved_symbol PROC
+	mov	rcx, QWORD PTR [rsp-8]
+	jmp	ocidump_unresolved_symbol ; noreturn
+call_unresolved_symbol ENDP
 
 ; Save registers which may be used for function arguments,
 ; call ocidump_init, and restore them.
 call_ocidump_init PROC
-	sub	rsp, 128
+	sub	rsp, 136
 	mov	QWORD PTR [rsp+32], rcx
 	mov	QWORD PTR [rsp+40], rdx
 	mov	QWORD PTR [rsp+48], r8
@@ -151,26 +121,22 @@ call_ocidump_init PROC
 	movaps	xmm1, XMMWORD PTR [rsp+80]
 	movaps	xmm2, XMMWORD PTR [rsp+96]
 	movaps	xmm3, XMMWORD PTR [rsp+112]
-	add	rsp, 128
-	ret	0
+	add	rsp, 136
+	mov	rax, QWORD PTR [rsp-8]
+	add	rax, rax
+	lea	r10, [trampoline_funcs]
+	jmp	QWORD PTR [r10+rax*8]
 call_ocidump_init ENDP
 ;
+
 EOS
 
-  trampoline_funcs.each do |name|
+  trampoline_funcs.each_with_index do |name, index|
     fd.write <<EOS
 #{name} PROC
-	cmp	ocidump_is_initialized, 0
-	jne	initialized
-	call	call_ocidump_init
-initialized:
-	cmp	ocidump_#{name}, 0
-	jne	symbol_is_resolved
-	sub	rsp, 40
-	lea	rcx, OFFSET #{name}_name
-	call	ocidump_unresolved_symbol ; noreturn
-symbol_is_resolved:
-	jmp	ocidump_#{name}
+	mov	QWORD PTR [rsp-8], #{index}
+	lea	rax, [trampoline_funcs]
+	jmp	QWORD PTR [rax+#{index*16}]
 #{name} ENDP
 ;
 EOS
