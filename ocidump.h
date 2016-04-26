@@ -185,6 +185,7 @@ void ocidump_sb8(const sb8 ul);
 void ocidump_hex(const unsigned long ul);
 void ocidump_string(const text *str);
 void ocidump_string_with_length(const text *str, ub4 len);
+void ocidump_string_with_signed_length(const text *str, sb4 len);
 void ocidump_string_with_maxlen(const text *str, ub4 len);
 void ocidump_OCIDate(const OCIDate *date);
 void ocidump_OCINumber(const OCINumber *num);

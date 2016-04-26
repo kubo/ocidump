@@ -486,6 +486,21 @@ void ocidump_string_with_length(const text *str, ub4 len)
     }
 }
 
+void ocidump_string_with_signed_length(const text *str, sb4 len)
+{
+    if (str == NULL) {
+        ocidump_puts("(nil)");
+    } else if (ocidump_hide_string) {
+        ocidump_puts("(hidden)");
+    } else {
+        if (len < 0) {
+            ocidump_string_with_length(str, strlen(str));
+        } else {
+            ocidump_string_with_length(str, (ub4)len);
+        }
+    }
+}
+
 void ocidump_string_with_maxlen(const text *str, ub4 len)
 {
     if (str == NULL) {
