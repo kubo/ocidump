@@ -135,8 +135,8 @@ EOS
     fd.write <<EOS
 #{name} PROC
 	mov	QWORD PTR [rsp-8], #{index}
-	lea	rax, [trampoline_funcs]
-	jmp	QWORD PTR [rax+#{index*16}]
+	lea	rax, [trampoline_funcs+#{index*16}]
+	jmp	QWORD PTR [rax]
 #{name} ENDP
 ;
 EOS
