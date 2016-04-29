@@ -494,7 +494,7 @@ void ocidump_string_with_signed_length(const text *str, sb4 len)
         ocidump_puts("(hidden)");
     } else {
         if (len < 0) {
-            ocidump_string_with_length(str, strlen(str));
+            ocidump_string_with_length(str, strlen((char*)str));
         } else {
             ocidump_string_with_length(str, (ub4)len);
         }
