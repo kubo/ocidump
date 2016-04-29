@@ -247,25 +247,11 @@ void ocidump_ocihandle(const void *hndl, ub4 type, ub4 type2, ub4 type3);
 void ocidump_pointer_to_ocihandle(const void **hndl, ub4 type, const void *parent, sword status);
 void ocidump_ocihandle_free(const void *hndl, ub4 type);
 
-
 #ifdef _WIN32
-typedef struct {
-    FARPROC func;
-    const char *name;
-} trampoline_func_t;
-
 /* win32.c */
 extern BOOL ocidump_use_dbghelp;
 extern CRITICAL_SECTION ocidump_dbghelp_lock;
-void ocidump_unresolved_symbol(int index);
 void ocidump_init_win32(void);
-
-/* win32_trampoline.c */
-extern trampoline_func_t trampoline_funcs[];
-
-/* win32_trampoline_vc32.asm, win32_trampoline_vc64.asm */
-extern void call_unresolved_symbol(void);
-extern void call_ocidump_init(void);
 #endif
 
 #endif /* OCIDUMP_H */

@@ -7,20 +7,18 @@ LDFLAGS = /MT /Zi
 RM = del
 
 !ifdef WIN64
-WIN32_TRAMPOLINE_VC_OBJ = win32_trampoline_vc64.obj
+MACHINE = x64
 !else
-WIN32_TRAMPOLINE_VC_OBJ = win32_trampoline_vc32.obj
+MACHINE = x86
 !endif
 
-
-OBJS = ocidump.obj ocifunc.obj ocidefs.obj ociattr.obj oranumber_util.obj ocihandle.obj win32.obj win32_trampoline.obj $(WIN32_TRAMPOLINE_VC_OBJ)
+OBJS = ocidump.obj ocifunc.obj ocidefs.obj ociattr.obj oranumber_util.obj ocihandle.obj win32.obj
 MKOCIFUNC_FILES = ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map
-WIN32_TRAMPOLINE_FILES = win32_trampoline.c win32_trampoline_vc32.asm win32_trampoline_vc64.asm
 
 all: ocidump.dll
 
-ocidump.dll: $(OBJS) ocidump.def
-	$(LD_SHARED) $(LDFLAGS) /Feocidump.dll $(OBJS) dbghelp.lib /link /def:ocidump.def
+ocidump.dll: $(OBJS) oci-orig.lib ocidump.def
+	$(LD_SHARED) $(LDFLAGS) /Feocidump.dll $(OBJS) dbghelp.lib oci-orig.lib /link /def:ocidump.def
 
 ocidump.obj: ocidump.c ocidump.h ocidefs.h oranumber_util.h
 ocifunc.obj: ocifunc.c ocidump.h ocidefs.h
@@ -28,20 +26,20 @@ ocidefs.obj: ocidefs.c ocidump.h ocidefs.h
 ociattr.obj: ociattr.c ocidump.h
 oranumber_util.obj: oranumber_util.c oranumber_util.h
 
-win32_trampoline_vc32.obj: win32_trampoline_vc32.asm
-	ml /nologo /c /coff /Cp win32_trampoline_vc32.asm
-
-win32_trampoline_vc64.obj: win32_trampoline_vc64.asm
-	ml64 /nologo /c /Cp win32_trampoline_vc64.asm
-
 $(MKOCIFUNC_FILES): mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
 	ruby mkocifunc.rb
 
-$(WIN32_TRAMPOLINE_FILES): win32_trampoline.rb ocidump.def
-	ruby win32_trampoline.rb
+ocidump.def:
+	echo EXPORTS > ocidump.def
+
+oci-orig.def:
+	echo EXPORTS > oci-orig.def
+
+oci-orig.lib: oci-orig.def
+	lib /nologo /def:oci-orig.def /out:oci-orig.lib /machine:$(MACHINE)
 
 clean:
-	$(RM) $(OBJS) $(MKOCIFUNC_FILES) $(WIN32_TRAMPOLINE_FILES) ocidump.ilk ocidump.lib ocidump.exp *.pdb *.dll
+	$(RM) $(OBJS) $(MKOCIFUNC_FILES) ocidump.ilk ocidump.lib oci.lib ocidump.exp *.pdb *.dll
 
 install: ocidump.dll
 	copy ocidump.dll $(ORACLE_HOME)\bin

@@ -1,3 +1,4 @@
+require 'yaml'
 require 'open3'
 
 if ARGV.size == 0
@@ -11,6 +12,8 @@ unless File.exists?(file)
   puts("No such file: #{file}")
   exit(1)
 end
+
+ocidump_funcs = YAML.load(open(File.dirname(__FILE__) + '/ocifunc.yml'))
 
 funcs = []
 output = []
@@ -41,11 +44,24 @@ unless funcs.include?('OCIEnvCreate')
   exit(1)
 end
 
+open('oci-orig.def', 'w') do |f|
+  f.puts("EXPORTS")
+  funcs.each do |func|
+    unless ocidump_funcs[func]
+      f.puts("  #{func}")
+    end
+  end
+end
+
 open('ocidump.def', 'w') do |f|
   f.puts("EXPORTS")
   funcs.each do |func|
-    f.puts(func)
+    if ocidump_funcs[func]
+      f.puts("  #{func}")
+    else
+      f.puts("  #{func} = OCI-ORIG.#{func}")
+    end
   end
 end
-puts("ocidump.def is created from #{file}.")
+puts("oci-orig.def and ocidump.def are created from #{file}.")
 exit(0)

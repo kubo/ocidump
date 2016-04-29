@@ -16,12 +16,6 @@ static HMODULE hModuleOCI = NULL;
 static HMODULE hThisModule;
 static void ocidump_setup_win32_api_hook(void);
 
-void ocidump_unresolved_symbol(int index)
-{
-    ocidump_log(0, "ERROR! Unresolved symbol %s is referenced.", trampoline_funcs[index].name);
-    exit(1);
-}
-
 static void setup_oci_module_handle(void)
 {
     HMODULE hMod = NULL;
@@ -48,12 +42,7 @@ static void replace_import_section(HANDLE hModule);
 __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
     if (fdwReason == DLL_PROCESS_ATTACH) {
-        int i;
-
         hThisModule = hinstDLL;
-        for (i = 0; trampoline_funcs[i].name != NULL; i++) {
-            trampoline_funcs[i].func = (FARPROC)call_ocidump_init;
-        }
     }
     return TRUE;
 }
@@ -237,12 +226,4 @@ void ocidump_init_win32(void)
         ocidump_log(OCIDUMP_LOG_HOOK, "# GetProcAddress(\"OCI.DLL\", \"%s\") => %p\n",
                     ocidump_hooks[i].name, *ocidump_hooks[i].orig_func);
     }
-
-    for (i = 0; trampoline_funcs[i].name != NULL; i++) {
-        trampoline_funcs[i].func = GetProcAddress(hModuleOCI, trampoline_funcs[i].name);
-        if (trampoline_funcs[i].func == NULL) {
-            trampoline_funcs[i].func = (FARPROC)call_unresolved_symbol;
-        }
-    }
-    fprintf(stderr, "ocidump_init_win32\n");
 }
