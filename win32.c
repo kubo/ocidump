@@ -26,10 +26,10 @@ static void setup_oci_module_handle(void)
     hMod = GetModuleHandle("OCI.DLL");
     if (hMod == hThisModule) {
         hMod = LoadLibrary("OCI-ORIG.DLL");
-	if (hMod == NULL) {
-	  ocidump_log(0, "ERROR! Could not load library OCI-ORIG.DLL.");
-	  exit(1);
-	}
+        if (hMod == NULL) {
+          ocidump_log(0, "ERROR! Could not load library OCI-ORIG.DLL.");
+          exit(1);
+        }
     } else if (hMod == NULL) {
         ocidump_log(0, "ERROR! Could not load library OCI.DLL.");
         exit(1);
