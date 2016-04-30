@@ -20,11 +20,12 @@ all: ocidump.dll
 ocidump.dll: $(OBJS) oci-orig.lib ocidump.def
 	$(LD_SHARED) $(LDFLAGS) /Feocidump.dll $(OBJS) dbghelp.lib oci-orig.lib /link /def:ocidump.def
 
-ocidump.obj: ocidump.c ocidump.h ocidefs.h oranumber_util.h
+ocidump.obj: ocidump.c ocidump.h ocidefs.h oranumber_util.h ocihandle.h
 ocifunc.obj: ocifunc.c ocidump.h ocidefs.h
 ocidefs.obj: ocidefs.c ocidump.h ocidefs.h
 ociattr.obj: ociattr.c ocidump.h
 oranumber_util.obj: oranumber_util.c oranumber_util.h
+ocihandle.obj: ocihandle.c ocidump.h ocihandle.h
 
 $(MKOCIFUNC_FILES): mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
 	ruby mkocifunc.rb
