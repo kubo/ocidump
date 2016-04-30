@@ -50,7 +50,8 @@ Intall ruby if it isn't installed.
 
 Set the environment variable `WIN64=1` if the target CPU is x64.
 
-Ocidump supports two hooking methods on Windows.
+Ocidump supports the following two hooking methods on Windows.
+
 1. [IAT hooking](#windows-iat-hooking)
 2. [DLL substitution](#windows-dll-substitution)
 
