@@ -249,6 +249,7 @@ void ocidump_ocihandle_free(const void *hndl, ub4 type);
 
 #ifdef _WIN32
 /* win32.c */
+extern BOOL forward_only;
 extern BOOL ocidump_use_dbghelp;
 extern CRITICAL_SECTION ocidump_dbghelp_lock;
 void ocidump_init_win32(void);

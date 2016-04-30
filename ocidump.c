@@ -110,7 +110,10 @@ static void ocidump_do_init(void)
         return;
     }
 #if defined(_WIN32)
-    ocidump_tls_key = TlsAlloc();
+    ocidump_init_win32();
+    if (forward_only) {
+        return;
+    }
 #else
     pthread_key_create(&ocidump_tls_key, NULL);
 #endif
@@ -157,7 +160,6 @@ static void ocidump_do_init(void)
         }
     }
 #ifdef _WIN32
-    ocidump_init_win32();
     if (ocidump_trace_handle) {
         ocihandle_init();
     }

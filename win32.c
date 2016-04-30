@@ -9,6 +9,7 @@
 
 #define OCIDUMP_ENABLE_KERNEL32_DLL_HOOK 0 /* This option is problematic...  */
 
+BOOL forward_only = FALSE;
 BOOL ocidump_use_dbghelp = TRUE; /* FIXME: changed by a directive in OCIDUMP_CONFIG */
 CRITICAL_SECTION ocidump_dbghelp_lock;
 
@@ -41,8 +42,35 @@ static void replace_import_section(HANDLE hModule);
 
 __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-    if (fdwReason == DLL_PROCESS_ATTACH) {
+    switch (fdwReason) {
+        char path[MAX_PATH];
+        char *p;
+
+    case DLL_PROCESS_ATTACH:
+        GetModuleFileName(hinstDLL, path, sizeof(path));
+        p = strrchr(path, '\\');
+        if (p == NULL) {
+            return FALSE;
+        }
+        if (stricmp(p + 1, "OCI.DLL") == 0) {
+            /* ocidump.dll acts as oci.dll. */
+            char *val = getenv("OCIDUMP_ENABLE");
+            if (val == NULL || atoi(val) == 0) {
+                /* disable all hooks */
+                int i;
+                forward_only = TRUE;
+                ocidump_use_dbghelp = FALSE;
+                for (i = 0; i < ocidump_hook_cnt; i++) {
+                    *ocidump_hooks[i].flags = 0;
+                }
+            }
+        }
         hThisModule = hinstDLL;
+        ocidump_tls_key = TlsAlloc();
+        break;
+    case DLL_PROCESS_DETACH:
+        TlsFree(ocidump_tls_key);
+        break;
     }
     return TRUE;
 }
