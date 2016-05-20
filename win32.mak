@@ -6,7 +6,7 @@ LD_SHARED = $(CC) /LD
 LDFLAGS = /MT /Zi
 RM = del
 
-!ifdef WIN64
+!if "$(AS)" == "ml64"
 MACHINE = x64
 !else
 MACHINE = x86
@@ -40,7 +40,7 @@ oci-orig.lib: oci-orig.def
 	lib /nologo /def:oci-orig.def /out:oci-orig.lib /machine:$(MACHINE)
 
 clean:
-	$(RM) $(OBJS) $(MKOCIFUNC_FILES) ocidump.ilk ocidump.lib oci.lib ocidump.exp *.pdb *.dll
+	$(RM) $(OBJS) $(MKOCIFUNC_FILES) ocidump.ilk *.lib *.exp *.pdb *.dll
 
 install: ocidump.dll
 	copy ocidump.dll $(ORACLE_HOME)\bin
