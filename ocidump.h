@@ -85,7 +85,7 @@ typedef struct OCINumber {
 #define PRINTF_FMT(x, y)
 #endif
 
-#if !defined putc_unlocked && defined _putc_nolock
+#if !defined putc_unlocked && (defined _putc_nolock || defined _putchar_nolock)
 #define putc_unlocked _putc_nolock
 #endif
 

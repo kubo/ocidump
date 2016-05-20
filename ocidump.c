@@ -1,7 +1,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <dbghelp.h>
+#if _MSC_VER < 1900
 #define snprintf _snprintf
+#endif
 #else
 #include <pthread.h>
 #include <dlfcn.h>
