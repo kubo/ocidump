@@ -17,7 +17,7 @@ funcs.each do |f|
 %>
 typedef <%=f.ret.type%> (*<%=f.name%>_func_t)(<%=f.args.collect {|arg| arg.type}.join(', ')%>);
 static <%=f.name%>_func_t <%=f.name%>_orig;
-static unsigned int <%=f.name%>_flags = OCIDUMP_HOOK_EXIT;
+static unsigned int <%=f.name%>_flags;
 
 OCIDUMP_EXPORT <%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.join(', ')%>)
 {
@@ -32,6 +32,22 @@ OCIDUMP_EXPORT <%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.jo
         ocidump_init();
     }
     call_level = (size_t)pthread_getspecific(ocidump_tls_key);
+    if (call_level == 0 && (<%=f.name%>_flags & OCIDUMP_HOOK_ENTRY)) {
+        ocidump_log_start("<%=f.name%>(");
+        __try {
+<%  f.logging_args_pre.each_with_index do |arg, idx|
+      if idx != 0
+%>            ocidump_puts(", ");
+<%    end
+      if arg
+%>            <%=arg%>;
+<%    end
+    end
+%>            ocidump_puts(") ... \n");
+        } __finally {
+            ocidump_log_end();
+        }
+    }
     pthread_setspecific(ocidump_tls_key, (void*)(call_level + 1));
     <%=f.ret.type != 'void' ? "ret = " : ""%><%=f.name%>_orig(<%=f.args.collect {|arg| arg.name}.join(', ')%>);
     pthread_setspecific(ocidump_tls_key, (void*)call_level);
@@ -48,10 +64,9 @@ OCIDUMP_EXPORT <%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.jo
 <%  end
 %>        ocidump_log_start("<%=f.name%>(");
         __try {
-<%  f.logging_args.each_with_index do |arg, idx|
+<%  f.logging_args_post.each_with_index do |arg, idx|
       if idx != 0
-%>            ocidump_putc(',');
-            ocidump_putc(' ');
+%>            ocidump_puts(", ");
 <%    end
 %>            <%=arg%>;
 <%  end

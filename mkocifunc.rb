@@ -7,6 +7,7 @@ class ArgDef
   attr_reader :fmt
   attr_reader :fmt_arg
   attr_reader :local_var
+  attr_reader :direction
 
   def initialize(arg, idx)
     @type, @fmt, *@args = arg
@@ -20,7 +21,7 @@ class ArgDef
       @name = $1
     end
     @fmt.gsub!(/[A-Z0-9_]+_FMT/) {|fmt| '%" ' + fmt + ' "'} if @fmt.is_a? String
-    @args.shift if @args[0].is_a? Symbol
+    @direction = (@args[0].is_a? Symbol) ? @args.shift : :in
     @args.unshift(@name)
   end
 
@@ -58,7 +59,8 @@ class FuncDef
   attr_reader :local_vars
   attr_reader :hide_vars
   attr_reader :cleanups
-  attr_reader :logging_args
+  attr_reader :logging_args_pre
+  attr_reader :logging_args_post
   attr_reader :logging_ret
 
   def initialize(key, val)
@@ -94,17 +96,24 @@ class FuncDef
         end
       end
     end
-    @local_vars.unshift(@ret.type + " ret") if @ret.type != 'void'
+    @local_vars.unshift("#{@ret.type} ret = (#{@ret.type})-1") if @ret.type != 'void'
 
     @hide_vars = []
-    @logging_args = []
+    @logging_args_post = []
+    @logging_args_pre = []
     @args.each_with_index do |arg, idx|
       if arg.fmt == '\"%.*s\"'
         len, str = arg.fmt_arg.gsub(/\(.*?\)/, '').split(/\s*,\s*/)
         @hide_vars << len + ' = 6'
         @hide_vars << str + ' = (OraText*)"hidden"'
       end
-      @logging_args << arg.to_c_code(@fmt_args[idx])
+      logging_arg = arg.to_c_code(@fmt_args[idx])
+      if arg.direction == :in || arg.direction == :inout
+        @logging_args_pre << logging_arg
+      else
+        @logging_args_pre << nil
+      end
+      @logging_args_post << logging_arg
     end
     @logging_ret = @ret.to_c_code(@fmt_args[@args.length])
   end

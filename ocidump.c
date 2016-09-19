@@ -110,7 +110,9 @@ static unsigned int log_flags = 0;
 
 static void ocidump_do_init(void)
 {
+    unsigned int hook_type = OCIDUMP_HOOK_EXIT;
     char *val;
+    int i;
 
     if (ocidump_is_initialized) {
         return;
@@ -138,12 +140,18 @@ static void ocidump_do_init(void)
     if (ocidump_logfp == NULL) {
         ocidump_logfp = stderr;
     }
+    val = getenv("OCIDUMP_HOOK_ENTRY");
+    if (val != NULL && atoi(val) != 0) {
+        hook_type |= OCIDUMP_HOOK_ENTRY;
+    }
+    for (i = 0; i < ocidump_hook_cnt; i++) {
+        *ocidump_hooks[i].flags = hook_type;
+    }
     val = getenv("OCIDUMP_CONFIG");
     if (val != NULL) {
         FILE *fp = fopen(val, "r");
         if (fp != NULL) {
             char buf[256];
-            int i;
 
             /* clear all hooks */
             for (i = 0; i < ocidump_hook_cnt; i++) {
@@ -157,7 +165,7 @@ static void ocidump_do_init(void)
                 }
                 for (i = 0; i < ocidump_hook_cnt; i++) {
                     if (strcmp(ocidump_hooks[i].name, buf) == 0) {
-                        *ocidump_hooks[i].flags = OCIDUMP_HOOK_EXIT;
+                        *ocidump_hooks[i].flags = hook_type;
                         break;
                     }
                 }
