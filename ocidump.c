@@ -20,8 +20,12 @@
 #include "oranumber_util.h"
 #include "ocihandle.h"
 
+#ifdef __APPLE__
+#include <mach-o/dyld.h>
+#endif
+
 #ifndef _WIN32
-static pthread_once_t init_once = {PTHREAD_ONCE_INIT};
+static pthread_once_t init_once = PTHREAD_ONCE_INIT;
 #endif
 
 #ifndef DISABLE_DYSYM_HOOK
@@ -169,8 +173,31 @@ static void ocidump_do_init(void)
     {
         int i;
         for (i = 0; i < ocidump_hook_cnt; i++) {
-            *ocidump_hooks[i].orig_func = dlsym(RTLD_NEXT, ocidump_hooks[i].name);
-            ocidump_log(OCIDUMP_LOG_HOOK, "# dlsym(RTLD_NEXT, \"%s\") => %p\n",
+            void *handle = RTLD_NEXT;
+#ifdef __APPLE__
+            uint32_t idx = 0;
+            const char *name = "libclntsh.dylib.";
+            size_t namelen = strlen(name);
+            const char *image_name;
+
+            while ((image_name = _dyld_get_image_name(idx)) != NULL) {
+                const char *base_name = strrchr(image_name, '/');
+
+                if (base_name == NULL) {
+                    base_name = image_name;
+                } else {
+                    base_name++;
+                }
+                if (strncmp(base_name, name, namelen) == 0) {
+                    break;
+                }
+                idx++;
+            }
+            handle = dlopen(image_name, RTLD_LAZY | RTLD_NOLOAD);
+#endif
+            *ocidump_hooks[i].orig_func = dlsym(handle, ocidump_hooks[i].name);
+            ocidump_log(OCIDUMP_LOG_HOOK, "# dlsym(%p, \"%s\") => %p\n",
+                        handle,
                         ocidump_hooks[i].name,
                         *ocidump_hooks[i].orig_func);
         }

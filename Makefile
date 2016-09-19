@@ -1,29 +1,48 @@
 ORACLE_INC = /opt/instantclient_11_2/sdk/include
 
-## Linux
-CC = gcc -g
-CFLAGS = -pthread -fPIC -D_GNU_SOURCE -Wall
-LD_SHARED = $(CC) -shared
-LDFLAGS = -pthread -Wl,--version-script,ocidump.map -ldl
+UNAME_S := $(shell uname -s)
 
-## Solaris gcc
-#CC = gcc
-#CFLAGS = -D_REENTRANT -fPIC -Wall
-#LD_SHARED = $(CC) -shared
-#LDFLAGS = -Wl,-M,ocidump.map
+# Linux
+ifeq ($(UNAME_S),Linux)
+  CFLAGS = -g -pthread -fPIC -D_GNU_SOURCE -Wall
+  LDFLAGS = -shared -pthread -Wl,--version-script,ocidump.map
+  LIBS = -ldl
+endif
 
-## Solaris Studio
-#CC = cc
-#CFLAGS = -D_REENTRANT -KPIC
-#LD_SHARED = $(CC) -G
-#LDFLAGS = -Wl,-M,ocidump.map
+# Solaris
+ifeq ($(UNAME_S),SunOS)
+  ifeq (gcc,$(findstring gcc,$(shell $(CC) --version 2>/dev/null)))
+    CC_IS_GCC = 1
+  else ifeq (SunOS,$(findstring SunOS,$(shell $(CC) -V 2>&1)))
+  else ifeq (gcc,$(findstring gcc,$(shell gcc --version 2>/dev/null)))
+    CC_IS_GCC = 1
+    CC = gcc
+  endif
+  ifdef CC_IS_GCC
+    CFLAGS = -fPIC -Wall
+    LDFLAGS = -shared
+  else
+    CFLAGS = -KPIC
+    LDFLAGS = -G
+  endif
+  CFLAGS += -g -D_REENTRANT
+  LDFLAGS += -Wl,-M,ocidump.map
+  LIBS = -ldl
+endif
+
+# OS X
+ifeq ($(UNAME_S),Darwin)
+  CFLAGS = -pthread -fPIC -Wall -fvisibility=hidden
+  LDFLAGS = -shared
+  LIBS = -lpthread -ldl
+endif
 
 OBJS = ocidump.o ocifunc.o ocidefs.o ociattr.o oranumber_util.o ocihandle.o
 
 .PHONY : clean check_defs
 
 libocidump.so: $(OBJS) ocidump.map
-	$(LD_SHARED) $(LDFLAGS) -o libocidump.so $(OBJS) -ldl
+	$(CC) $(LDFLAGS) -o libocidump.so $(OBJS) $(LIBS)
 
 ocidump.o: ocidump.c ocidump.h ocidefs.h oranumber_util.h ocihandle.h
 ocifunc.o: ocifunc.c ocidump.h ocidefs.h
@@ -31,7 +50,7 @@ ocidefs.o: ocidefs.c ocidump.h ocidefs.h
 oranumber_util.o: oranumber_util.c oranumber_util.h
 ocihandle.o: ocihandle.c ocidump.h ocihandle.h
 
-ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map: oranumber_util.o mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
+ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map: mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
 	ruby mkocifunc.rb
 
 clean:

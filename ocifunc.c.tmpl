@@ -19,7 +19,7 @@ typedef <%=f.ret.type%> (*<%=f.name%>_func_t)(<%=f.args.collect {|arg| arg.type}
 static <%=f.name%>_func_t <%=f.name%>_orig;
 static unsigned int <%=f.name%>_flags = OCIDUMP_HOOK_EXIT;
 
-<%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.join(', ')%>)
+OCIDUMP_EXPORT <%=f.ret.type%> <%=f.name%>(<%=f.args.collect {|arg| arg.type}.join(', ')%>)
 {
     size_t call_level;
 <%  local_vars.each do |var|

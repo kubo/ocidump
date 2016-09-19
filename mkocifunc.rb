@@ -39,6 +39,8 @@ class ArgDef
       when 4
         "ocidump_ocihandle(%s)" % [@args.join(', ')]
       end
+    when :function_pointer
+      "ocidump_function_pointer((void*)%s)" % [@args[0]]
     when Symbol
       "ocidump_%s(%s)" % [@fmt, @args.join(', ')]
     end

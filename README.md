@@ -28,7 +28,7 @@ into process memory.
 Supported platforms
 -------------------
 
-Linux, Solaris and Windows
+Linux, Solaris, OS X and Windows
 
 How to compile
 ----------
@@ -37,7 +37,7 @@ How to compile
 
 Intall ruby if it isn't installed.
 
-Run `make` to compile ocidump.
+Run `make` to compile ocidump on Linux or OS X. Run `gmake` on Solaris.
 
 Ocidump hooks `dlsym` on linux and solaris for programs which bind OCI
 functions at runtime via `dlsym`. However I received a mail saying that

@@ -11,6 +11,14 @@
 #include <pthread.h>
 #endif
 
+#if defined(WIN32)
+#define OCIDUMP_EXPORT __declspec(dllexport)
+#elif defined(__GNUC__)
+#define OCIDUMP_EXPORT __attribute__((visibility("default")))
+#else
+#define OCIDUMP_EXPORT
+#endif
+
 typedef unsigned char ub1;
 typedef   signed char sb1;
 typedef unsigned short ub2;
