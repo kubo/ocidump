@@ -235,6 +235,10 @@ void ocidump_log_start(const char *funcname)
     }
 #elif defined(__sun)
     fprintf(ocidump_logfp, "%5u: %s", pthread_self(), funcname);
+#elif defined(__APPLE__)
+    __uint64_t id = 0;
+    pthread_threadid_np(pthread_self(), &id);
+    fprintf(ocidump_logfp, "%"OCIDUMP_UB8_FMT": %s", (ub8)id, funcname);
 #else
     fprintf(ocidump_logfp, "%p: %s", (void*)pthread_self(), funcname);
 #endif
