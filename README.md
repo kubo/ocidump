@@ -35,18 +35,18 @@ How to compile
 
 ### Unix
 
-Intall ruby if it isn't installed.
+Install ruby if it isn't installed.
 
 Run `make` to compile ocidump on Linux or OS X. Run `gmake` on Solaris.
 
 Ocidump hooks `dlsym` on linux and solaris for programs which bind OCI
 functions at runtime via `dlsym`. However I received a mail saying that
-it caused SEGV. If you have touble, add `-DDISABLE_DYSYM_HOOK` to `CFLAGS`
+it caused SEGV. If you have trouble, add `-DDISABLE_DYSYM_HOOK` to `CFLAGS`
 in `Makefile`.
 
 ### Windows
 
-Intall ruby if it isn't installed.
+Install ruby if it isn't installed.
 
 Ocidump supports the following two hooking methods on Windows.
 
@@ -104,8 +104,8 @@ If oci.dll is in `c:\oracle\instantclient_12_1`,
 
 Be careful when you move or copy DLLs. Don't delete or overwrite the original oci.dll.
 
-When an application calls OCI functions, functions in oci.dll, whose contant
-is ocidump.dll, are invoked and ocidump.dll logs function calls and forwards
+When an application calls OCI functions, functions in ocidump.dll copied
+as oci.dll are invoked and ocidump.dll logs function calls and forwards
 them to oci-orig.dll.
 
 If `OCIDUMP_ENABLE=1` isn't set, ocidump.dll just forwards function calls to
@@ -172,7 +172,7 @@ respectively.
 ```
 
 Note that this may cause memory leaks. ocidump tries to trace all
-handle allcations and deletions. However some handle deletions
+handle allocations and deletions. However some handle deletions
 cannot be caught and the information about it remains in ocidump
 memory until the process termination.
 
@@ -180,7 +180,7 @@ memory until the process termination.
 
 If you are an application user who is requested to send a trace log by
 application developers, set `OCIDUMP_HIDE_STRING` to hide sensitive
-data. It hides all string data such as username, password, SQL
+data. It hides all string data such as user name, password, SQL
 statements and so on.
 
     export OCIDUMP_HIDE_STRING=1
