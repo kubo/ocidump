@@ -50,7 +50,7 @@ ocidefs.o: ocidefs.c ocidump.h ocidefs.h
 oranumber_util.o: oranumber_util.c oranumber_util.h
 ocihandle.o: ocihandle.c ocidump.h ocihandle.h
 
-ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map: mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml
+ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map: mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml oranumber_util.o
 	ruby mkocifunc.rb
 
 clean:
