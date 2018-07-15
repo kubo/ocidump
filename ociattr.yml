@@ -66,7 +66,7 @@ OCI_HTYPE_SERVER:
   - [143,        OCI_ATTR_SERVER_STATUS,             READ,       "ub4*"]
   - [405,        OCI_ATTR_TAF_ENABLED,               READ,       "boolean*"]
   - [306,        OCI_ATTR_USER_MEMORY,               READ,       "void**"]
-
+  - [31,         OCI_ATTR_CHARSET_ID,                READ,       "ub2*"]
 
 # User Session Handle
 OCI_HTYPE_SESSION:
