@@ -203,7 +203,9 @@ static void ocidump_do_init(void)
             }
             handle = dlopen(image_name, RTLD_LAZY | RTLD_NOLOAD);
 #endif
-            *ocidump_hooks[i].orig_func = dlsym(handle, ocidump_hooks[i].name);
+            if (*ocidump_hooks[i].orig_func == NULL) {
+                *ocidump_hooks[i].orig_func = dlsym(handle, ocidump_hooks[i].name);
+            }
             ocidump_log(OCIDUMP_LOG_HOOK, "# dlsym(%p, \"%s\") => %p\n",
                         handle,
                         ocidump_hooks[i].name,
