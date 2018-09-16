@@ -5,7 +5,13 @@
  */
 #include <stdio.h>
 #include <string.h>
-#include "ocidump.h"
+
+typedef unsigned char ub1;
+typedef unsigned int ub4;
+typedef struct OCINumber {
+  ub1 OCINumberPart[22];
+} OCINumber;
+
 #include "oranumber_util.h"
 
 int ocidump_oranumber_to_str(const OCINumber *on, char *buf, int buflen)

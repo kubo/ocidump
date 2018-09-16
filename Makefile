@@ -47,8 +47,9 @@ libocidump.so: $(OBJS) ocidump.map
 ocidump.o: ocidump.c ocidump.h ocidefs.h oranumber_util.h ocihandle.h
 ocifunc.o: ocifunc.c ocidump.h ocidefs.h
 ocidefs.o: ocidefs.c ocidump.h ocidefs.h
+ociattr.o: ociattr.c ocidump.h ocidefs.h
 oranumber_util.o: oranumber_util.c oranumber_util.h
-ocihandle.o: ocihandle.c ocidump.h ocihandle.h
+ocihandle.o: ocihandle.c ocidump.h ocidefs.h ocihandle.h
 
 ocifunc.c ocidefs.c ocidefs.h ociattr.c ocidump.map: mkocifunc.rb ocifunc.c.tmpl ocifunc.yml ocidefs.yml ociattr.yml oranumber_util.o
 	ruby mkocifunc.rb
