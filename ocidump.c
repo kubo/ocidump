@@ -10,6 +10,7 @@
 #ifdef __linux
 #include <unistd.h>
 #include <sys/syscall.h>
+#include <link.h>
 #endif
 #endif
 #include <stdio.h>
@@ -180,29 +181,46 @@ static void ocidump_do_init(void)
 #else
     {
         int i;
-        for (i = 0; i < ocidump_hook_cnt; i++) {
-            void *handle = RTLD_NEXT;
-#ifdef __APPLE__
-            uint32_t idx = 0;
-            const char *name = "libclntsh.dylib.";
-            size_t namelen = strlen(name);
-            const char *image_name;
-
-            while ((image_name = _dyld_get_image_name(idx)) != NULL) {
-                const char *base_name = strrchr(image_name, '/');
-
-                if (base_name == NULL) {
-                    base_name = image_name;
-                } else {
-                    base_name++;
-                }
-                if (strncmp(base_name, name, namelen) == 0) {
+        void *handle = RTLD_NEXT;
+#ifdef __linux
+        struct link_map *lm;
+        for (lm = _r_debug.r_map; lm != NULL; lm = lm->l_next) {
+            if (strstr(lm->l_name, "/libclntsh.so") != NULL) {
+                void *clntsh_handle = dlopen(lm->l_name, RTLD_LAZY | RTLD_NOLOAD);
+                if (clntsh_handle != NULL) {
+                    handle = clntsh_handle;
                     break;
                 }
-                idx++;
             }
-            handle = dlopen(image_name, RTLD_LAZY | RTLD_NOLOAD);
+        }
 #endif
+#ifdef __APPLE__
+        uint32_t idx = 0;
+        const char *name = "libclntsh.dylib.";
+        size_t namelen = strlen(name);
+        const char *image_name;
+        void *clntsh_handle;
+
+        while ((image_name = _dyld_get_image_name(idx)) != NULL) {
+            const char *base_name = strrchr(image_name, '/');
+
+            if (base_name == NULL) {
+                base_name = image_name;
+            } else {
+                base_name++;
+            }
+            if (strncmp(base_name, name, namelen) == 0) {
+                break;
+            }
+            idx++;
+        }
+        clntsh_handle = dlopen(image_name, RTLD_LAZY | RTLD_NOLOAD);
+        if (clntsh_handle != NULL) {
+            handle = clntsh_handle;
+        }
+#endif
+
+        for (i = 0; i < ocidump_hook_cnt; i++) {
             if (*ocidump_hooks[i].orig_func == NULL) {
                 *ocidump_hooks[i].orig_func = dlsym(handle, ocidump_hooks[i].name);
             }
