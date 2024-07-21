@@ -67,6 +67,7 @@ OCI_HTYPE_SERVER:
   - [405,        OCI_ATTR_TAF_ENABLED,               READ,       "boolean*"]
   - [306,        OCI_ATTR_USER_MEMORY,               READ,       "void**"]
   - [31,         OCI_ATTR_CHARSET_ID,                READ,       "ub2*"]
+  - [683,        OCI_ATTR_SERVER_FLAGS,              READ,       "ub4*"]
 
 # User Session Handle
 OCI_HTYPE_SESSION:
@@ -161,6 +162,7 @@ OCI_HTYPE_STMT:
   - [182,       OCI_ATTR_STMT_STATE,                 READ,       "ub4*"]
   - [24,        OCI_ATTR_STMT_TYPE,                  READ,       "ub2*"]
   - [457,       OCI_ATTR_UB8_ROW_COUNT,              READ,       "ub8*"]
+  - [450,       OCI_ATTR_NO_COLUMN_AUTH_WARNING,     WRITE,      "boolean*"]
 
 # Bind Handle
 OCI_HTYPE_BIND:
